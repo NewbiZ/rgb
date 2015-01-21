@@ -15,11 +15,11 @@ pub enum Flag {
 
 pub struct Cpu {
     // Registers
-    pub a:  u8, // General purpose
+    a:  u8, // General purpose
     b:  u8, // General purpose
     c:  u8, // General purpose
     d:  u8, // General purpose
-    pub e:  u8, // General purpose
+    e:  u8, // General purpose
     h:  u8, // General purpose
     l:  u8, // General purpose
     f:  u8, // Flag register
