@@ -5,30 +5,50 @@
 use std::fmt;
 use std::u8;
 
+#[cfg(test)]
+mod tests;
+
+/// All different values of flags that could
+/// end up in `Cpu` register `Cpu::f`.
 pub enum Flag {
+    /// Previous operation resulted in zero
     Zero      = 0x80,
+    /// Previous operation was a substraction
     Operation = 0x40,
+    /// Previous operation resulted in an half carry
     HalfCarry = 0x20,
+    /// Previous operation resulted in an overflow
     Carry     = 0x10,
+    /// Previous operation triggered no flag
     None      = 0x00,
 }
 
+/// This struct models a GameBoy Z80 processor.
 pub struct Cpu {
-    // Registers
-    a:  u8, // General purpose
-    b:  u8, // General purpose
-    c:  u8, // General purpose
-    d:  u8, // General purpose
-    e:  u8, // General purpose
-    h:  u8, // General purpose
-    l:  u8, // General purpose
-    f:  u8, // Flag register
-    pc: u8, // Program counter
-    sp: u8, // Stack pointer
-    
-    // Clocks
-    m: u8,
-    t: u8,
+    /// General purpose register
+    pub a:  u8,
+    /// General purpose register
+    pub b:  u8,
+    /// General purpose register
+    pub c:  u8,
+    /// General purpose register
+    pub d:  u8,
+    /// General purpose register
+    pub e:  u8,
+    /// General purpose register
+    pub h:  u8,
+    /// General purpose register
+    pub l:  u8,
+    /// Flag register
+    pub f:  u8,
+    /// Program counter register
+    pub pc: u8,
+    /// Stack pointer register
+    pub sp: u8,
+    /// Clock
+    pub m: u8,
+    /// Clock
+    pub t: u8,
 }
 
 // ==============================================
@@ -36,6 +56,7 @@ pub struct Cpu {
 // ==============================================
 impl Cpu {
     pub fn new() -> Cpu {
+        //! Create a new `Cpu`. All registers and clocks should be set to 0.
         Cpu {
             a:  0,
             b:  0,
@@ -52,7 +73,24 @@ impl Cpu {
         }
     }
 
+    pub fn reset(&mut self) {
+        //! Reset all `Cpu` registers and clocks to 0.
+        self.a  = 0;
+        self.b  = 0;
+        self.c  = 0;
+        self.d  = 0;
+        self.e  = 0;
+        self.h  = 0;
+        self.l  = 0;
+        self.f  = Flag::None as u8;
+        self.pc = 0;
+        self.sp = 0;
+        self.m  = 0;
+        self.t  = 0;
+    }
+
     pub fn instr_0x84(&mut self) {
+        //! Add register E to register A and set flags in register F if carry or zero.
         // Reset flags
         self.f = 0;
         // Check if there will be an overflow
@@ -114,3 +152,4 @@ impl fmt::String for Cpu {
         f.write_str("}\n")
     }
 }
+
