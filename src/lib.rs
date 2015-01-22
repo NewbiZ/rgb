@@ -7,5 +7,9 @@
 pub use self::cpu::Cpu;
 pub use self::cpu::Flag;
 
+// Inject rgb::mmu::* names in rgb::*
+pub use self::mmu::Mmu;
+
 // Import cpu::*
 mod cpu;
+mod mmu;

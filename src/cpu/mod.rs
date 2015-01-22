@@ -1,9 +1,11 @@
 #![allow(dead_code)]
 #![allow(unstable)]
 #![allow(unused_must_use)]
+#![allow(missing_copy_implementations)]
 
 use std::fmt;
 use std::u8;
+use super::mmu::Mmu;
 
 #[cfg(test)]
 mod tests;
@@ -24,7 +26,7 @@ pub enum Flag {
 }
 
 /// This struct models a GameBoy Z80 processor.
-pub struct Cpu {
+pub struct Cpu<'a> {
     /// Accumulator register
     a:  u8,
     /// General purpose register
@@ -49,27 +51,30 @@ pub struct Cpu {
     m: u8,
     /// Clock
     t: u8,
+    /// Memory management unit
+    mmu: &'a mut Mmu,
 }
 
 // ==============================================
 // Implementation
 // ==============================================
-impl Cpu {
-    pub fn new() -> Cpu {
+impl<'a> Cpu<'a> {
+    pub fn new(mmu: &'a mut Mmu) -> Cpu<'a> {
         //! Create a new `Cpu`. All registers and clocks should be set to 0.
         Cpu {
-            a:  0,
-            b:  0,
-            c:  0,
-            d:  0,
-            e:  0,
-            h:  0,
-            l:  0,
-            f:  Flag::None as u8,
-            pc: 0,
-            sp: 0,
-            m:  0,
-            t:  0,
+            a:   0,
+            b:   0,
+            c:   0,
+            d:   0,
+            e:   0,
+            h:   0,
+            l:   0,
+            f:   Flag::None as u8,
+            pc:  0,
+            sp:  0,
+            m:   0,
+            t:   0,
+            mmu: mmu,
         }
     }
 
@@ -104,18 +109,14 @@ impl Cpu {
             self.f |= Flag::Zero as u8;
         }
         // Update clocks
-        self.m = 1;
-        self.t = 4;
+        self.m += 1;
+        self.t += 4;
     }
 }
 
 // ==============================================
 // Traits
 // ==============================================
-
-// Type is shallow-copyable
-impl Copy for Cpu {}
-impl Copy for Flag {}
 
 macro_rules! match_bitmask {
     ($bits:expr, $($mask:expr => $blk:block), +) => ({
@@ -124,7 +125,7 @@ macro_rules! match_bitmask {
 }
 
 // Type is formattable to string
-impl fmt::String for Cpu {
+impl<'a> fmt::String for Cpu<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.write_str("Cpu {\n");
         f.write_fmt(format_args!("  a:  {},\n", self.a));
