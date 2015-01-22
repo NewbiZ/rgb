@@ -13,11 +13,11 @@ mod tests;
 pub enum Flag {
     /// Previous operation resulted in zero
     Zero      = 0x80,
-    /// Previous operation was a substraction
+    /// Previous operation was a subtraction
     Operation = 0x40,
-    /// Previous operation resulted in an half carry
+    /// Previous operation resulted in a 4 bit overflow
     HalfCarry = 0x20,
-    /// Previous operation resulted in an overflow
+    /// Previous operation resulted in a 8 bit overflow
     Carry     = 0x10,
     /// Previous operation triggered no flag
     None      = 0x00,
@@ -25,30 +25,30 @@ pub enum Flag {
 
 /// This struct models a GameBoy Z80 processor.
 pub struct Cpu {
+    /// Accumulator register
+    a:  u8,
     /// General purpose register
-    pub a:  u8,
+    b:  u8,
     /// General purpose register
-    pub b:  u8,
+    c:  u8,
     /// General purpose register
-    pub c:  u8,
+    d:  u8,
     /// General purpose register
-    pub d:  u8,
+    e:  u8,
     /// General purpose register
-    pub e:  u8,
+    h:  u8,
     /// General purpose register
-    pub h:  u8,
-    /// General purpose register
-    pub l:  u8,
+    l:  u8,
     /// Flag register
-    pub f:  u8,
+    f:  u8,
     /// Program counter register
-    pub pc: u8,
+    pc: u16,
     /// Stack pointer register
-    pub sp: u8,
+    sp: u16,
     /// Clock
-    pub m: u8,
+    m: u8,
     /// Clock
-    pub t: u8,
+    t: u8,
 }
 
 // ==============================================
@@ -89,10 +89,10 @@ impl Cpu {
         self.t  = 0;
     }
 
-    pub fn instr_0x84(&mut self) {
+    pub fn instr_0x83(&mut self) {
         //! Add register E to register A and set flags in register F if carry or zero.
         // Reset flags
-        self.f = 0;
+        self.f = Flag::None as u8;
         // Check if there will be an overflow
         if self.a > (u8::MAX - self.e) {
             self.f |= Flag::Carry as u8;
@@ -152,4 +152,3 @@ impl fmt::String for Cpu {
         f.write_str("}\n")
     }
 }
-
