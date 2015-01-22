@@ -1,0 +1,272 @@
+0
+No operation is performed.
+Loads ** into bc.
+Stores a into the memory location pointed to by bc.
+Adds one to bc.
+Adds one to b.
+Subtracts one from b.
+Loads * into b.
+The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+Exchanges the 16-bit contents of af and af'.
+The value of bc is added to hl.
+Loads the value pointed to by bc into a.
+Subtracts one from bc.
+Adds one to c.
+Subtracts one from c.
+Loads * into c.
+The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+1
+The b register is decremented, and if not zero, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
+Loads ** into de.
+Stores a into the memory location pointed to by de.
+Adds one to de.
+Adds one to d.
+Subtracts one from d.
+Loads * into d.
+The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The signed value * is added to pc. The jump is measured from the start of the instruction opcode.
+The value of de is added to hl.
+Loads the value pointed to by de into a.
+Subtracts one from de.
+Adds one to e.
+Subtracts one from e.
+Loads * into e.
+The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+2
+If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
+Loads ** into hl.
+Stores hl into the memory location pointed to by **.
+Adds one to hl.
+Adds one to h.
+Subtracts one from h.
+Loads * into h.
+Adjusts a for BCD addition and subtraction operations.
+If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
+The value of hl is added to hl.
+Loads the value pointed to by ** into hl.
+Subtracts one from hl.
+Adds one to l.
+Subtracts one from l.
+Loads * into l.
+The contents of a are inverted (one's complement).
+3
+If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
+Loads ** into sp.
+Stores a into the memory location pointed to by **.
+Adds one to sp.
+Adds one to (hl).
+Subtracts one from (hl).
+Loads * into (hl).
+Sets the carry flag.
+If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
+The value of hl is added to hl.
+Loads the value pointed to by ** into a.
+Subtracts one from sp.
+Adds one to a.
+Subtracts one from a.
+Loads * into a.
+Inverts the carry flag.
+4
+The contents of b are loaded into b.
+The contents of c are loaded into b.
+The contents of d are loaded into b.
+The contents of e are loaded into b.
+The contents of h are loaded into b.
+The contents of l are loaded into b.
+The contents of (hl) are loaded into b.
+The contents of a are loaded into b.
+The contents of b are loaded into c.
+The contents of c are loaded into c.
+The contents of d are loaded into c.
+The contents of e are loaded into c.
+The contents of h are loaded into c.
+The contents of l are loaded into c.
+The contents of (hl) are loaded into c.
+The contents of a are loaded into c.
+5
+The contents of b are loaded into d.
+The contents of c are loaded into d.
+The contents of d are loaded into d.
+The contents of e are loaded into d.
+The contents of h are loaded into d.
+The contents of l are loaded into d.
+The contents of (hl) are loaded into d.
+The contents of a are loaded into d.
+The contents of b are loaded into e.
+The contents of c are loaded into e.
+The contents of d are loaded into e.
+The contents of e are loaded into e.
+The contents of h are loaded into e.
+The contents of l are loaded into e.
+The contents of (hl) are loaded into e.
+The contents of a are loaded into e.
+6
+The contents of b are loaded into h.
+The contents of c are loaded into h.
+The contents of d are loaded into h.
+The contents of e are loaded into h.
+The contents of h are loaded into h.
+The contents of l are loaded into h.
+The contents of (hl) are loaded into h.
+The contents of a are loaded into h.
+The contents of b are loaded into l.
+The contents of c are loaded into l.
+The contents of d are loaded into l.
+The contents of e are loaded into l.
+The contents of h are loaded into l.
+The contents of l are loaded into l.
+The contents of (hl) are loaded into l.
+The contents of a are loaded into l.
+7
+The contents of b are loaded into (hl).
+The contents of c are loaded into (hl).
+The contents of d are loaded into (hl).
+The contents of e are loaded into (hl).
+The contents of h are loaded into (hl).
+The contents of l are loaded into (hl).
+Suspends CPU operation until an interrupt or reset occurs.
+The contents of a are loaded into (hl).
+The contents of b are loaded into a.
+The contents of c are loaded into a.
+The contents of d are loaded into a.
+The contents of e are loaded into a.
+The contents of h are loaded into a.
+The contents of l are loaded into a.
+The contents of (hl) are loaded into a.
+The contents of a are loaded into a.
+8
+Adds b to a.
+Adds c to a.
+Adds d to a.
+Adds e to a.
+Adds h to a.
+Adds l to a.
+Adds (hl) to a.
+Adds a to a.
+Adds b and the carry flag to a.
+Adds c and the carry flag to a.
+Adds d and the carry flag to a.
+Adds e and the carry flag to a.
+Adds h and the carry flag to a.
+Adds l and the carry flag to a.
+Adds (hl) and the carry flag to a.
+Adds a and the carry flag to a.
+9
+Subtracts b from a.
+Subtracts c from a.
+Subtracts d from a.
+Subtracts e from a.
+Subtracts h from a.
+Subtracts l from a.
+Subtracts (hl) from a.
+Subtracts a from a.
+Subtracts b and the carry flag from a.
+Subtracts c and the carry flag from a.
+Subtracts d and the carry flag from a.
+Subtracts e and the carry flag from a.
+Subtracts h and the carry flag from a.
+Subtracts l and the carry flag from a.
+Subtracts (hl) and the carry flag from a.
+Subtracts a and the carry flag from a.
+A
+Bitwise AND on a with b.
+Bitwise AND on a with c.
+Bitwise AND on a with d.
+Bitwise AND on a with e.
+Bitwise AND on a with h.
+Bitwise AND on a with l.
+Bitwise AND on a with (hl).
+Bitwise AND on a with a.
+Bitwise XOR on a with b.
+Bitwise XOR on a with c.
+Bitwise XOR on a with d.
+Bitwise XOR on a with e.
+Bitwise XOR on a with h.
+Bitwise XOR on a with l.
+Bitwise XOR on a with (hl).
+Bitwise XOR on a with a.
+B
+Bitwise OR on a with b.
+Bitwise OR on a with c.
+Bitwise OR on a with d.
+Bitwise OR on a with e.
+Bitwise OR on a with h.
+Bitwise OR on a with l.
+Bitwise OR on a with (hl).
+Bitwise OR on a with a.
+Subtracts b from a and affects flags according to the result. a is not modified.
+Subtracts c from a and affects flags according to the result. a is not modified.
+Subtracts d from a and affects flags according to the result. a is not modified.
+Subtracts e from a and affects flags according to the result. a is not modified.
+Subtracts h from a and affects flags according to the result. a is not modified.
+Subtracts l from a and affects flags according to the result. a is not modified.
+Subtracts (hl) from a and affects flags according to the result. a is not modified.
+Subtracts a from a and affects flags according to the result. a is not modified.
+C
+If condition cc is true, the top stack entry is popped into pc.
+The memory location pointed to by sp is stored into c and sp is incremented. The memory location pointed to by sp is stored into b and sp is incremented again.
+If condition cc is true, ** is copied to pc.
+** is copied to pc.
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+sp is decremented and b is stored into the memory location pointed to by sp. sp is decremented again and c is stored into the memory location pointed to by sp.
+Adds * to a.
+The current pc value plus one is pushed onto the stack, then is loaded with 00h.
+If condition cc is true, the top stack entry is popped into pc.
+The top stack entry is popped into pc.
+If condition cc is true, ** is copied to pc.
+BITS instruction prefix
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+The current pc value plus three is pushed onto the stack, then is loaded with **.
+Adds * and the carry flag to a.
+The current pc value plus one is pushed onto the stack, then is loaded with 08h.
+D
+If condition cc is true, the top stack entry is popped into pc.
+The memory location pointed to by sp is stored into e and sp is incremented. The memory location pointed to by sp is stored into d and sp is incremented again.
+If condition cc is true, ** is copied to pc.
+The value of a is written to port *.
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+sp is decremented and d is stored into the memory location pointed to by sp. sp is decremented again and e is stored into the memory location pointed to by sp.
+Subtracts * from a.
+The current pc value plus one is pushed onto the stack, then is loaded with 10h.
+If condition cc is true, the top stack entry is popped into pc.
+Exchanges the 16-bit contents of bc, de, and hl with bc', de', and hl'.
+If condition cc is true, ** is copied to pc.
+A byte from port * is written to a.
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+IX instruction prefix
+Subtracts * and the carry flag from a.
+The current pc value plus one is pushed onto the stack, then is loaded with 18h.
+E
+If condition cc is true, the top stack entry is popped into pc.
+The memory location pointed to by sp is stored into l and sp is incremented. The memory location pointed to by sp is stored into h and sp is incremented again.
+If condition cc is true, ** is copied to pc.
+Exchanges (sp) with l, and (sp+1) with h.
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+sp is decremented and h is stored into the memory location pointed to by sp. sp is decremented again and l is stored into the memory location pointed to by sp.
+Bitwise AND on a with *.
+The current pc value plus one is pushed onto the stack, then is loaded with 20h.
+If condition cc is true, the top stack entry is popped into pc.
+Loads the value of hl into pc.
+If condition cc is true, ** is copied to pc.
+Exchanges the 16-bit contents of de and hl.
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+EXTD instruction prefix
+Bitwise XOR on a with *.
+The current pc value plus one is pushed onto the stack, then is loaded with 28h.
+F
+If condition cc is true, the top stack entry is popped into pc.
+The memory location pointed to by sp is stored into f and sp is incremented. The memory location pointed to by sp is stored into a and sp is incremented again.
+If condition cc is true, ** is copied to pc.
+Resets both interrupt flip-flops, thus prenting maskable interrupts from triggering.
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+sp is decremented and a is stored into the memory location pointed to by sp. sp is decremented again and f is stored into the memory location pointed to by sp.
+Bitwise OR on a with *.
+The current pc value plus one is pushed onto the stack, then is loaded with 30h.
+If condition cc is true, the top stack entry is popped into pc.
+Loads the value of hl into sp.
+If condition cc is true, ** is copied to pc.
+Sets both interrupt flip-flops, thus allowing maskable interrupts to occur. An interrupt will not occur until after the immediatedly following instruction.
+If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
+CB instruction prefix
+Subtracts * from a and affects flags according to the result. a is not modified.
+The current pc value plus one is pushed onto the stack, then is loaded with 38h.

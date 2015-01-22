@@ -1,0 +1,8334 @@
+{
+  "0x85": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "L"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB9A": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB09": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB08": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x28": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "Z", 
+      "r8"
+    ], 
+    "command": "JR", 
+    "cycles": [
+      8, 
+      12
+    ]
+  }, 
+  "0x29": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "HL", 
+      "HL"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x22": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL+)", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x23": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "HL"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x20": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NZ", 
+      "r8"
+    ], 
+    "command": "JR", 
+    "cycles": [
+      8, 
+      12
+    ]
+  }, 
+  "0x21": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "HL", 
+      "d16"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x26": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x27": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "-", 
+      "0", 
+      "C"
+    ], 
+    "args": [], 
+    "command": "DAA", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x24": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x25": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB07": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB06": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB18": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB4": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x2B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "HL"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x2C": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x2A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(HL+)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x2F": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "1", 
+      "1", 
+      "-"
+    ], 
+    "args": [], 
+    "command": "CPL", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x2D": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x2E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB19": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB2F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB2E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB2D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB2C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB2B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB2A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB27": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB26": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB25": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB24": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB23": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB22": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB21": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB20": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "SLA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB29": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB28": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "SRA", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x68": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x69": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x66": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "(HL)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x67": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x64": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x65": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x62": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x63": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x60": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x61": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "H", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x6F": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x6D": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x6E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "(HL)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x6B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x6C": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x6A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "L", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB6C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB6B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB6A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB6F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB6E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB6D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBDA": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBDC": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBDB": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBDE": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBDD": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBDF": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x84": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "H"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xDA": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "a16"
+    ], 
+    "command": "JP", 
+    "cycles": [
+      12, 
+      16
+    ]
+  }, 
+  "0x86": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "(HL)"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x87": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "A"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x80": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "B"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xDE": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "d8"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xDF": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "18H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0x83": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "E"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB1F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB1D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB1E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0x88": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "B"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x89": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "C"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB1A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xD0": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NC"
+    ], 
+    "command": "RET", 
+    "cycles": [
+      8, 
+      20
+    ]
+  }, 
+  "0xD1": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "DE"
+    ], 
+    "command": "POP", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0xD2": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NC", 
+      "a16"
+    ], 
+    "command": "JP", 
+    "cycles": [
+      12, 
+      16
+    ]
+  }, 
+  "0xD4": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NC", 
+      "a16"
+    ], 
+    "command": "CALL", 
+    "cycles": [
+      12, 
+      24
+    ]
+  }, 
+  "0xD5": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "DE"
+    ], 
+    "command": "PUSH", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xD6": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "d8"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xD7": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "10H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xD8": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "RET", 
+    "cycles": [
+      8, 
+      20
+    ]
+  }, 
+  "0xD9": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [], 
+    "command": "RETI", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB14": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB15": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB12": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB13": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB10": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB11": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD1": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD0": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD3": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD2": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD5": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD4": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD7": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD6": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBD9": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBD8": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB69": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB68": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB63": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB62": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB61": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB60": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB67": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB66": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB65": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB64": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB85": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB84": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB87": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB86": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB81": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB80": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB83": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB82": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB89": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB88": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x3E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x3D": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x3F": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [], 
+    "command": "CCF", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x3A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(HL-)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x3C": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x3B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "SP"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xDC": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "a16"
+    ], 
+    "command": "CALL", 
+    "cycles": [
+      12, 
+      24
+    ]
+  }, 
+  "0x81": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "C"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x82": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "D"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x35": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x34": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x37": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "0", 
+      "0", 
+      "1"
+    ], 
+    "args": [], 
+    "command": "SCF", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x36": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x31": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "SP", 
+      "d16"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x30": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NC", 
+      "r8"
+    ], 
+    "command": "JR", 
+    "cycles": [
+      8, 
+      12
+    ]
+  }, 
+  "0x33": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "SP"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x32": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL-)", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x39": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "HL", 
+      "SP"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x38": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "r8"
+    ], 
+    "command": "JR", 
+    "cycles": [
+      8, 
+      12
+    ]
+  }, 
+  "0xCB8E": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB8D": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB8F": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB8A": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB8C": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB8B": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB1B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB1C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "RR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x8D": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "L"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x8E": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "(HL)"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x8F": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "A"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x8A": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "D"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x8B": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "E"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x8C": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "H"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB16": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB17": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "RL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xA9": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA8": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA7": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA6": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xA5": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA4": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA3": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA2": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA1": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xA0": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCBC8": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBC9": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x7A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x7C": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x7B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x7E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(HL)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x7D": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x7F": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB52": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB53": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB50": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB51": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB56": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB57": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB54": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB55": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBC0": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBC1": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB58": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB59": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBC4": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBC5": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBC6": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBC7": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB5B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB5C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB5A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB5F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB5D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB5E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBCA": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBCB": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBCC": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBCD": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBCE": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBCF": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x79": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x78": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x71": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x70": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x73": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x72": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x75": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x74": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x77": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x76": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [], 
+    "command": "HALT", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCBC3": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xAF": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xAE": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xAD": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xAC": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xAB": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xAA": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x9F": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "A"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x9E": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "(HL)"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x9D": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "L"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x9C": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "H"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x9B": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "E"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x9A": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "D"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x08": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(a16)", 
+      "SP"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      20
+    ]
+  }, 
+  "0x09": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "HL", 
+      "BC"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x04": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x05": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x06": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x07": {
+    "size": 1, 
+    "flags": [
+      "0", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [], 
+    "command": "RLCA", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x00": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [], 
+    "command": "NOP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x01": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "BC", 
+      "d16"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x02": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(BC)", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x03": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "BC"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x0D": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x0E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x0F": {
+    "size": 1, 
+    "flags": [
+      "0", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [], 
+    "command": "RRCA", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x0A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(BC)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x0B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "BC"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x0C": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x97": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x96": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x95": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x94": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x93": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x92": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x91": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x90": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "SUB", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x99": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "C"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x98": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "B"
+    ], 
+    "command": "SBC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xE2": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(C)", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xE1": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "HL"
+    ], 
+    "command": "POP", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0xE0": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(a8)", 
+      "A"
+    ], 
+    "command": "LDH", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0xE7": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "20H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xE6": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "0"
+    ], 
+    "args": [
+      "d8"
+    ], 
+    "command": "AND", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xE5": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "HL"
+    ], 
+    "command": "PUSH", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB05": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB04": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xE9": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "JP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xE8": {
+    "size": 1, 
+    "flags": [
+      "0", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "SP", 
+      "r8"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB01": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB00": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB03": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB02": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "RLC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xEA": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(a16)", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xEF": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "28H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xEE": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "d8"
+    ], 
+    "command": "XOR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB0E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB0D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB0F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB0A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB0C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB0B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "RRC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x40": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x41": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x42": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x43": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x44": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x45": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x46": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "(HL)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x47": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "B", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x48": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x49": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x4A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x4B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x4C": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x4D": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x4E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "(HL)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x4F": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "C", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB4A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB4C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB4B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB4E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB4D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB4F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBBF": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBBE": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBBD": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBBC": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBBB": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBBA": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xBB": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xBC": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xBA": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xBF": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xBD": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xBE": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xB8": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB9": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB2": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB3": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB0": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB1": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB6": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xB7": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB4": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xB5": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCBB7": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB6": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBB5": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB3C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB3": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB2": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB1": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB0": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB3D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB9": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBB8": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB41": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB40": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB43": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB42": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB45": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB44": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB47": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB46": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB49": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB48": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "1", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x1F": {
+    "size": 1, 
+    "flags": [
+      "0", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [], 
+    "command": "RRA", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x1E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x1D": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x1C": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x1B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "DE"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x1A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(DE)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB30": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB31": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB9F": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB33": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xF2": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(C)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB9D": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB35": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "L"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB9E": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB36": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB9B": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB37": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB9C": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x19": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "HL", 
+      "DE"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x18": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "r8"
+    ], 
+    "command": "JR", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x17": {
+    "size": 1, 
+    "flags": [
+      "0", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [], 
+    "command": "RLA", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x16": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "d8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x15": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "DEC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x14": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "-"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x13": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "DE"
+    ], 
+    "command": "INC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x12": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "(DE)", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x11": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "DE", 
+      "d16"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0x10": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0"
+    ], 
+    "command": "STOP", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCBFC": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBFB": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBFA": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBFF": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBFE": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBFD": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xFF": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "38H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB3A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB3B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "E"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xFE": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "1", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "d8"
+    ], 
+    "command": "CP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xFB": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [], 
+    "command": "EI", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB3E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "(HL)"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB3F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "A"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xFA": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(a16)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB38": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "B"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB39": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "C"
+    ], 
+    "args": [
+      "C"
+    ], 
+    "command": "SRL", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xF8": {
+    "size": 1, 
+    "flags": [
+      "0", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "HL", 
+      "SP+r8"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0xF9": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "SP", 
+      "HL"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xF6": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "d8"
+    ], 
+    "command": "OR", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xF7": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "30H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB32": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "D"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xF5": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "AF"
+    ], 
+    "command": "PUSH", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB34": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "0", 
+      "0"
+    ], 
+    "args": [
+      "H"
+    ], 
+    "command": "SWAP", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xF3": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [], 
+    "command": "DI", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xF0": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "A", 
+      "(a8)"
+    ], 
+    "command": "LDH", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0xF1": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "N", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "AF"
+    ], 
+    "command": "POP", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0xCBF9": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF8": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF3": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF2": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF1": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF0": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF7": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF6": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBF5": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBF4": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x5C": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x5B": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x5A": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x5F": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x5E": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "(HL)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x5D": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCBA8": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA9": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA6": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBA7": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA4": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA5": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA2": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA3": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA0": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBA1": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBAF": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBAD": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBAE": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBAB": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBAC": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBAA": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x53": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "E"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x52": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "D"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x51": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x50": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x57": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "A"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x56": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "(HL)"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0x55": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "L"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x54": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "D", 
+      "H"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x59": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "C"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0x58": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "E", 
+      "B"
+    ], 
+    "command": "LD", 
+    "cycles": [
+      4
+    ]
+  }, 
+  "0xCB96": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "(HL)"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB97": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "A"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB95": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "L"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB92": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "D"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB90": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB91": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xC5": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "BC"
+    ], 
+    "command": "PUSH", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xC4": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NZ", 
+      "a16"
+    ], 
+    "command": "CALL", 
+    "cycles": [
+      12, 
+      24
+    ]
+  }, 
+  "0xC7": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "00H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xC6": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "d8"
+    ], 
+    "command": "ADD", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xC1": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "BC"
+    ], 
+    "command": "POP", 
+    "cycles": [
+      12
+    ]
+  }, 
+  "0xC0": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NZ"
+    ], 
+    "command": "RET", 
+    "cycles": [
+      8, 
+      20
+    ]
+  }, 
+  "0xC3": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "a16"
+    ], 
+    "command": "JP", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xC2": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "NZ", 
+      "a16"
+    ], 
+    "command": "JP", 
+    "cycles": [
+      12, 
+      16
+    ]
+  }, 
+  "0xC9": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [], 
+    "command": "RET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xC8": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "Z"
+    ], 
+    "command": "RET", 
+    "cycles": [
+      8, 
+      20
+    ]
+  }, 
+  "0xCBE2": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE3": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE0": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE1": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE6": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCBE7": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE4": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE5": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "4", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE8": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "B"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBE9": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "C"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBC2": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "0", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB78": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB79": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB74": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB75": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB76": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB77": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB70": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "B"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB71": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "C"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB72": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB73": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "6", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB7D": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "L"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB7E": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "(HL)"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB7F": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "A"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB7A": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "D"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB7B": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "E"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB7C": {
+    "size": 2, 
+    "flags": [
+      "Z", 
+      "0", 
+      "1", 
+      "-"
+    ], 
+    "args": [
+      "7", 
+      "H"
+    ], 
+    "command": "BIT", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBEB": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "E"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBEC": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "H"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB94": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "H"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBEA": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "D"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBEF": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "A"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB93": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "2", 
+      "E"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBED": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "L"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCBEE": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "5", 
+      "(HL)"
+    ], 
+    "command": "SET", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCB98": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "B"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCB99": {
+    "size": 2, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "3", 
+      "C"
+    ], 
+    "command": "RES", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCE": {
+    "size": 1, 
+    "flags": [
+      "Z", 
+      "0", 
+      "H", 
+      "C"
+    ], 
+    "args": [
+      "A", 
+      "d8"
+    ], 
+    "command": "ADC", 
+    "cycles": [
+      8
+    ]
+  }, 
+  "0xCD": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "a16"
+    ], 
+    "command": "CALL", 
+    "cycles": [
+      24
+    ]
+  }, 
+  "0xCF": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "08H"
+    ], 
+    "command": "RST", 
+    "cycles": [
+      16
+    ]
+  }, 
+  "0xCA": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "Z", 
+      "a16"
+    ], 
+    "command": "JP", 
+    "cycles": [
+      12, 
+      16
+    ]
+  }, 
+  "0xCC": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "Z", 
+      "a16"
+    ], 
+    "command": "CALL", 
+    "cycles": [
+      12, 
+      24
+    ]
+  }, 
+  "0xCB": {
+    "size": 1, 
+    "flags": [
+      "-", 
+      "-", 
+      "-", 
+      "-"
+    ], 
+    "args": [
+      "CB"
+    ], 
+    "command": "PREFIX", 
+    "cycles": [
+      4
+    ]
+  }
+}

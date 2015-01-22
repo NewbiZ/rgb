@@ -1,0 +1,272 @@
+0
+The contents of b are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of c are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of d are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of e are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of h are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of l are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of (hl) are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
+The contents of b are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+The contents of c are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+The contents of d are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+The contents of e are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+The contents of h are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+The contents of l are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+The contents of (hl) are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
+1
+The contents of b are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of c are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of d are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of e are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of h are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of l are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of (hl) are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
+The contents of b are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+The contents of c are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+The contents of d are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+The contents of e are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+The contents of h are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+The contents of l are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+The contents of (hl) are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
+2
+The contents of b are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of c are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of d are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of e are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of h are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of l are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of (hl) are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of a are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
+The contents of b are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+The contents of c are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+The contents of d are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+The contents of e are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+The contents of h are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+The contents of l are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+The contents of (hl) are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+The contents of a are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
+3
+The contents of b are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of c are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of d are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of e are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of h are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of l are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of (hl) are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of a are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
+The contents of b are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+The contents of c are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+The contents of d are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+The contents of e are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+The contents of h are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+The contents of l are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+The contents of (hl) are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+The contents of a are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
+4
+Tests bit 0 of b.
+Tests bit 0 of c.
+Tests bit 0 of d.
+Tests bit 0 of e.
+Tests bit 0 of h.
+Tests bit 0 of l.
+Tests bit 0 of (hl).
+Tests bit 0 of a.
+Tests bit 1 of b.
+Tests bit 1 of c.
+Tests bit 1 of d.
+Tests bit 1 of e.
+Tests bit 1 of h.
+Tests bit 1 of l.
+Tests bit 1 of (hl).
+Tests bit 1 of a.
+5
+Tests bit 2 of b.
+Tests bit 2 of c.
+Tests bit 2 of d.
+Tests bit 2 of e.
+Tests bit 2 of h.
+Tests bit 2 of l.
+Tests bit 2 of (hl).
+Tests bit 2 of a.
+Tests bit 3 of b.
+Tests bit 3 of c.
+Tests bit 3 of d.
+Tests bit 3 of e.
+Tests bit 3 of h.
+Tests bit 3 of l.
+Tests bit 3 of (hl).
+Tests bit 3 of a.
+6
+Tests bit 4 of b.
+Tests bit 4 of c.
+Tests bit 4 of d.
+Tests bit 4 of e.
+Tests bit 4 of h.
+Tests bit 4 of l.
+Tests bit 4 of (hl).
+Tests bit 4 of a.
+Tests bit 5 of b.
+Tests bit 5 of c.
+Tests bit 5 of d.
+Tests bit 5 of e.
+Tests bit 5 of h.
+Tests bit 5 of l.
+Tests bit 5 of (hl).
+Tests bit 5 of a.
+7
+Tests bit 6 of b.
+Tests bit 6 of c.
+Tests bit 6 of d.
+Tests bit 6 of e.
+Tests bit 6 of h.
+Tests bit 6 of l.
+Tests bit 6 of (hl).
+Tests bit 6 of a.
+Tests bit 7 of b.
+Tests bit 7 of c.
+Tests bit 7 of d.
+Tests bit 7 of e.
+Tests bit 7 of h.
+Tests bit 7 of l.
+Tests bit 7 of (hl).
+Tests bit 7 of a.
+8
+Resets bit 0 of b.
+Resets bit 0 of c.
+Resets bit 0 of d.
+Resets bit 0 of e.
+Resets bit 0 of h.
+Resets bit 0 of l.
+Resets bit 0 of (hl).
+Resets bit 0 of a.
+Resets bit 1 of b.
+Resets bit 1 of c.
+Resets bit 1 of d.
+Resets bit 1 of e.
+Resets bit 1 of h.
+Resets bit 1 of l.
+Resets bit 1 of (hl).
+Resets bit 1 of a.
+9
+Resets bit 2 of b.
+Resets bit 2 of c.
+Resets bit 2 of d.
+Resets bit 2 of e.
+Resets bit 2 of h.
+Resets bit 2 of l.
+Resets bit 2 of (hl).
+Resets bit 2 of a.
+Resets bit 3 of b.
+Resets bit 3 of c.
+Resets bit 3 of d.
+Resets bit 3 of e.
+Resets bit 3 of h.
+Resets bit 3 of l.
+Resets bit 3 of (hl).
+Resets bit 3 of a.
+A
+Resets bit 4 of b.
+Resets bit 4 of c.
+Resets bit 4 of d.
+Resets bit 4 of e.
+Resets bit 4 of h.
+Resets bit 4 of l.
+Resets bit 4 of (hl).
+Resets bit 4 of a.
+Resets bit 5 of b.
+Resets bit 5 of c.
+Resets bit 5 of d.
+Resets bit 5 of e.
+Resets bit 5 of h.
+Resets bit 5 of l.
+Resets bit 5 of (hl).
+Resets bit 5 of a.
+B
+Resets bit 6 of b.
+Resets bit 6 of c.
+Resets bit 6 of d.
+Resets bit 6 of e.
+Resets bit 6 of h.
+Resets bit 6 of l.
+Resets bit 6 of (hl).
+Resets bit 6 of a.
+Resets bit 7 of b.
+Resets bit 7 of c.
+Resets bit 7 of d.
+Resets bit 7 of e.
+Resets bit 7 of h.
+Resets bit 7 of l.
+Resets bit 7 of (hl).
+Resets bit 7 of a.
+C
+Sets bit 0 of b.
+Sets bit 0 of c.
+Sets bit 0 of d.
+Sets bit 0 of e.
+Sets bit 0 of h.
+Sets bit 0 of l.
+Sets bit 0 of (hl).
+Sets bit 0 of a.
+Sets bit 1 of b.
+Sets bit 1 of c.
+Sets bit 1 of d.
+Sets bit 1 of e.
+Sets bit 1 of h.
+Sets bit 1 of l.
+Sets bit 1 of (hl).
+Sets bit 1 of a.
+D
+Sets bit 2 of b.
+Sets bit 2 of c.
+Sets bit 2 of d.
+Sets bit 2 of e.
+Sets bit 2 of h.
+Sets bit 2 of l.
+Sets bit 2 of (hl).
+Sets bit 2 of a.
+Sets bit 3 of b.
+Sets bit 3 of c.
+Sets bit 3 of d.
+Sets bit 3 of e.
+Sets bit 3 of h.
+Sets bit 3 of l.
+Sets bit 3 of (hl).
+Sets bit 3 of a.
+E
+Sets bit 4 of b.
+Sets bit 4 of c.
+Sets bit 4 of d.
+Sets bit 4 of e.
+Sets bit 4 of h.
+Sets bit 4 of l.
+Sets bit 4 of (hl).
+Sets bit 4 of a.
+Sets bit 5 of b.
+Sets bit 5 of c.
+Sets bit 5 of d.
+Sets bit 5 of e.
+Sets bit 5 of h.
+Sets bit 5 of l.
+Sets bit 5 of (hl).
+Sets bit 5 of a.
+F
+Sets bit 6 of b.
+Sets bit 6 of c.
+Sets bit 6 of d.
+Sets bit 6 of e.
+Sets bit 6 of h.
+Sets bit 6 of l.
+Sets bit 6 of (hl).
+Sets bit 6 of a.
+Sets bit 7 of b.
+Sets bit 7 of c.
+Sets bit 7 of d.
+Sets bit 7 of e.
+Sets bit 7 of h.
+Sets bit 7 of l.
+Sets bit 7 of (hl).
+Sets bit 7 of a.
