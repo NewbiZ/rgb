@@ -2,6 +2,7 @@
 
 import json
 import requests
+import textwrap
 
 # Load all opcodes in a json dict
 opcodes = ''
@@ -125,10 +126,11 @@ for op in opcodes.items():
   s += '        //!   - N: ' + strflag(op[1]['flags'][1]) + '\n'
   s += '        //!   - H: ' + strflag(op[1]['flags'][2]) + '\n'
   s += '        //!   - C: ' + strflag(op[1]['flags'][3]) + '\n'
-  s += '        //! Description:\n'
-  s += '        //!   ' + getcmddoc(op[0])
+  s += '        //! Description:'
+  doc = getcmddoc(op[0])
+  s += '\n        //!   ' + '\n        //!   '.join(textwrap.wrap(doc, 66))
   # STUB
-  s += '        \n'
+  s += '\n'
   s += '        unimplemented!();\n'
   s += '    }\n'
 

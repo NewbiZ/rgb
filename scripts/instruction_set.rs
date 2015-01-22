@@ -15,7 +15,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds l to a.
-        
         unimplemented!();
     }
 
@@ -31,8 +30,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 20h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 20h.
         unimplemented!();
     }
 
@@ -49,7 +48,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with *.
-        
         unimplemented!();
     }
 
@@ -65,8 +63,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
-        
+        //!   If condition cc is true, the signed value * is added to pc. The
+        //!   jump is measured from the start of the instruction opcode.
         unimplemented!();
     }
 
@@ -83,7 +81,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of hl is added to hl.
-        
         unimplemented!();
     }
 
@@ -100,7 +97,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores hl into the memory location pointed to by **.
-        
         unimplemented!();
     }
 
@@ -117,7 +113,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to hl.
-        
         unimplemented!();
     }
 
@@ -133,8 +128,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
-        
+        //!   If condition cc is true, the signed value * is added to pc. The
+        //!   jump is measured from the start of the instruction opcode.
         unimplemented!();
     }
 
@@ -151,7 +146,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into hl.
-        
         unimplemented!();
     }
 
@@ -168,7 +162,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into h.
-        
         unimplemented!();
     }
 
@@ -185,7 +178,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adjusts a for BCD addition and subtraction operations.
-        
         unimplemented!();
     }
 
@@ -202,7 +194,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to h.
-        
         unimplemented!();
     }
 
@@ -219,7 +210,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from h.
-        
         unimplemented!();
     }
 
@@ -236,7 +226,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value of hl into pc.
-        
         unimplemented!();
     }
 
@@ -253,7 +242,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -269,8 +257,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of b are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of b are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -287,7 +276,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from hl.
-        
         unimplemented!();
     }
 
@@ -304,7 +292,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to l.
-        
         unimplemented!();
     }
 
@@ -321,7 +308,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by ** into hl.
-        
         unimplemented!();
     }
 
@@ -338,7 +324,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are inverted (one's complement).
-        
         unimplemented!();
     }
 
@@ -355,7 +340,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from l.
-        
         unimplemented!();
     }
 
@@ -372,7 +356,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into l.
-        
         unimplemented!();
     }
 
@@ -388,8 +371,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of c are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of c are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -405,8 +389,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of a are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of a are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -422,8 +407,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of (hl) are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of (hl) are shifted right one bit position. The
+        //!   contents of bit 0 are copied to the carry flag and the previous
+        //!   contents of bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -439,8 +425,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of l are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of l are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -456,8 +443,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of h are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of h are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -473,8 +461,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of e are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of e are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -490,8 +479,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of d are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of d are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -507,8 +497,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of a are shifted left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and a zero is put into bit
+        //!   0.
         unimplemented!();
     }
 
@@ -524,8 +515,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of (hl) are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of (hl) are shifted left one bit position. The
+        //!   contents of bit 7 are copied to the carry flag and a zero is put
+        //!   into bit 0.
         unimplemented!();
     }
 
@@ -541,8 +533,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of l are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of l are shifted left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and a zero is put into bit
+        //!   0.
         unimplemented!();
     }
 
@@ -558,8 +551,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of h are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of h are shifted left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and a zero is put into bit
+        //!   0.
         unimplemented!();
     }
 
@@ -575,8 +569,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of e are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of e are shifted left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and a zero is put into bit
+        //!   0.
         unimplemented!();
     }
 
@@ -592,8 +587,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of d are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of d are shifted left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and a zero is put into bit
+        //!   0.
         unimplemented!();
     }
 
@@ -609,8 +605,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of c are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of c are shifted left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and a zero is put into bit
+        //!   0.
         unimplemented!();
     }
 
@@ -626,8 +623,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of b are shifted left one bit position. The contents of bit 7 are copied to the carry flag and a zero is put into bit 0.
-        
+        //!   The contents of b are shifted left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and a zero is put into bit
+        //!   0.
         unimplemented!();
     }
 
@@ -643,8 +641,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of c are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of c are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -660,8 +659,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of b are shifted right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of bit 7 are unchanged.
-        
+        //!   The contents of b are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   bit 7 are unchanged.
         unimplemented!();
     }
 
@@ -678,7 +678,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into l.
-        
         unimplemented!();
     }
 
@@ -695,7 +694,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into l.
-        
         unimplemented!();
     }
 
@@ -712,7 +710,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into h.
-        
         unimplemented!();
     }
 
@@ -729,7 +726,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into h.
-        
         unimplemented!();
     }
 
@@ -746,7 +742,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into h.
-        
         unimplemented!();
     }
 
@@ -763,7 +758,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into h.
-        
         unimplemented!();
     }
 
@@ -780,7 +774,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into h.
-        
         unimplemented!();
     }
 
@@ -797,7 +790,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into h.
-        
         unimplemented!();
     }
 
@@ -814,7 +806,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into h.
-        
         unimplemented!();
     }
 
@@ -831,7 +822,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into h.
-        
         unimplemented!();
     }
 
@@ -848,7 +838,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into l.
-        
         unimplemented!();
     }
 
@@ -865,7 +854,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into l.
-        
         unimplemented!();
     }
 
@@ -882,7 +870,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into l.
-        
         unimplemented!();
     }
 
@@ -899,7 +886,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into l.
-        
         unimplemented!();
     }
 
@@ -916,7 +902,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into l.
-        
         unimplemented!();
     }
 
@@ -933,7 +918,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into l.
-        
         unimplemented!();
     }
 
@@ -950,7 +934,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of h.
-        
         unimplemented!();
     }
 
@@ -967,7 +950,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of e.
-        
         unimplemented!();
     }
 
@@ -984,7 +966,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of d.
-        
         unimplemented!();
     }
 
@@ -1001,7 +982,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of a.
-        
         unimplemented!();
     }
 
@@ -1018,7 +998,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of (hl).
-        
         unimplemented!();
     }
 
@@ -1035,7 +1014,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of l.
-        
         unimplemented!();
     }
 
@@ -1052,7 +1030,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of d.
-        
         unimplemented!();
     }
 
@@ -1069,7 +1046,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of h.
-        
         unimplemented!();
     }
 
@@ -1086,7 +1062,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of e.
-        
         unimplemented!();
     }
 
@@ -1103,7 +1078,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of (hl).
-        
         unimplemented!();
     }
 
@@ -1120,7 +1094,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of l.
-        
         unimplemented!();
     }
 
@@ -1137,7 +1110,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of a.
-        
         unimplemented!();
     }
 
@@ -1154,7 +1126,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds h to a.
-        
         unimplemented!();
     }
 
@@ -1171,7 +1142,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -1188,7 +1158,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds (hl) to a.
-        
         unimplemented!();
     }
 
@@ -1204,8 +1173,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
-        
+        //!   If condition cc is true, the current pc value plus three is pushed
+        //!   onto the stack, then is loaded with **.
         unimplemented!();
     }
 
@@ -1222,7 +1191,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds b to a.
-        
         unimplemented!();
     }
 
@@ -1239,7 +1207,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds c to a.
-        
         unimplemented!();
     }
 
@@ -1256,7 +1223,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds d to a.
-        
         unimplemented!();
     }
 
@@ -1273,7 +1239,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds e to a.
-        
         unimplemented!();
     }
 
@@ -1289,8 +1254,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of a are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -1306,8 +1272,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of l are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of l are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -1323,8 +1290,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of (hl) are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of (hl) are rotated right one bit position. The
+        //!   contents of bit 0 are copied to the carry flag and the previous
+        //!   contents of the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -1340,8 +1308,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of e are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of e are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -1357,8 +1326,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of h are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of h are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -1374,8 +1344,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of d are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of d are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -1392,7 +1363,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -1409,7 +1379,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds (hl) and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -1426,7 +1395,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds a and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -1442,8 +1410,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
-        
+        //!   If condition cc is true, the current pc value plus three is pushed
+        //!   onto the stack, then is loaded with **.
         unimplemented!();
     }
 
@@ -1460,7 +1428,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds d and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -1477,7 +1444,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds e and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -1494,7 +1460,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds h and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -1510,8 +1475,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of (hl) are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of (hl) are rotated left one bit position. The
+        //!   contents of bit 7 are copied to the carry flag and the previous
+        //!   contents of the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1527,8 +1493,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of a are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1544,8 +1511,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of h are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of h are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1561,8 +1529,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of l are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of l are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1578,8 +1547,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of d are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of d are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1595,8 +1565,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of e are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of e are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1612,8 +1583,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of b are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of b are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1629,8 +1601,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of c are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of c are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -1647,7 +1620,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of c.
-        
         unimplemented!();
     }
 
@@ -1664,7 +1636,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of b.
-        
         unimplemented!();
     }
 
@@ -1681,7 +1652,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of e.
-        
         unimplemented!();
     }
 
@@ -1698,7 +1668,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of d.
-        
         unimplemented!();
     }
 
@@ -1715,7 +1684,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of l.
-        
         unimplemented!();
     }
 
@@ -1732,7 +1700,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of h.
-        
         unimplemented!();
     }
 
@@ -1749,7 +1716,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of a.
-        
         unimplemented!();
     }
 
@@ -1766,7 +1732,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of (hl).
-        
         unimplemented!();
     }
 
@@ -1783,7 +1748,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of c.
-        
         unimplemented!();
     }
 
@@ -1800,7 +1764,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of b.
-        
         unimplemented!();
     }
 
@@ -1817,7 +1780,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of c.
-        
         unimplemented!();
     }
 
@@ -1834,7 +1796,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of b.
-        
         unimplemented!();
     }
 
@@ -1851,7 +1812,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of e.
-        
         unimplemented!();
     }
 
@@ -1868,7 +1828,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of d.
-        
         unimplemented!();
     }
 
@@ -1885,7 +1844,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of c.
-        
         unimplemented!();
     }
 
@@ -1902,7 +1860,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of b.
-        
         unimplemented!();
     }
 
@@ -1919,7 +1876,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of a.
-        
         unimplemented!();
     }
 
@@ -1936,7 +1892,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of (hl).
-        
         unimplemented!();
     }
 
@@ -1953,7 +1908,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of l.
-        
         unimplemented!();
     }
 
@@ -1970,7 +1924,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of h.
-        
         unimplemented!();
     }
 
@@ -1987,7 +1940,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of l.
-        
         unimplemented!();
     }
 
@@ -2004,7 +1956,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of h.
-        
         unimplemented!();
     }
 
@@ -2021,7 +1972,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of a.
-        
         unimplemented!();
     }
 
@@ -2038,7 +1988,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of (hl).
-        
         unimplemented!();
     }
 
@@ -2055,7 +2004,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of c.
-        
         unimplemented!();
     }
 
@@ -2072,7 +2020,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of b.
-        
         unimplemented!();
     }
 
@@ -2089,7 +2036,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of e.
-        
         unimplemented!();
     }
 
@@ -2106,7 +2052,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of d.
-        
         unimplemented!();
     }
 
@@ -2123,7 +2068,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of c.
-        
         unimplemented!();
     }
 
@@ -2140,7 +2084,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of b.
-        
         unimplemented!();
     }
 
@@ -2157,7 +2100,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into a.
-        
         unimplemented!();
     }
 
@@ -2174,7 +2116,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from a.
-        
         unimplemented!();
     }
 
@@ -2191,7 +2132,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Inverts the carry flag.
-        
         unimplemented!();
     }
 
@@ -2208,7 +2148,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by ** into a.
-        
         unimplemented!();
     }
 
@@ -2225,7 +2164,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to a.
-        
         unimplemented!();
     }
 
@@ -2242,7 +2180,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from sp.
-        
         unimplemented!();
     }
 
@@ -2259,7 +2196,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds a to a.
-        
         unimplemented!();
     }
 
@@ -2276,7 +2212,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts * and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -2292,8 +2227,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 18h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 18h.
         unimplemented!();
     }
 
@@ -2310,7 +2245,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from (hl).
-        
         unimplemented!();
     }
 
@@ -2327,7 +2261,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to (hl).
-        
         unimplemented!();
     }
 
@@ -2344,7 +2277,6 @@
         //!   - C: Force set (1)
         //! Description:
         //!   Sets the carry flag.
-        
         unimplemented!();
     }
 
@@ -2361,7 +2293,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into (hl).
-        
         unimplemented!();
     }
 
@@ -2378,7 +2309,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into sp.
-        
         unimplemented!();
     }
 
@@ -2394,8 +2324,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
-        
+        //!   If condition cc is true, the signed value * is added to pc. The
+        //!   jump is measured from the start of the instruction opcode.
         unimplemented!();
     }
 
@@ -2412,7 +2342,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to sp.
-        
         unimplemented!();
     }
 
@@ -2429,7 +2358,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores a into the memory location pointed to by **.
-        
         unimplemented!();
     }
 
@@ -2446,7 +2374,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of hl is added to hl.
-        
         unimplemented!();
     }
 
@@ -2462,8 +2389,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
-        
+        //!   If condition cc is true, the signed value * is added to pc. The
+        //!   jump is measured from the start of the instruction opcode.
         unimplemented!();
     }
 
@@ -2480,7 +2407,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of (hl).
-        
         unimplemented!();
     }
 
@@ -2497,7 +2423,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of l.
-        
         unimplemented!();
     }
 
@@ -2514,7 +2439,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of a.
-        
         unimplemented!();
     }
 
@@ -2531,7 +2455,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of d.
-        
         unimplemented!();
     }
 
@@ -2548,7 +2471,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of h.
-        
         unimplemented!();
     }
 
@@ -2565,7 +2487,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of e.
-        
         unimplemented!();
     }
 
@@ -2582,7 +2503,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds b and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -2599,7 +2519,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds c and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -2616,7 +2535,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds l and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -2632,8 +2550,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The memory location pointed to by sp is stored into e and sp is incremented. The memory location pointed to by sp is stored into d and sp is incremented again.
-        
+        //!   The memory location pointed to by sp is stored into e and sp is
+        //!   incremented. The memory location pointed to by sp is stored into d
+        //!   and sp is incremented again.
         unimplemented!();
     }
 
@@ -2650,7 +2569,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -2666,8 +2584,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   sp is decremented and d is stored into the memory location pointed to by sp. sp is decremented again and e is stored into the memory location pointed to by sp.
-        
+        //!   sp is decremented and d is stored into the memory location pointed
+        //!   to by sp. sp is decremented again and e is stored into the memory
+        //!   location pointed to by sp.
         unimplemented!();
     }
 
@@ -2684,7 +2603,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts * from a.
-        
         unimplemented!();
     }
 
@@ -2700,8 +2618,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 10h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 10h.
         unimplemented!();
     }
 
@@ -2718,7 +2636,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -2734,8 +2651,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   Exchanges the 16-bit contents of bc, de, and hl with bc', de', and hl'.
-        
+        //!   Exchanges the 16-bit contents of bc, de, and hl with bc', de', and
+        //!   hl'.
         unimplemented!();
     }
 
@@ -2752,7 +2669,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with c.
-        
         unimplemented!();
     }
 
@@ -2769,7 +2685,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with b.
-        
         unimplemented!();
     }
 
@@ -2786,7 +2701,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with a.
-        
         unimplemented!();
     }
 
@@ -2803,7 +2717,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with (hl).
-        
         unimplemented!();
     }
 
@@ -2820,7 +2733,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with l.
-        
         unimplemented!();
     }
 
@@ -2837,7 +2749,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with h.
-        
         unimplemented!();
     }
 
@@ -2854,7 +2765,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with e.
-        
         unimplemented!();
     }
 
@@ -2871,7 +2781,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with d.
-        
         unimplemented!();
     }
 
@@ -2888,7 +2797,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with c.
-        
         unimplemented!();
     }
 
@@ -2905,7 +2813,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with b.
-        
         unimplemented!();
     }
 
@@ -2922,7 +2829,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of b.
-        
         unimplemented!();
     }
 
@@ -2939,7 +2845,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of c.
-        
         unimplemented!();
     }
 
@@ -2956,7 +2861,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into a.
-        
         unimplemented!();
     }
 
@@ -2973,7 +2877,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into a.
-        
         unimplemented!();
     }
 
@@ -2990,7 +2893,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into a.
-        
         unimplemented!();
     }
 
@@ -3007,7 +2909,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into a.
-        
         unimplemented!();
     }
 
@@ -3024,7 +2925,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into a.
-        
         unimplemented!();
     }
 
@@ -3041,7 +2941,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into a.
-        
         unimplemented!();
     }
 
@@ -3058,7 +2957,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of d.
-        
         unimplemented!();
     }
 
@@ -3075,7 +2973,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of e.
-        
         unimplemented!();
     }
 
@@ -3092,7 +2989,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of b.
-        
         unimplemented!();
     }
 
@@ -3109,7 +3005,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of c.
-        
         unimplemented!();
     }
 
@@ -3126,7 +3021,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of (hl).
-        
         unimplemented!();
     }
 
@@ -3143,7 +3037,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of a.
-        
         unimplemented!();
     }
 
@@ -3160,7 +3053,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of h.
-        
         unimplemented!();
     }
 
@@ -3177,7 +3069,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of l.
-        
         unimplemented!();
     }
 
@@ -3194,7 +3085,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of b.
-        
         unimplemented!();
     }
 
@@ -3211,7 +3101,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of c.
-        
         unimplemented!();
     }
 
@@ -3228,7 +3117,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of b.
-        
         unimplemented!();
     }
 
@@ -3245,7 +3133,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of e.
-        
         unimplemented!();
     }
 
@@ -3262,7 +3149,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of h.
-        
         unimplemented!();
     }
 
@@ -3279,7 +3165,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of l.
-        
         unimplemented!();
     }
 
@@ -3296,7 +3181,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of (hl).
-        
         unimplemented!();
     }
 
@@ -3313,7 +3197,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of a.
-        
         unimplemented!();
     }
 
@@ -3330,7 +3213,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of e.
-        
         unimplemented!();
     }
 
@@ -3347,7 +3229,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of h.
-        
         unimplemented!();
     }
 
@@ -3364,7 +3245,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of d.
-        
         unimplemented!();
     }
 
@@ -3381,7 +3261,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of a.
-        
         unimplemented!();
     }
 
@@ -3398,7 +3277,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of l.
-        
         unimplemented!();
     }
 
@@ -3415,7 +3293,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of (hl).
-        
         unimplemented!();
     }
 
@@ -3432,7 +3309,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of d.
-        
         unimplemented!();
     }
 
@@ -3449,7 +3325,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of e.
-        
         unimplemented!();
     }
 
@@ -3466,7 +3341,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of h.
-        
         unimplemented!();
     }
 
@@ -3483,7 +3357,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of l.
-        
         unimplemented!();
     }
 
@@ -3500,7 +3373,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of (hl).
-        
         unimplemented!();
     }
 
@@ -3517,7 +3389,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of a.
-        
         unimplemented!();
     }
 
@@ -3534,7 +3405,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into a.
-        
         unimplemented!();
     }
 
@@ -3551,7 +3421,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into a.
-        
         unimplemented!();
     }
 
@@ -3568,7 +3437,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into (hl).
-        
         unimplemented!();
     }
 
@@ -3585,7 +3453,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into (hl).
-        
         unimplemented!();
     }
 
@@ -3602,7 +3469,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into (hl).
-        
         unimplemented!();
     }
 
@@ -3619,7 +3485,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into (hl).
-        
         unimplemented!();
     }
 
@@ -3636,7 +3501,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into (hl).
-        
         unimplemented!();
     }
 
@@ -3653,7 +3517,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into (hl).
-        
         unimplemented!();
     }
 
@@ -3670,7 +3533,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into (hl).
-        
         unimplemented!();
     }
 
@@ -3687,7 +3549,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Suspends CPU operation until an interrupt or reset occurs.
-        
         unimplemented!();
     }
 
@@ -3704,7 +3565,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of c.
-        
         unimplemented!();
     }
 
@@ -3721,7 +3581,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with a.
-        
         unimplemented!();
     }
 
@@ -3738,7 +3597,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with (hl).
-        
         unimplemented!();
     }
 
@@ -3755,7 +3613,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with l.
-        
         unimplemented!();
     }
 
@@ -3772,7 +3629,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with h.
-        
         unimplemented!();
     }
 
@@ -3789,7 +3645,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with e.
-        
         unimplemented!();
     }
 
@@ -3806,7 +3661,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with d.
-        
         unimplemented!();
     }
 
@@ -3823,7 +3677,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts a and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -3840,7 +3693,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts (hl) and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -3857,7 +3709,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts l and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -3874,7 +3725,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts h and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -3891,7 +3741,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts e and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -3908,7 +3757,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts d and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -3925,7 +3773,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Exchanges the 16-bit contents of af and af'.
-        
         unimplemented!();
     }
 
@@ -3942,7 +3789,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of bc is added to hl.
-        
         unimplemented!();
     }
 
@@ -3959,7 +3805,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to b.
-        
         unimplemented!();
     }
 
@@ -3976,7 +3821,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from b.
-        
         unimplemented!();
     }
 
@@ -3993,7 +3837,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into b.
-        
         unimplemented!();
     }
 
@@ -4009,8 +3852,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of a are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4027,7 +3870,6 @@
         //!   - C: Preserved
         //! Description:
         //!   No operation is performed.
-        
         unimplemented!();
     }
 
@@ -4044,7 +3886,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into bc.
-        
         unimplemented!();
     }
 
@@ -4061,7 +3902,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores a into the memory location pointed to by bc.
-        
         unimplemented!();
     }
 
@@ -4078,7 +3918,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to bc.
-        
         unimplemented!();
     }
 
@@ -4095,7 +3934,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from c.
-        
         unimplemented!();
     }
 
@@ -4112,7 +3950,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into c.
-        
         unimplemented!();
     }
 
@@ -4128,8 +3965,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of a are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4146,7 +3983,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by bc into a.
-        
         unimplemented!();
     }
 
@@ -4163,7 +3999,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from bc.
-        
         unimplemented!();
     }
 
@@ -4180,7 +4015,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to c.
-        
         unimplemented!();
     }
 
@@ -4197,7 +4031,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts a from a.
-        
         unimplemented!();
     }
 
@@ -4214,7 +4047,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts (hl) from a.
-        
         unimplemented!();
     }
 
@@ -4231,7 +4063,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts l from a.
-        
         unimplemented!();
     }
 
@@ -4248,7 +4079,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts h from a.
-        
         unimplemented!();
     }
 
@@ -4265,7 +4095,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts e from a.
-        
         unimplemented!();
     }
 
@@ -4282,7 +4111,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts d from a.
-        
         unimplemented!();
     }
 
@@ -4299,7 +4127,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts c from a.
-        
         unimplemented!();
     }
 
@@ -4316,7 +4143,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts b from a.
-        
         unimplemented!();
     }
 
@@ -4333,7 +4159,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts c and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -4350,7 +4175,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts b and the carry flag from a.
-        
         unimplemented!();
     }
 
@@ -4367,7 +4191,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -4383,8 +4206,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The memory location pointed to by sp is stored into l and sp is incremented. The memory location pointed to by sp is stored into h and sp is incremented again.
-        
+        //!   The memory location pointed to by sp is stored into l and sp is
+        //!   incremented. The memory location pointed to by sp is stored into h
+        //!   and sp is incremented again.
         unimplemented!();
     }
 
@@ -4401,7 +4225,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -4417,8 +4240,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of c are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of c are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4434,8 +4257,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of b are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of b are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4451,8 +4274,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   sp is decremented and h is stored into the memory location pointed to by sp. sp is decremented again and l is stored into the memory location pointed to by sp.
-        
+        //!   sp is decremented and h is stored into the memory location pointed
+        //!   to by sp. sp is decremented again and l is stored into the memory
+        //!   location pointed to by sp.
         unimplemented!();
     }
 
@@ -4468,8 +4292,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of l are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of l are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4485,8 +4309,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of h are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of h are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4502,8 +4326,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of a are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4519,8 +4343,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of (hl) are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of (hl) are rotated left one bit position. The
+        //!   contents of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4536,8 +4360,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of c are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of c are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4553,8 +4377,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of b are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of b are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4570,8 +4394,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of e are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of e are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4587,8 +4411,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of d are rotated left one bit position. The contents of bit 7 are copied to the carry flag and bit 0.
-        
+        //!   The contents of d are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and bit 0.
         unimplemented!();
     }
 
@@ -4605,7 +4429,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of l.
-        
         unimplemented!();
     }
 
@@ -4622,7 +4445,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -4638,8 +4460,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 28h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 28h.
         unimplemented!();
     }
 
@@ -4656,7 +4478,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with *.
-        
         unimplemented!();
     }
 
@@ -4672,8 +4493,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of (hl) are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of (hl) are rotated right one bit position. The
+        //!   contents of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4689,8 +4510,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of l are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of l are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4706,8 +4527,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of a are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4723,8 +4544,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of d are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of d are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4740,8 +4561,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of h are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of h are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4757,8 +4578,8 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of e are rotated right one bit position. The contents of bit 0 are copied to the carry flag and bit 7.
-        
+        //!   The contents of e are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and bit 7.
         unimplemented!();
     }
 
@@ -4775,7 +4596,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4792,7 +4612,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4809,7 +4628,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4826,7 +4644,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4843,7 +4660,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4860,7 +4676,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4877,7 +4692,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4894,7 +4708,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into b.
-        
         unimplemented!();
     }
 
@@ -4911,7 +4724,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into c.
-        
         unimplemented!();
     }
 
@@ -4928,7 +4740,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into c.
-        
         unimplemented!();
     }
 
@@ -4945,7 +4756,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into c.
-        
         unimplemented!();
     }
 
@@ -4962,7 +4772,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into c.
-        
         unimplemented!();
     }
 
@@ -4979,7 +4788,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into c.
-        
         unimplemented!();
     }
 
@@ -4996,7 +4804,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into c.
-        
         unimplemented!();
     }
 
@@ -5013,7 +4820,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into c.
-        
         unimplemented!();
     }
 
@@ -5030,7 +4836,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into c.
-        
         unimplemented!();
     }
 
@@ -5047,7 +4852,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of d.
-        
         unimplemented!();
     }
 
@@ -5064,7 +4868,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of h.
-        
         unimplemented!();
     }
 
@@ -5081,7 +4884,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of e.
-        
         unimplemented!();
     }
 
@@ -5098,7 +4900,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of (hl).
-        
         unimplemented!();
     }
 
@@ -5115,7 +4916,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of l.
-        
         unimplemented!();
     }
 
@@ -5132,7 +4932,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of a.
-        
         unimplemented!();
     }
 
@@ -5149,7 +4948,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of a.
-        
         unimplemented!();
     }
 
@@ -5166,7 +4964,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of (hl).
-        
         unimplemented!();
     }
 
@@ -5183,7 +4980,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of l.
-        
         unimplemented!();
     }
 
@@ -5200,7 +4996,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of h.
-        
         unimplemented!();
     }
 
@@ -5217,7 +5012,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of e.
-        
         unimplemented!();
     }
 
@@ -5234,7 +5028,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of d.
-        
         unimplemented!();
     }
 
@@ -5250,8 +5043,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts * from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts * from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5267,8 +5060,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts e from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts e from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5284,8 +5077,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts h from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts h from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5301,8 +5094,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts d from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts d from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5318,8 +5111,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts a from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts a from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5335,8 +5128,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts l from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts l from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5352,8 +5145,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts (hl) from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts (hl) from a and affects flags according to the result. a
+        //!   is not modified.
         unimplemented!();
     }
 
@@ -5369,8 +5162,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts b from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts b from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5386,8 +5179,8 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   Subtracts c from a and affects flags according to the result. a is not modified.
-        
+        //!   Subtracts c from a and affects flags according to the result. a is
+        //!   not modified.
         unimplemented!();
     }
 
@@ -5404,7 +5197,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with d.
-        
         unimplemented!();
     }
 
@@ -5421,7 +5213,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with e.
-        
         unimplemented!();
     }
 
@@ -5438,7 +5229,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with b.
-        
         unimplemented!();
     }
 
@@ -5455,7 +5245,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with c.
-        
         unimplemented!();
     }
 
@@ -5472,7 +5261,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with (hl).
-        
         unimplemented!();
     }
 
@@ -5489,7 +5277,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with a.
-        
         unimplemented!();
     }
 
@@ -5506,7 +5293,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with h.
-        
         unimplemented!();
     }
 
@@ -5523,7 +5309,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with l.
-        
         unimplemented!();
     }
 
@@ -5540,7 +5325,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of a.
-        
         unimplemented!();
     }
 
@@ -5557,7 +5341,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of (hl).
-        
         unimplemented!();
     }
 
@@ -5574,7 +5357,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of l.
-        
         unimplemented!();
     }
 
@@ -5591,7 +5373,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of h.
-        
         unimplemented!();
     }
 
@@ -5608,7 +5389,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of e.
-        
         unimplemented!();
     }
 
@@ -5625,7 +5405,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of d.
-        
         unimplemented!();
     }
 
@@ -5642,7 +5421,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of c.
-        
         unimplemented!();
     }
 
@@ -5659,7 +5437,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of b.
-        
         unimplemented!();
     }
 
@@ -5675,8 +5452,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   Sets both interrupt flip-flops, thus allowing maskable interrupts to occur. An interrupt will not occur until after the immediatedly following instruction.
-        
+        //!   Sets both interrupt flip-flops, thus allowing maskable interrupts
+        //!   to occur. An interrupt will not occur until after the immediatedly
+        //!   following instruction.
         unimplemented!();
     }
 
@@ -5693,7 +5471,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of c.
-        
         unimplemented!();
     }
 
@@ -5710,7 +5487,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of b.
-        
         unimplemented!();
     }
 
@@ -5727,7 +5503,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of c.
-        
         unimplemented!();
     }
 
@@ -5744,7 +5519,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of b.
-        
         unimplemented!();
     }
 
@@ -5761,7 +5535,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of e.
-        
         unimplemented!();
     }
 
@@ -5778,7 +5551,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of d.
-        
         unimplemented!();
     }
 
@@ -5795,7 +5567,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of l.
-        
         unimplemented!();
     }
 
@@ -5812,7 +5583,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of h.
-        
         unimplemented!();
     }
 
@@ -5829,7 +5599,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of a.
-        
         unimplemented!();
     }
 
@@ -5846,7 +5615,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of (hl).
-        
         unimplemented!();
     }
 
@@ -5863,7 +5631,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of c.
-        
         unimplemented!();
     }
 
@@ -5880,7 +5647,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of b.
-        
         unimplemented!();
     }
 
@@ -5896,8 +5662,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated right one bit position. The contents of bit 0 are copied to the carry flag and the previous contents of the carry flag are copied to bit 7.
-        
+        //!   The contents of a are rotated right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 7.
         unimplemented!();
     }
 
@@ -5914,7 +5681,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into e.
-        
         unimplemented!();
     }
 
@@ -5931,7 +5697,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from e.
-        
         unimplemented!();
     }
 
@@ -5948,7 +5713,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to e.
-        
         unimplemented!();
     }
 
@@ -5965,7 +5729,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from de.
-        
         unimplemented!();
     }
 
@@ -5982,7 +5745,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by de into a.
-        
         unimplemented!();
     }
 
@@ -5999,7 +5761,6 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with *.
-        
         unimplemented!();
     }
 
@@ -6015,8 +5776,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 30h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 30h.
         unimplemented!();
     }
 
@@ -6033,7 +5794,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of d.
-        
         unimplemented!();
     }
 
@@ -6049,8 +5809,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   sp is decremented and a is stored into the memory location pointed to by sp. sp is decremented again and f is stored into the memory location pointed to by sp.
-        
+        //!   sp is decremented and a is stored into the memory location pointed
+        //!   to by sp. sp is decremented again and f is stored into the memory
+        //!   location pointed to by sp.
         unimplemented!();
     }
 
@@ -6066,8 +5827,8 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of h are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of h are shifted left one bit position. The contents
+        //!   of bit 7 are put into the carry flag and a one is put into bit 0.
         unimplemented!();
     }
 
@@ -6084,7 +5845,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of b.
-        
         unimplemented!();
     }
 
@@ -6100,8 +5860,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   Resets both interrupt flip-flops, thus prenting maskable interrupts from triggering.
-        
+        //!   Resets both interrupt flip-flops, thus prenting maskable
+        //!   interrupts from triggering.
         unimplemented!();
     }
 
@@ -6118,7 +5878,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of c.
-        
         unimplemented!();
     }
 
@@ -6135,7 +5894,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -6152,7 +5910,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of (hl).
-        
         unimplemented!();
     }
 
@@ -6168,8 +5925,9 @@
         //!   - H: Set if appropriate
         //!   - C: Set if appropriate
         //! Description:
-        //!   The memory location pointed to by sp is stored into f and sp is incremented. The memory location pointed to by sp is stored into a and sp is incremented again.
-        
+        //!   The memory location pointed to by sp is stored into f and sp is
+        //!   incremented. The memory location pointed to by sp is stored into a
+        //!   and sp is incremented again.
         unimplemented!();
     }
 
@@ -6186,7 +5944,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of a.
-        
         unimplemented!();
     }
 
@@ -6203,7 +5960,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of de is added to hl.
-        
         unimplemented!();
     }
 
@@ -6219,8 +5975,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The signed value * is added to pc. The jump is measured from the start of the instruction opcode.
-        
+        //!   The signed value * is added to pc. The jump is measured from the
+        //!   start of the instruction opcode.
         unimplemented!();
     }
 
@@ -6236,8 +5992,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are rotated left one bit position. The contents of bit 7 are copied to the carry flag and the previous contents of the carry flag are copied to bit 0.
-        
+        //!   The contents of a are rotated left one bit position. The contents
+        //!   of bit 7 are copied to the carry flag and the previous contents of
+        //!   the carry flag are copied to bit 0.
         unimplemented!();
     }
 
@@ -6254,7 +6011,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into d.
-        
         unimplemented!();
     }
 
@@ -6271,7 +6027,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from d.
-        
         unimplemented!();
     }
 
@@ -6288,7 +6043,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to d.
-        
         unimplemented!();
     }
 
@@ -6305,7 +6059,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to de.
-        
         unimplemented!();
     }
 
@@ -6322,7 +6075,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores a into the memory location pointed to by de.
-        
         unimplemented!();
     }
 
@@ -6339,7 +6091,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into de.
-        
         unimplemented!();
     }
 
@@ -6355,8 +6106,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The b register is decremented, and if not zero, the signed value * is added to pc. The jump is measured from the start of the instruction opcode.
-        
+        //!   The b register is decremented, and if not zero, the signed value *
+        //!   is added to pc. The jump is measured from the start of the
+        //!   instruction opcode.
         unimplemented!();
     }
 
@@ -6373,7 +6125,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of h.
-        
         unimplemented!();
     }
 
@@ -6390,7 +6141,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of e.
-        
         unimplemented!();
     }
 
@@ -6407,7 +6157,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of d.
-        
         unimplemented!();
     }
 
@@ -6424,7 +6173,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of a.
-        
         unimplemented!();
     }
 
@@ -6441,7 +6189,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of (hl).
-        
         unimplemented!();
     }
 
@@ -6458,7 +6205,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of l.
-        
         unimplemented!();
     }
 
@@ -6474,8 +6220,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 38h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 38h.
         unimplemented!();
     }
 
@@ -6491,8 +6237,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of d are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of d are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and a zero is put into bit
+        //!   7.
         unimplemented!();
     }
 
@@ -6508,8 +6255,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of e are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of e are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and a zero is put into bit
+        //!   7.
         unimplemented!();
     }
 
@@ -6525,8 +6273,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of h are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of h are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and a zero is put into bit
+        //!   7.
         unimplemented!();
     }
 
@@ -6542,8 +6291,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of l are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of l are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and a zero is put into bit
+        //!   7.
         unimplemented!();
     }
 
@@ -6559,8 +6309,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of (hl) are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of (hl) are shifted right one bit position. The
+        //!   contents of bit 0 are copied to the carry flag and a zero is put
+        //!   into bit 7.
         unimplemented!();
     }
 
@@ -6576,8 +6327,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of a are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of a are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and a zero is put into bit
+        //!   7.
         unimplemented!();
     }
 
@@ -6594,7 +6346,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -6610,8 +6361,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of b are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of b are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and a zero is put into bit
+        //!   7.
         unimplemented!();
     }
 
@@ -6627,8 +6379,9 @@
         //!   - H: Force unset (0)
         //!   - C: Set if appropriate
         //! Description:
-        //!   The contents of c are shifted right one bit position. The contents of bit 0 are copied to the carry flag and a zero is put into bit 7.
-        
+        //!   The contents of c are shifted right one bit position. The contents
+        //!   of bit 0 are copied to the carry flag and a zero is put into bit
+        //!   7.
         unimplemented!();
     }
 
@@ -6645,7 +6398,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -6662,7 +6414,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value of hl into sp.
-        
         unimplemented!();
     }
 
@@ -6678,8 +6429,8 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of b are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of b are shifted left one bit position. The contents
+        //!   of bit 7 are put into the carry flag and a one is put into bit 0.
         unimplemented!();
     }
 
@@ -6695,8 +6446,8 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of c are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of c are shifted left one bit position. The contents
+        //!   of bit 7 are put into the carry flag and a one is put into bit 0.
         unimplemented!();
     }
 
@@ -6712,8 +6463,8 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of d are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of d are shifted left one bit position. The contents
+        //!   of bit 7 are put into the carry flag and a one is put into bit 0.
         unimplemented!();
     }
 
@@ -6729,8 +6480,8 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of e are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of e are shifted left one bit position. The contents
+        //!   of bit 7 are put into the carry flag and a one is put into bit 0.
         unimplemented!();
     }
 
@@ -6747,7 +6498,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -6763,8 +6513,8 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of l are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of l are shifted left one bit position. The contents
+        //!   of bit 7 are put into the carry flag and a one is put into bit 0.
         unimplemented!();
     }
 
@@ -6780,8 +6530,9 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of (hl) are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of (hl) are shifted left one bit position. The
+        //!   contents of bit 7 are put into the carry flag and a one is put
+        //!   into bit 0.
         unimplemented!();
     }
 
@@ -6797,8 +6548,8 @@
         //!   - H: Force unset (0)
         //!   - C: Force unset (0)
         //! Description:
-        //!   The contents of a are shifted left one bit position. The contents of bit 7 are put into the carry flag and a one is put into bit 0.
-        
+        //!   The contents of a are shifted left one bit position. The contents
+        //!   of bit 7 are put into the carry flag and a one is put into bit 0.
         unimplemented!();
     }
 
@@ -6815,7 +6566,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of c.
-        
         unimplemented!();
     }
 
@@ -6832,7 +6582,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of b.
-        
         unimplemented!();
     }
 
@@ -6849,7 +6598,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of e.
-        
         unimplemented!();
     }
 
@@ -6866,7 +6614,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of d.
-        
         unimplemented!();
     }
 
@@ -6883,7 +6630,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of c.
-        
         unimplemented!();
     }
 
@@ -6900,7 +6646,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of b.
-        
         unimplemented!();
     }
 
@@ -6917,7 +6662,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of a.
-        
         unimplemented!();
     }
 
@@ -6934,7 +6678,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of (hl).
-        
         unimplemented!();
     }
 
@@ -6951,7 +6694,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of l.
-        
         unimplemented!();
     }
 
@@ -6968,7 +6710,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of h.
-        
         unimplemented!();
     }
 
@@ -6985,7 +6726,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7002,7 +6742,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7019,7 +6758,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7036,7 +6774,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7053,7 +6790,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7070,7 +6806,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7087,7 +6822,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of b.
-        
         unimplemented!();
     }
 
@@ -7104,7 +6838,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of c.
-        
         unimplemented!();
     }
 
@@ -7121,7 +6854,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of (hl).
-        
         unimplemented!();
     }
 
@@ -7138,7 +6870,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of a.
-        
         unimplemented!();
     }
 
@@ -7155,7 +6886,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of h.
-        
         unimplemented!();
     }
 
@@ -7172,7 +6902,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of l.
-        
         unimplemented!();
     }
 
@@ -7189,7 +6918,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of d.
-        
         unimplemented!();
     }
 
@@ -7206,7 +6934,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of e.
-        
         unimplemented!();
     }
 
@@ -7223,7 +6950,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of b.
-        
         unimplemented!();
     }
 
@@ -7240,7 +6966,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of c.
-        
         unimplemented!();
     }
 
@@ -7257,7 +6982,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of a.
-        
         unimplemented!();
     }
 
@@ -7274,7 +6998,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of l.
-        
         unimplemented!();
     }
 
@@ -7291,7 +7014,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of (hl).
-        
         unimplemented!();
     }
 
@@ -7308,7 +7030,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of e.
-        
         unimplemented!();
     }
 
@@ -7325,7 +7046,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of h.
-        
         unimplemented!();
     }
 
@@ -7342,7 +7062,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of d.
-        
         unimplemented!();
     }
 
@@ -7359,7 +7078,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7376,7 +7094,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7393,7 +7110,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7410,7 +7126,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7427,7 +7142,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7444,7 +7158,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7461,7 +7174,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7478,7 +7190,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into d.
-        
         unimplemented!();
     }
 
@@ -7495,7 +7206,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7512,7 +7222,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into e.
-        
         unimplemented!();
     }
 
@@ -7529,7 +7238,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of e.
-        
         unimplemented!();
     }
 
@@ -7546,7 +7254,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of h.
-        
         unimplemented!();
     }
 
@@ -7563,7 +7270,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of d.
-        
         unimplemented!();
     }
 
@@ -7580,7 +7286,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of a.
-        
         unimplemented!();
     }
 
@@ -7597,7 +7302,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of l.
-        
         unimplemented!();
     }
 
@@ -7614,7 +7318,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of (hl).
-        
         unimplemented!();
     }
 
@@ -7630,8 +7333,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   sp is decremented and b is stored into the memory location pointed to by sp. sp is decremented again and c is stored into the memory location pointed to by sp.
-        
+        //!   sp is decremented and b is stored into the memory location pointed
+        //!   to by sp. sp is decremented again and c is stored into the memory
+        //!   location pointed to by sp.
         unimplemented!();
     }
 
@@ -7647,8 +7351,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
-        
+        //!   If condition cc is true, the current pc value plus three is pushed
+        //!   onto the stack, then is loaded with **.
         unimplemented!();
     }
 
@@ -7664,8 +7368,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 00h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 00h.
         unimplemented!();
     }
 
@@ -7682,7 +7386,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds * to a.
-        
         unimplemented!();
     }
 
@@ -7698,8 +7401,9 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The memory location pointed to by sp is stored into c and sp is incremented. The memory location pointed to by sp is stored into b and sp is incremented again.
-        
+        //!   The memory location pointed to by sp is stored into c and sp is
+        //!   incremented. The memory location pointed to by sp is stored into b
+        //!   and sp is incremented again.
         unimplemented!();
     }
 
@@ -7716,7 +7420,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -7733,7 +7436,6 @@
         //!   - C: Preserved
         //! Description:
         //!   ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -7750,7 +7452,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -7767,7 +7468,6 @@
         //!   - C: Preserved
         //! Description:
         //!   The top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -7784,7 +7484,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
-        
         unimplemented!();
     }
 
@@ -7801,7 +7500,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of a.
-        
         unimplemented!();
     }
 
@@ -7818,7 +7516,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of e.
-        
         unimplemented!();
     }
 
@@ -7835,7 +7532,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of l.
-        
         unimplemented!();
     }
 
@@ -7852,7 +7548,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of (hl).
-        
         unimplemented!();
     }
 
@@ -7869,7 +7564,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of e.
-        
         unimplemented!();
     }
 
@@ -7886,7 +7580,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of h.
-        
         unimplemented!();
     }
 
@@ -7903,7 +7596,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of h.
-        
         unimplemented!();
     }
 
@@ -7920,7 +7612,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of d.
-        
         unimplemented!();
     }
 
@@ -7937,7 +7628,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of b.
-        
         unimplemented!();
     }
 
@@ -7954,7 +7644,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of c.
-        
         unimplemented!();
     }
 
@@ -7971,7 +7660,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of d.
-        
         unimplemented!();
     }
 
@@ -7988,7 +7676,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of b.
-        
         unimplemented!();
     }
 
@@ -8005,7 +7692,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of c.
-        
         unimplemented!();
     }
 
@@ -8022,7 +7708,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of h.
-        
         unimplemented!();
     }
 
@@ -8039,7 +7724,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of l.
-        
         unimplemented!();
     }
 
@@ -8056,7 +7740,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of (hl).
-        
         unimplemented!();
     }
 
@@ -8073,7 +7756,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of a.
-        
         unimplemented!();
     }
 
@@ -8090,7 +7772,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of b.
-        
         unimplemented!();
     }
 
@@ -8107,7 +7788,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of c.
-        
         unimplemented!();
     }
 
@@ -8124,7 +7804,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of d.
-        
         unimplemented!();
     }
 
@@ -8141,7 +7820,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of e.
-        
         unimplemented!();
     }
 
@@ -8158,7 +7836,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of l.
-        
         unimplemented!();
     }
 
@@ -8175,7 +7852,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of (hl).
-        
         unimplemented!();
     }
 
@@ -8192,7 +7868,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of a.
-        
         unimplemented!();
     }
 
@@ -8209,7 +7884,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of d.
-        
         unimplemented!();
     }
 
@@ -8226,7 +7900,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of e.
-        
         unimplemented!();
     }
 
@@ -8243,7 +7916,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of h.
-        
         unimplemented!();
     }
 
@@ -8260,7 +7932,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of (hl).
-        
         unimplemented!();
     }
 
@@ -8277,7 +7948,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of a.
-        
         unimplemented!();
     }
 
@@ -8294,7 +7964,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of h.
-        
         unimplemented!();
     }
 
@@ -8311,7 +7980,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of l.
-        
         unimplemented!();
     }
 
@@ -8328,7 +7996,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of d.
-        
         unimplemented!();
     }
 
@@ -8345,7 +8012,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of e.
-        
         unimplemented!();
     }
 
@@ -8362,7 +8028,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of b.
-        
         unimplemented!();
     }
 
@@ -8379,7 +8044,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of c.
-        
         unimplemented!();
     }
 
@@ -8396,7 +8060,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of b.
-        
         unimplemented!();
     }
 
@@ -8413,7 +8076,6 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of c.
-        
         unimplemented!();
     }
 
@@ -8430,7 +8092,6 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds * and the carry flag to a.
-        
         unimplemented!();
     }
 
@@ -8446,8 +8107,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus three is pushed onto the stack, then is loaded with **.
-        
+        //!   The current pc value plus three is pushed onto the stack, then is
+        //!   loaded with **.
         unimplemented!();
     }
 
@@ -8463,8 +8124,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   The current pc value plus one is pushed onto the stack, then is loaded with 08h.
-        
+        //!   The current pc value plus one is pushed onto the stack, then is
+        //!   loaded with 08h.
         unimplemented!();
     }
 
@@ -8481,7 +8142,6 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
-        
         unimplemented!();
     }
 
@@ -8497,8 +8157,8 @@
         //!   - H: Preserved
         //!   - C: Preserved
         //! Description:
-        //!   If condition cc is true, the current pc value plus three is pushed onto the stack, then is loaded with **.
-        
+        //!   If condition cc is true, the current pc value plus three is pushed
+        //!   onto the stack, then is loaded with **.
         unimplemented!();
     }
 
@@ -8515,7 +8175,6 @@
         //!   - C: Preserved
         //! Description:
         //!   BITS instruction prefix
-        
         unimplemented!();
     }
 
