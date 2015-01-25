@@ -149,16 +149,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 20h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x20;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_AND_0xE6(&mut self) {
@@ -3876,16 +3876,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 18h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x18;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_DEC_0x35(&mut self) {
@@ -4517,16 +4517,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 10h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x10;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_RET_0xD8(&mut self) {
@@ -7626,16 +7626,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 28h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x28;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_XOR_0xEE(&mut self) {
@@ -9840,16 +9840,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 30h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x30;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_SET_0xCBE2(&mut self) {
@@ -10563,16 +10563,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 38h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x38;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_SRL_0xCB3A(&mut self) {
@@ -12450,16 +12450,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 00h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x00;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_ADD_0xC6(&mut self) {
@@ -13724,16 +13724,16 @@ impl Cpu {
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 08h.
 
-        unimplemented!();
+        // Push next instruction address on the stack
+        self.sp -= 2;
+        self.mmu.write16(self.sp, self.pc + 1);
 
-        // Update flags
+        // Update program counter
+        self.pc = 0x08;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_JP_0xCA(&mut self) {
