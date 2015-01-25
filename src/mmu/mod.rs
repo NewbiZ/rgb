@@ -57,9 +57,8 @@ impl Mmu {
 // ==============================================
 
 // Type is formattable to string
-impl fmt::String for Mmu {
+impl fmt::Debug for Mmu {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Mmu {\n");
-        f.write_str("}\n")
+        f.write_str("Mmu { memory: [...] }")
     }
 }

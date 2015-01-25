@@ -1,45 +1,9 @@
 use super::super::*;
-use super::super::super::mmu::*;
 
 #[test]
 fn cpu_new() {
     // Check that a newly created Cpu is zero initialized
-    let mut m = Mmu::new();
-    let c = Cpu::new(&mut m);
-    assert_eq!(c.a,  0);
-    assert_eq!(c.b,  0);
-    assert_eq!(c.c,  0);
-    assert_eq!(c.d,  0);
-    assert_eq!(c.e,  0);
-    assert_eq!(c.h,  0);
-    assert_eq!(c.l,  0);
-    assert_eq!(c.f,  Flag::None as u8);
-    assert_eq!(c.pc, 0);
-    assert_eq!(c.sp, 0);
-    assert_eq!(c.m,  0);
-    assert_eq!(c.t,  0);
-}
-
-#[test]
-fn cpu_reset() {
-    // Check that reset() will zero initialize all fields
-    let mut m = Mmu::new();
-    let mut c = Cpu::new(&mut m);
-    c.a  = 1;
-    c.b  = 1;
-    c.c  = 1;
-    c.d  = 1;
-    c.e  = 1;
-    c.h  = 1;
-    c.l  = 1;
-    c.f  = Flag::Carry as u8;
-    c.pc = 1;
-    c.sp = 1;
-    c.m  = 1;
-    c.t  = 1;
-
-    c.reset();
-
+    let c = Cpu::new();
     assert_eq!(c.a,  0);
     assert_eq!(c.b,  0);
     assert_eq!(c.c,  0);
@@ -56,8 +20,7 @@ fn cpu_reset() {
 
 #[test]
 fn cpu_instr_0x83() {
-    let mut m = Mmu::new();
-    let mut c = Cpu::new(&mut m);
+    let mut c = Cpu::new();
 
     c.a = 42;
     c.e = 42;
@@ -66,7 +29,7 @@ fn cpu_instr_0x83() {
     assert_eq!(c.e, 42);
     assert_eq!(c.f, Flag::None as u8);
 
-    c.reset();
+    c = Cpu::new();
 
     c.a = 250;
     c.e = 5;

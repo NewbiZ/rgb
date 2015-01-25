@@ -113,7 +113,7 @@ s += '    let opcodes = BTreeMap::new();\n'
 for op in opcodes.items():
   s += '\n'
   # PROTOTYPE
-  s += '    pub fn instr_' + op[1]['command'] + '_' + op[0] + '() {\n'
+  s += '    pub fn instr_' + op[1]['command'] + '_' + op[0] + '(&mut self) {\n'
   # DOCUMENTATION
   s += '        //! Prototype: ' + op[1]['command'] + ' ' + ', '.join(op[1]['args']) + '\n'
   s += '        //! Mnemonic:  ' + op[1]['command'] + '\n'
@@ -131,7 +131,33 @@ for op in opcodes.items():
   s += '\n        //!   ' + '\n        //!   '.join(textwrap.wrap(doc, 66))
   # STUB
   s += '\n'
+  s += '\n'
   s += '        unimplemented!();\n'
+  s += '\n'
+  s += '        // Update flags\n'
+  if op[1]['flags'][0]=='0':
+    s += '        self.f &= !(Flag::Zero as u8);\n'
+  elif op[1]['flags'][0]=='1':
+    s += '        self.f |= Flag::Zero as u8;\n'
+  if op[1]['flags'][1]=='0':
+    s += '        self.f &= !(Flag::Operation as u8);\n'
+  elif op[1]['flags'][1]=='1':
+    s += '        self.f |= Flag::Operation as u8;\n'
+  if op[1]['flags'][2]=='0':
+    s += '        self.f &= !(Flag::HalfCarry as u8);\n'
+  elif op[1]['flags'][2]=='1':
+    s += '        self.f |= Flag::HalfCarry as u8;\n'
+  if op[1]['flags'][3]=='0':
+    s += '        self.f &= !(Flag::Carry as u8);\n'
+  elif op[1]['flags'][3]=='1':
+    s += '        self.f |= Flag::Carry as u8;\n'
+  s += '\n'
+  s += '        // Update clocks\n'
+  s += '        self.m += ' + str(op[1]['cycles'][0]/4) + ';\n'
+  s += '        self.t += ' + str(op[1]['cycles'][0]) + ';\n'
+  s += '\n'
+  s += '        // Update program counter\n'
+  s += '        self.pc += ' + str(op[1]['size']) + ';\n'
   s += '    }\n'
 
 s += '\n'

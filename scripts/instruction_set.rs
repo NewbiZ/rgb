@@ -2,7 +2,7 @@
 
     let opcodes = BTreeMap::new();
 
-    pub fn instr_ADD_0x85() {
+    pub fn instr_ADD_0x85(&mut self) {
         //! Prototype: ADD A, L
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -15,10 +15,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds l to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RST_0xE7() {
+    pub fn instr_RST_0xE7(&mut self) {
         //! Prototype: RST 20H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -32,10 +43,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 20h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xE6() {
+    pub fn instr_AND_0xE6(&mut self) {
         //! Prototype: AND d8
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -48,10 +69,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with *.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JR_0x28() {
+    pub fn instr_JR_0x28(&mut self) {
         //! Prototype: JR Z, r8
         //! Mnemonic:  JR
         //! Size:      1 byte
@@ -65,10 +99,20 @@
         //! Description:
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x29() {
+    pub fn instr_ADD_0x29(&mut self) {
         //! Prototype: ADD HL, HL
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -81,10 +125,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of hl is added to hl.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x22() {
+    pub fn instr_LD_0x22(&mut self) {
         //! Prototype: LD (HL+), A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -97,10 +152,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores hl into the memory location pointed to by **.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x23() {
+    pub fn instr_INC_0x23(&mut self) {
         //! Prototype: INC HL
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -113,10 +178,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to hl.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JR_0x20() {
+    pub fn instr_JR_0x20(&mut self) {
         //! Prototype: JR NZ, r8
         //! Mnemonic:  JR
         //! Size:      1 byte
@@ -130,10 +205,20 @@
         //! Description:
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x21() {
+    pub fn instr_LD_0x21(&mut self) {
         //! Prototype: LD HL, d16
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -146,10 +231,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into hl.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x26() {
+    pub fn instr_LD_0x26(&mut self) {
         //! Prototype: LD H, d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -162,10 +257,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DAA_0x27() {
+    pub fn instr_DAA_0x27(&mut self) {
         //! Prototype: DAA 
         //! Mnemonic:  DAA
         //! Size:      1 byte
@@ -178,10 +283,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adjusts a for BCD addition and subtraction operations.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x24() {
+    pub fn instr_INC_0x24(&mut self) {
         //! Prototype: INC H
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -194,10 +310,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x25() {
+    pub fn instr_DEC_0x25(&mut self) {
         //! Prototype: DEC H
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -210,10 +337,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from h.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JP_0xE9() {
+    pub fn instr_JP_0xE9(&mut self) {
         //! Prototype: JP (HL)
         //! Mnemonic:  JP
         //! Size:      1 byte
@@ -226,10 +364,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value of hl into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0xE8() {
+    pub fn instr_ADD_0xE8(&mut self) {
         //! Prototype: ADD SP, r8
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -242,10 +390,22 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Zero as u8);
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RR_0xCB18() {
+    pub fn instr_RR_0xCB18(&mut self) {
         //! Prototype: RR B
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -260,10 +420,22 @@
         //!   The contents of b are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_DEC_0x2B() {
+    pub fn instr_DEC_0x2B(&mut self) {
         //! Prototype: DEC HL
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -276,10 +448,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from hl.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x2C() {
+    pub fn instr_INC_0x2C(&mut self) {
         //! Prototype: INC L
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -292,10 +474,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x2A() {
+    pub fn instr_LD_0x2A(&mut self) {
         //! Prototype: LD A, (HL+)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -308,10 +501,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by ** into hl.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CPL_0x2F() {
+    pub fn instr_CPL_0x2F(&mut self) {
         //! Prototype: CPL 
         //! Mnemonic:  CPL
         //! Size:      1 byte
@@ -324,10 +527,22 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are inverted (one's complement).
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x2D() {
+    pub fn instr_DEC_0x2D(&mut self) {
         //! Prototype: DEC L
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -340,10 +555,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from l.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x2E() {
+    pub fn instr_LD_0x2E(&mut self) {
         //! Prototype: LD L, d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -356,10 +582,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RR_0xCB19() {
+    pub fn instr_RR_0xCB19(&mut self) {
         //! Prototype: RR C
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -374,10 +610,22 @@
         //!   The contents of c are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB2F() {
+    pub fn instr_SRA_0xCB2F(&mut self) {
         //! Prototype: SRA A
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -392,10 +640,23 @@
         //!   The contents of a are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB2E() {
+    pub fn instr_SRA_0xCB2E(&mut self) {
         //! Prototype: SRA (HL)
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -410,10 +671,23 @@
         //!   The contents of (hl) are shifted right one bit position. The
         //!   contents of bit 0 are copied to the carry flag and the previous
         //!   contents of bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB2D() {
+    pub fn instr_SRA_0xCB2D(&mut self) {
         //! Prototype: SRA L
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -428,10 +702,23 @@
         //!   The contents of l are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB2C() {
+    pub fn instr_SRA_0xCB2C(&mut self) {
         //! Prototype: SRA H
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -446,10 +733,23 @@
         //!   The contents of h are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB2B() {
+    pub fn instr_SRA_0xCB2B(&mut self) {
         //! Prototype: SRA E
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -464,10 +764,23 @@
         //!   The contents of e are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB2A() {
+    pub fn instr_SRA_0xCB2A(&mut self) {
         //! Prototype: SRA D
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -482,10 +795,23 @@
         //!   The contents of d are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB27() {
+    pub fn instr_SLA_0xCB27(&mut self) {
         //! Prototype: SLA A
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -500,10 +826,22 @@
         //!   The contents of a are shifted left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and a zero is put into bit
         //!   0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB26() {
+    pub fn instr_SLA_0xCB26(&mut self) {
         //! Prototype: SLA (HL)
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -518,10 +856,22 @@
         //!   The contents of (hl) are shifted left one bit position. The
         //!   contents of bit 7 are copied to the carry flag and a zero is put
         //!   into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB25() {
+    pub fn instr_SLA_0xCB25(&mut self) {
         //! Prototype: SLA L
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -536,10 +886,22 @@
         //!   The contents of l are shifted left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and a zero is put into bit
         //!   0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB24() {
+    pub fn instr_SLA_0xCB24(&mut self) {
         //! Prototype: SLA H
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -554,10 +916,22 @@
         //!   The contents of h are shifted left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and a zero is put into bit
         //!   0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB23() {
+    pub fn instr_SLA_0xCB23(&mut self) {
         //! Prototype: SLA E
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -572,10 +946,22 @@
         //!   The contents of e are shifted left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and a zero is put into bit
         //!   0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB22() {
+    pub fn instr_SLA_0xCB22(&mut self) {
         //! Prototype: SLA D
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -590,10 +976,22 @@
         //!   The contents of d are shifted left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and a zero is put into bit
         //!   0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB21() {
+    pub fn instr_SLA_0xCB21(&mut self) {
         //! Prototype: SLA C
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -608,10 +1006,22 @@
         //!   The contents of c are shifted left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and a zero is put into bit
         //!   0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SLA_0xCB20() {
+    pub fn instr_SLA_0xCB20(&mut self) {
         //! Prototype: SLA B
         //! Mnemonic:  SLA
         //! Size:      2 bytes
@@ -626,10 +1036,22 @@
         //!   The contents of b are shifted left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and a zero is put into bit
         //!   0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB29() {
+    pub fn instr_SRA_0xCB29(&mut self) {
         //! Prototype: SRA C
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -644,10 +1066,23 @@
         //!   The contents of c are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRA_0xCB28() {
+    pub fn instr_SRA_0xCB28(&mut self) {
         //! Prototype: SRA B
         //! Mnemonic:  SRA
         //! Size:      2 bytes
@@ -662,10 +1097,23 @@
         //!   The contents of b are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   bit 7 are unchanged.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0x68() {
+    pub fn instr_LD_0x68(&mut self) {
         //! Prototype: LD L, B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -678,10 +1126,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x69() {
+    pub fn instr_LD_0x69(&mut self) {
         //! Prototype: LD L, C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -694,10 +1152,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x66() {
+    pub fn instr_LD_0x66(&mut self) {
         //! Prototype: LD H, (HL)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -710,10 +1178,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x67() {
+    pub fn instr_LD_0x67(&mut self) {
         //! Prototype: LD H, A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -726,10 +1204,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x64() {
+    pub fn instr_LD_0x64(&mut self) {
         //! Prototype: LD H, H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -742,10 +1230,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x65() {
+    pub fn instr_LD_0x65(&mut self) {
         //! Prototype: LD H, L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -758,10 +1256,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x62() {
+    pub fn instr_LD_0x62(&mut self) {
         //! Prototype: LD H, D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -774,10 +1282,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x63() {
+    pub fn instr_LD_0x63(&mut self) {
         //! Prototype: LD H, E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -790,10 +1308,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x60() {
+    pub fn instr_LD_0x60(&mut self) {
         //! Prototype: LD H, B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -806,10 +1334,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x61() {
+    pub fn instr_LD_0x61(&mut self) {
         //! Prototype: LD H, C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -822,10 +1360,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x6F() {
+    pub fn instr_LD_0x6F(&mut self) {
         //! Prototype: LD L, A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -838,10 +1386,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x6D() {
+    pub fn instr_LD_0x6D(&mut self) {
         //! Prototype: LD L, L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -854,10 +1412,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x6E() {
+    pub fn instr_LD_0x6E(&mut self) {
         //! Prototype: LD L, (HL)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -870,10 +1438,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x6B() {
+    pub fn instr_LD_0x6B(&mut self) {
         //! Prototype: LD L, E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -886,10 +1464,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x6C() {
+    pub fn instr_LD_0x6C(&mut self) {
         //! Prototype: LD L, H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -902,10 +1490,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x6A() {
+    pub fn instr_LD_0x6A(&mut self) {
         //! Prototype: LD L, D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -918,10 +1516,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_BIT_0xCB6C() {
+    pub fn instr_BIT_0xCB6C(&mut self) {
         //! Prototype: BIT 5, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -934,10 +1542,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB6B() {
+    pub fn instr_BIT_0xCB6B(&mut self) {
         //! Prototype: BIT 5, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -950,10 +1570,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB6A() {
+    pub fn instr_BIT_0xCB6A(&mut self) {
         //! Prototype: BIT 5, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -966,10 +1598,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB6F() {
+    pub fn instr_BIT_0xCB6F(&mut self) {
         //! Prototype: BIT 5, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -982,10 +1626,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB6E() {
+    pub fn instr_BIT_0xCB6E(&mut self) {
         //! Prototype: BIT 5, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -998,10 +1654,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB6D() {
+    pub fn instr_BIT_0xCB6D(&mut self) {
         //! Prototype: BIT 5, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1014,10 +1682,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBDA() {
+    pub fn instr_SET_0xCBDA(&mut self) {
         //! Prototype: SET 3, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1030,10 +1710,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBDC() {
+    pub fn instr_SET_0xCBDC(&mut self) {
         //! Prototype: SET 3, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1046,10 +1736,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBDB() {
+    pub fn instr_SET_0xCBDB(&mut self) {
         //! Prototype: SET 3, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1062,10 +1762,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBDE() {
+    pub fn instr_SET_0xCBDE(&mut self) {
         //! Prototype: SET 3, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1078,10 +1788,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBDD() {
+    pub fn instr_SET_0xCBDD(&mut self) {
         //! Prototype: SET 3, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1094,10 +1814,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBDF() {
+    pub fn instr_SET_0xCBDF(&mut self) {
         //! Prototype: SET 3, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1110,10 +1840,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_ADD_0x84() {
+    pub fn instr_ADD_0x84(&mut self) {
         //! Prototype: ADD A, H
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -1126,10 +1866,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds h to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JP_0xDA() {
+    pub fn instr_JP_0xDA(&mut self) {
         //! Prototype: JP C, a16
         //! Mnemonic:  JP
         //! Size:      1 byte
@@ -1142,10 +1893,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x86() {
+    pub fn instr_ADD_0x86(&mut self) {
         //! Prototype: ADD A, (HL)
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -1158,10 +1919,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds (hl) to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CALL_0xDC() {
+    pub fn instr_CALL_0xDC(&mut self) {
         //! Prototype: CALL C, a16
         //! Mnemonic:  CALL
         //! Size:      1 byte
@@ -1175,10 +1947,20 @@
         //! Description:
         //!   If condition cc is true, the current pc value plus three is pushed
         //!   onto the stack, then is loaded with **.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x80() {
+    pub fn instr_ADD_0x80(&mut self) {
         //! Prototype: ADD A, B
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -1191,10 +1973,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds b to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x81() {
+    pub fn instr_ADD_0x81(&mut self) {
         //! Prototype: ADD A, C
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -1207,10 +2000,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds c to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x82() {
+    pub fn instr_ADD_0x82(&mut self) {
         //! Prototype: ADD A, D
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -1223,10 +2027,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds d to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x83() {
+    pub fn instr_ADD_0x83(&mut self) {
         //! Prototype: ADD A, E
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -1239,10 +2054,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds e to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RR_0xCB1F() {
+    pub fn instr_RR_0xCB1F(&mut self) {
         //! Prototype: RR A
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -1257,10 +2083,22 @@
         //!   The contents of a are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RR_0xCB1D() {
+    pub fn instr_RR_0xCB1D(&mut self) {
         //! Prototype: RR L
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -1275,10 +2113,22 @@
         //!   The contents of l are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RR_0xCB1E() {
+    pub fn instr_RR_0xCB1E(&mut self) {
         //! Prototype: RR (HL)
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -1293,10 +2143,22 @@
         //!   The contents of (hl) are rotated right one bit position. The
         //!   contents of bit 0 are copied to the carry flag and the previous
         //!   contents of the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RR_0xCB1B() {
+    pub fn instr_RR_0xCB1B(&mut self) {
         //! Prototype: RR E
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -1311,10 +2173,22 @@
         //!   The contents of e are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RR_0xCB1C() {
+    pub fn instr_RR_0xCB1C(&mut self) {
         //! Prototype: RR H
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -1329,10 +2203,22 @@
         //!   The contents of h are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RR_0xCB1A() {
+    pub fn instr_RR_0xCB1A(&mut self) {
         //! Prototype: RR D
         //! Mnemonic:  RR
         //! Size:      2 bytes
@@ -1347,10 +2233,22 @@
         //!   The contents of d are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RET_0xD0() {
+    pub fn instr_RET_0xD0(&mut self) {
         //! Prototype: RET NC
         //! Mnemonic:  RET
         //! Size:      1 byte
@@ -1363,10 +2261,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADC_0x8E() {
+    pub fn instr_ADC_0x8E(&mut self) {
         //! Prototype: ADC A, (HL)
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -1379,10 +2287,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds (hl) and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADC_0x8F() {
+    pub fn instr_ADC_0x8F(&mut self) {
         //! Prototype: ADC A, A
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -1395,10 +2314,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds a and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CALL_0xD4() {
+    pub fn instr_CALL_0xD4(&mut self) {
         //! Prototype: CALL NC, a16
         //! Mnemonic:  CALL
         //! Size:      1 byte
@@ -1412,10 +2342,20 @@
         //! Description:
         //!   If condition cc is true, the current pc value plus three is pushed
         //!   onto the stack, then is loaded with **.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADC_0x8A() {
+    pub fn instr_ADC_0x8A(&mut self) {
         //! Prototype: ADC A, D
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -1428,10 +2368,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds d and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADC_0x8B() {
+    pub fn instr_ADC_0x8B(&mut self) {
         //! Prototype: ADC A, E
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -1444,10 +2395,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds e and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADC_0x8C() {
+    pub fn instr_ADC_0x8C(&mut self) {
         //! Prototype: ADC A, H
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -1460,10 +2422,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds h and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RL_0xCB16() {
+    pub fn instr_RL_0xCB16(&mut self) {
         //! Prototype: RL (HL)
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1478,10 +2451,22 @@
         //!   The contents of (hl) are rotated left one bit position. The
         //!   contents of bit 7 are copied to the carry flag and the previous
         //!   contents of the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RL_0xCB17() {
+    pub fn instr_RL_0xCB17(&mut self) {
         //! Prototype: RL A
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1496,10 +2481,22 @@
         //!   The contents of a are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RL_0xCB14() {
+    pub fn instr_RL_0xCB14(&mut self) {
         //! Prototype: RL H
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1514,10 +2511,22 @@
         //!   The contents of h are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RL_0xCB15() {
+    pub fn instr_RL_0xCB15(&mut self) {
         //! Prototype: RL L
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1532,10 +2541,22 @@
         //!   The contents of l are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RL_0xCB12() {
+    pub fn instr_RL_0xCB12(&mut self) {
         //! Prototype: RL D
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1550,10 +2571,22 @@
         //!   The contents of d are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RL_0xCB13() {
+    pub fn instr_RL_0xCB13(&mut self) {
         //! Prototype: RL E
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1568,10 +2601,22 @@
         //!   The contents of e are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RL_0xCB10() {
+    pub fn instr_RL_0xCB10(&mut self) {
         //! Prototype: RL B
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1586,10 +2631,22 @@
         //!   The contents of b are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RL_0xCB11() {
+    pub fn instr_RL_0xCB11(&mut self) {
         //! Prototype: RL C
         //! Mnemonic:  RL
         //! Size:      2 bytes
@@ -1604,10 +2661,22 @@
         //!   The contents of c are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD1() {
+    pub fn instr_SET_0xCBD1(&mut self) {
         //! Prototype: SET 2, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1620,10 +2689,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD0() {
+    pub fn instr_SET_0xCBD0(&mut self) {
         //! Prototype: SET 2, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1636,10 +2715,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD3() {
+    pub fn instr_SET_0xCBD3(&mut self) {
         //! Prototype: SET 2, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1652,10 +2741,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD2() {
+    pub fn instr_SET_0xCBD2(&mut self) {
         //! Prototype: SET 2, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1668,10 +2767,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD5() {
+    pub fn instr_SET_0xCBD5(&mut self) {
         //! Prototype: SET 2, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1684,10 +2793,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD4() {
+    pub fn instr_SET_0xCBD4(&mut self) {
         //! Prototype: SET 2, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1700,10 +2819,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD7() {
+    pub fn instr_SET_0xCBD7(&mut self) {
         //! Prototype: SET 2, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1716,10 +2845,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD6() {
+    pub fn instr_SET_0xCBD6(&mut self) {
         //! Prototype: SET 2, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1732,10 +2871,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 2 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD9() {
+    pub fn instr_SET_0xCBD9(&mut self) {
         //! Prototype: SET 3, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1748,10 +2897,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBD8() {
+    pub fn instr_SET_0xCBD8(&mut self) {
         //! Prototype: SET 3, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -1764,10 +2923,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 3 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB69() {
+    pub fn instr_BIT_0xCB69(&mut self) {
         //! Prototype: BIT 5, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1780,10 +2949,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB68() {
+    pub fn instr_BIT_0xCB68(&mut self) {
         //! Prototype: BIT 5, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1796,10 +2977,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 5 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB63() {
+    pub fn instr_BIT_0xCB63(&mut self) {
         //! Prototype: BIT 4, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1812,10 +3005,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB62() {
+    pub fn instr_BIT_0xCB62(&mut self) {
         //! Prototype: BIT 4, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1828,10 +3033,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB61() {
+    pub fn instr_BIT_0xCB61(&mut self) {
         //! Prototype: BIT 4, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1844,10 +3061,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB60() {
+    pub fn instr_BIT_0xCB60(&mut self) {
         //! Prototype: BIT 4, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1860,10 +3089,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB67() {
+    pub fn instr_BIT_0xCB67(&mut self) {
         //! Prototype: BIT 4, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1876,10 +3117,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB66() {
+    pub fn instr_BIT_0xCB66(&mut self) {
         //! Prototype: BIT 4, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1892,10 +3145,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB65() {
+    pub fn instr_BIT_0xCB65(&mut self) {
         //! Prototype: BIT 4, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1908,10 +3173,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB64() {
+    pub fn instr_BIT_0xCB64(&mut self) {
         //! Prototype: BIT 4, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -1924,10 +3201,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 4 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB85() {
+    pub fn instr_RES_0xCB85(&mut self) {
         //! Prototype: RES 0, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -1940,10 +3229,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB84() {
+    pub fn instr_RES_0xCB84(&mut self) {
         //! Prototype: RES 0, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -1956,10 +3255,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB87() {
+    pub fn instr_RES_0xCB87(&mut self) {
         //! Prototype: RES 0, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -1972,10 +3281,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB86() {
+    pub fn instr_RES_0xCB86(&mut self) {
         //! Prototype: RES 0, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -1988,10 +3307,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB81() {
+    pub fn instr_RES_0xCB81(&mut self) {
         //! Prototype: RES 0, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2004,10 +3333,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB80() {
+    pub fn instr_RES_0xCB80(&mut self) {
         //! Prototype: RES 0, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2020,10 +3359,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB83() {
+    pub fn instr_RES_0xCB83(&mut self) {
         //! Prototype: RES 0, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2036,10 +3385,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB82() {
+    pub fn instr_RES_0xCB82(&mut self) {
         //! Prototype: RES 0, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2052,10 +3411,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 0 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB89() {
+    pub fn instr_RES_0xCB89(&mut self) {
         //! Prototype: RES 1, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2068,10 +3437,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB88() {
+    pub fn instr_RES_0xCB88(&mut self) {
         //! Prototype: RES 1, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2084,10 +3463,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0x3E() {
+    pub fn instr_LD_0x3E(&mut self) {
         //! Prototype: LD A, d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2100,10 +3489,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x3D() {
+    pub fn instr_DEC_0x3D(&mut self) {
         //! Prototype: DEC A
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -2116,10 +3515,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CCF_0x3F() {
+    pub fn instr_CCF_0x3F(&mut self) {
         //! Prototype: CCF 
         //! Mnemonic:  CCF
         //! Size:      1 byte
@@ -2132,10 +3542,22 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Inverts the carry flag.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x3A() {
+    pub fn instr_LD_0x3A(&mut self) {
         //! Prototype: LD A, (HL-)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2148,10 +3570,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by ** into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x3C() {
+    pub fn instr_INC_0x3C(&mut self) {
         //! Prototype: INC A
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -2164,10 +3596,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x3B() {
+    pub fn instr_DEC_0x3B(&mut self) {
         //! Prototype: DEC SP
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -2180,10 +3623,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x87() {
+    pub fn instr_ADD_0x87(&mut self) {
         //! Prototype: ADD A, A
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -2196,10 +3649,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds a to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0xDE() {
+    pub fn instr_SBC_0xDE(&mut self) {
         //! Prototype: SBC A, d8
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -2212,10 +3676,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts * and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RST_0xDF() {
+    pub fn instr_RST_0xDF(&mut self) {
         //! Prototype: RST 18H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -2229,10 +3704,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 18h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x35() {
+    pub fn instr_DEC_0x35(&mut self) {
         //! Prototype: DEC (HL)
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -2245,10 +3730,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x34() {
+    pub fn instr_INC_0x34(&mut self) {
         //! Prototype: INC (HL)
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -2261,10 +3757,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SCF_0x37() {
+    pub fn instr_SCF_0x37(&mut self) {
         //! Prototype: SCF 
         //! Mnemonic:  SCF
         //! Size:      1 byte
@@ -2277,10 +3784,23 @@
         //!   - C: Force set (1)
         //! Description:
         //!   Sets the carry flag.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f |= Flag::Carry as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x36() {
+    pub fn instr_LD_0x36(&mut self) {
         //! Prototype: LD (HL), d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2293,10 +3813,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x31() {
+    pub fn instr_LD_0x31(&mut self) {
         //! Prototype: LD SP, d16
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2309,10 +3839,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JR_0x30() {
+    pub fn instr_JR_0x30(&mut self) {
         //! Prototype: JR NC, r8
         //! Mnemonic:  JR
         //! Size:      1 byte
@@ -2326,10 +3866,20 @@
         //! Description:
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x33() {
+    pub fn instr_INC_0x33(&mut self) {
         //! Prototype: INC SP
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -2342,10 +3892,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x32() {
+    pub fn instr_LD_0x32(&mut self) {
         //! Prototype: LD (HL-), A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2358,10 +3918,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores a into the memory location pointed to by **.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x39() {
+    pub fn instr_ADD_0x39(&mut self) {
         //! Prototype: ADD HL, SP
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -2374,10 +3944,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of hl is added to hl.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JR_0x38() {
+    pub fn instr_JR_0x38(&mut self) {
         //! Prototype: JR C, r8
         //! Mnemonic:  JR
         //! Size:      1 byte
@@ -2391,10 +3972,20 @@
         //! Description:
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RES_0xCB8E() {
+    pub fn instr_RES_0xCB8E(&mut self) {
         //! Prototype: RES 1, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2407,10 +3998,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB8D() {
+    pub fn instr_RES_0xCB8D(&mut self) {
         //! Prototype: RES 1, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2423,10 +4024,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB8F() {
+    pub fn instr_RES_0xCB8F(&mut self) {
         //! Prototype: RES 1, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2439,10 +4050,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB8A() {
+    pub fn instr_RES_0xCB8A(&mut self) {
         //! Prototype: RES 1, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2455,10 +4076,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB8C() {
+    pub fn instr_RES_0xCB8C(&mut self) {
         //! Prototype: RES 1, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2471,10 +4102,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB8B() {
+    pub fn instr_RES_0xCB8B(&mut self) {
         //! Prototype: RES 1, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -2487,10 +4128,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 1 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_ADC_0x88() {
+    pub fn instr_ADC_0x88(&mut self) {
         //! Prototype: ADC A, B
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -2503,10 +4154,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds b and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADC_0x89() {
+    pub fn instr_ADC_0x89(&mut self) {
         //! Prototype: ADC A, C
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -2519,10 +4181,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds c and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADC_0x8D() {
+    pub fn instr_ADC_0x8D(&mut self) {
         //! Prototype: ADC A, L
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -2535,10 +4208,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds l and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_POP_0xD1() {
+    pub fn instr_POP_0xD1(&mut self) {
         //! Prototype: POP DE
         //! Mnemonic:  POP
         //! Size:      1 byte
@@ -2553,10 +4237,20 @@
         //!   The memory location pointed to by sp is stored into e and sp is
         //!   incremented. The memory location pointed to by sp is stored into d
         //!   and sp is incremented again.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JP_0xD2() {
+    pub fn instr_JP_0xD2(&mut self) {
         //! Prototype: JP NC, a16
         //! Mnemonic:  JP
         //! Size:      1 byte
@@ -2569,10 +4263,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_PUSH_0xD5() {
+    pub fn instr_PUSH_0xD5(&mut self) {
         //! Prototype: PUSH DE
         //! Mnemonic:  PUSH
         //! Size:      1 byte
@@ -2587,10 +4291,20 @@
         //!   sp is decremented and d is stored into the memory location pointed
         //!   to by sp. sp is decremented again and e is stored into the memory
         //!   location pointed to by sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0xD6() {
+    pub fn instr_SUB_0xD6(&mut self) {
         //! Prototype: SUB d8
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -2603,10 +4317,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts * from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RST_0xD7() {
+    pub fn instr_RST_0xD7(&mut self) {
         //! Prototype: RST 10H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -2620,10 +4345,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 10h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RET_0xD8() {
+    pub fn instr_RET_0xD8(&mut self) {
         //! Prototype: RET C
         //! Mnemonic:  RET
         //! Size:      1 byte
@@ -2636,10 +4371,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RETI_0xD9() {
+    pub fn instr_RETI_0xD9(&mut self) {
         //! Prototype: RETI 
         //! Mnemonic:  RETI
         //! Size:      1 byte
@@ -2653,10 +4398,20 @@
         //! Description:
         //!   Exchanges the 16-bit contents of bc, de, and hl with bc', de', and
         //!   hl'.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xA9() {
+    pub fn instr_XOR_0xA9(&mut self) {
         //! Prototype: XOR C
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -2669,10 +4424,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xA8() {
+    pub fn instr_XOR_0xA8(&mut self) {
         //! Prototype: XOR B
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -2685,10 +4453,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA7() {
+    pub fn instr_AND_0xA7(&mut self) {
         //! Prototype: AND A
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2701,10 +4482,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA6() {
+    pub fn instr_AND_0xA6(&mut self) {
         //! Prototype: AND (HL)
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2717,10 +4511,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA5() {
+    pub fn instr_AND_0xA5(&mut self) {
         //! Prototype: AND L
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2733,10 +4540,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA4() {
+    pub fn instr_AND_0xA4(&mut self) {
         //! Prototype: AND H
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2749,10 +4569,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA3() {
+    pub fn instr_AND_0xA3(&mut self) {
         //! Prototype: AND E
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2765,10 +4598,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA2() {
+    pub fn instr_AND_0xA2(&mut self) {
         //! Prototype: AND D
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2781,10 +4627,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA1() {
+    pub fn instr_AND_0xA1(&mut self) {
         //! Prototype: AND C
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2797,10 +4656,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_AND_0xA0() {
+    pub fn instr_AND_0xA0(&mut self) {
         //! Prototype: AND B
         //! Mnemonic:  AND
         //! Size:      1 byte
@@ -2813,10 +4685,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SET_0xCBC8() {
+    pub fn instr_SET_0xCBC8(&mut self) {
         //! Prototype: SET 1, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -2829,10 +4714,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC9() {
+    pub fn instr_SET_0xCBC9(&mut self) {
         //! Prototype: SET 1, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -2845,10 +4740,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0x7A() {
+    pub fn instr_LD_0x7A(&mut self) {
         //! Prototype: LD A, D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2861,10 +4766,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x7C() {
+    pub fn instr_LD_0x7C(&mut self) {
         //! Prototype: LD A, H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2877,10 +4792,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x7B() {
+    pub fn instr_LD_0x7B(&mut self) {
         //! Prototype: LD A, E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2893,10 +4818,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x7E() {
+    pub fn instr_LD_0x7E(&mut self) {
         //! Prototype: LD A, (HL)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2909,10 +4844,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x7D() {
+    pub fn instr_LD_0x7D(&mut self) {
         //! Prototype: LD A, L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2925,10 +4870,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x7F() {
+    pub fn instr_LD_0x7F(&mut self) {
         //! Prototype: LD A, A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -2941,10 +4896,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_BIT_0xCB52() {
+    pub fn instr_BIT_0xCB52(&mut self) {
         //! Prototype: BIT 2, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -2957,10 +4922,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB53() {
+    pub fn instr_BIT_0xCB53(&mut self) {
         //! Prototype: BIT 2, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -2973,10 +4950,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB50() {
+    pub fn instr_BIT_0xCB50(&mut self) {
         //! Prototype: BIT 2, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -2989,10 +4978,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB51() {
+    pub fn instr_BIT_0xCB51(&mut self) {
         //! Prototype: BIT 2, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3005,10 +5006,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB56() {
+    pub fn instr_BIT_0xCB56(&mut self) {
         //! Prototype: BIT 2, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3021,10 +5034,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB57() {
+    pub fn instr_BIT_0xCB57(&mut self) {
         //! Prototype: BIT 2, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3037,10 +5062,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB54() {
+    pub fn instr_BIT_0xCB54(&mut self) {
         //! Prototype: BIT 2, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3053,10 +5090,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB55() {
+    pub fn instr_BIT_0xCB55(&mut self) {
         //! Prototype: BIT 2, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3069,10 +5118,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 2 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC0() {
+    pub fn instr_SET_0xCBC0(&mut self) {
         //! Prototype: SET 0, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3085,10 +5146,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC1() {
+    pub fn instr_SET_0xCBC1(&mut self) {
         //! Prototype: SET 0, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3101,10 +5172,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB58() {
+    pub fn instr_BIT_0xCB58(&mut self) {
         //! Prototype: BIT 3, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3117,10 +5198,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC3() {
+    pub fn instr_SET_0xCBC3(&mut self) {
         //! Prototype: SET 0, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3133,10 +5226,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC4() {
+    pub fn instr_SET_0xCBC4(&mut self) {
         //! Prototype: SET 0, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3149,10 +5252,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC5() {
+    pub fn instr_SET_0xCBC5(&mut self) {
         //! Prototype: SET 0, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3165,10 +5278,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC6() {
+    pub fn instr_SET_0xCBC6(&mut self) {
         //! Prototype: SET 0, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3181,10 +5304,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC7() {
+    pub fn instr_SET_0xCBC7(&mut self) {
         //! Prototype: SET 0, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3197,10 +5330,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB5B() {
+    pub fn instr_BIT_0xCB5B(&mut self) {
         //! Prototype: BIT 3, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3213,10 +5356,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB5C() {
+    pub fn instr_BIT_0xCB5C(&mut self) {
         //! Prototype: BIT 3, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3229,10 +5384,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB5A() {
+    pub fn instr_BIT_0xCB5A(&mut self) {
         //! Prototype: BIT 3, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3245,10 +5412,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB5F() {
+    pub fn instr_BIT_0xCB5F(&mut self) {
         //! Prototype: BIT 3, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3261,10 +5440,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB5D() {
+    pub fn instr_BIT_0xCB5D(&mut self) {
         //! Prototype: BIT 3, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3277,10 +5468,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB5E() {
+    pub fn instr_BIT_0xCB5E(&mut self) {
         //! Prototype: BIT 3, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3293,10 +5496,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBCA() {
+    pub fn instr_SET_0xCBCA(&mut self) {
         //! Prototype: SET 1, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3309,10 +5524,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBCB() {
+    pub fn instr_SET_0xCBCB(&mut self) {
         //! Prototype: SET 1, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3325,10 +5550,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBCC() {
+    pub fn instr_SET_0xCBCC(&mut self) {
         //! Prototype: SET 1, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3341,10 +5576,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBCD() {
+    pub fn instr_SET_0xCBCD(&mut self) {
         //! Prototype: SET 1, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3357,10 +5602,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBCE() {
+    pub fn instr_SET_0xCBCE(&mut self) {
         //! Prototype: SET 1, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3373,10 +5628,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBCF() {
+    pub fn instr_SET_0xCBCF(&mut self) {
         //! Prototype: SET 1, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -3389,10 +5654,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 1 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0x79() {
+    pub fn instr_LD_0x79(&mut self) {
         //! Prototype: LD A, C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3405,10 +5680,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x78() {
+    pub fn instr_LD_0x78(&mut self) {
         //! Prototype: LD A, B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3421,10 +5706,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x71() {
+    pub fn instr_LD_0x71(&mut self) {
         //! Prototype: LD (HL), C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3437,10 +5732,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x70() {
+    pub fn instr_LD_0x70(&mut self) {
         //! Prototype: LD (HL), B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3453,10 +5758,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x73() {
+    pub fn instr_LD_0x73(&mut self) {
         //! Prototype: LD (HL), E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3469,10 +5784,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x72() {
+    pub fn instr_LD_0x72(&mut self) {
         //! Prototype: LD (HL), D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3485,10 +5810,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x75() {
+    pub fn instr_LD_0x75(&mut self) {
         //! Prototype: LD (HL), L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3501,10 +5836,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x74() {
+    pub fn instr_LD_0x74(&mut self) {
         //! Prototype: LD (HL), H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3517,10 +5862,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x77() {
+    pub fn instr_LD_0x77(&mut self) {
         //! Prototype: LD (HL), A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3533,10 +5888,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_HALT_0x76() {
+    pub fn instr_HALT_0x76(&mut self) {
         //! Prototype: HALT 
         //! Mnemonic:  HALT
         //! Size:      1 byte
@@ -3549,10 +5914,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Suspends CPU operation until an interrupt or reset occurs.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_BIT_0xCB59() {
+    pub fn instr_BIT_0xCB59(&mut self) {
         //! Prototype: BIT 3, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -3565,10 +5940,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 3 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_XOR_0xAF() {
+    pub fn instr_XOR_0xAF(&mut self) {
         //! Prototype: XOR A
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -3581,10 +5968,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xAE() {
+    pub fn instr_XOR_0xAE(&mut self) {
         //! Prototype: XOR (HL)
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -3597,10 +5997,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xAD() {
+    pub fn instr_XOR_0xAD(&mut self) {
         //! Prototype: XOR L
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -3613,10 +6026,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xAC() {
+    pub fn instr_XOR_0xAC(&mut self) {
         //! Prototype: XOR H
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -3629,10 +6055,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xAB() {
+    pub fn instr_XOR_0xAB(&mut self) {
         //! Prototype: XOR E
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -3645,10 +6084,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xAA() {
+    pub fn instr_XOR_0xAA(&mut self) {
         //! Prototype: XOR D
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -3661,10 +6113,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x9F() {
+    pub fn instr_SBC_0x9F(&mut self) {
         //! Prototype: SBC A, A
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -3677,10 +6142,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts a and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x9E() {
+    pub fn instr_SBC_0x9E(&mut self) {
         //! Prototype: SBC A, (HL)
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -3693,10 +6169,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts (hl) and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x9D() {
+    pub fn instr_SBC_0x9D(&mut self) {
         //! Prototype: SBC A, L
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -3709,10 +6196,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts l and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x9C() {
+    pub fn instr_SBC_0x9C(&mut self) {
         //! Prototype: SBC A, H
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -3725,10 +6223,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts h and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x9B() {
+    pub fn instr_SBC_0x9B(&mut self) {
         //! Prototype: SBC A, E
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -3741,10 +6250,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts e and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x9A() {
+    pub fn instr_SBC_0x9A(&mut self) {
         //! Prototype: SBC A, D
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -3757,10 +6277,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts d and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x08() {
+    pub fn instr_LD_0x08(&mut self) {
         //! Prototype: LD (a16), SP
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3773,10 +6304,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Exchanges the 16-bit contents of af and af'.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 5;
+        self.t += 20;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0x09() {
+    pub fn instr_ADD_0x09(&mut self) {
         //! Prototype: ADD HL, BC
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -3789,10 +6330,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of bc is added to hl.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x04() {
+    pub fn instr_INC_0x04(&mut self) {
         //! Prototype: INC B
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -3805,10 +6357,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x05() {
+    pub fn instr_DEC_0x05(&mut self) {
         //! Prototype: DEC B
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -3821,10 +6384,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from b.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x06() {
+    pub fn instr_LD_0x06(&mut self) {
         //! Prototype: LD B, d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3837,10 +6411,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RLCA_0x07() {
+    pub fn instr_RLCA_0x07(&mut self) {
         //! Prototype: RLCA 
         //! Mnemonic:  RLCA
         //! Size:      1 byte
@@ -3854,10 +6438,23 @@
         //! Description:
         //!   The contents of a are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Zero as u8);
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_NOP_0x00() {
+    pub fn instr_NOP_0x00(&mut self) {
         //! Prototype: NOP 
         //! Mnemonic:  NOP
         //! Size:      1 byte
@@ -3870,10 +6467,20 @@
         //!   - C: Preserved
         //! Description:
         //!   No operation is performed.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x01() {
+    pub fn instr_LD_0x01(&mut self) {
         //! Prototype: LD BC, d16
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3886,10 +6493,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into bc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x02() {
+    pub fn instr_LD_0x02(&mut self) {
         //! Prototype: LD (BC), A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3902,10 +6519,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores a into the memory location pointed to by bc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x03() {
+    pub fn instr_INC_0x03(&mut self) {
         //! Prototype: INC BC
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -3918,10 +6545,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to bc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x0D() {
+    pub fn instr_DEC_0x0D(&mut self) {
         //! Prototype: DEC C
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -3934,10 +6571,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from c.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x0E() {
+    pub fn instr_LD_0x0E(&mut self) {
         //! Prototype: LD C, d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3950,10 +6598,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RRCA_0x0F() {
+    pub fn instr_RRCA_0x0F(&mut self) {
         //! Prototype: RRCA 
         //! Mnemonic:  RRCA
         //! Size:      1 byte
@@ -3967,10 +6625,23 @@
         //! Description:
         //!   The contents of a are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Zero as u8);
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x0A() {
+    pub fn instr_LD_0x0A(&mut self) {
         //! Prototype: LD A, (BC)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -3983,10 +6654,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by bc into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x0B() {
+    pub fn instr_DEC_0x0B(&mut self) {
         //! Prototype: DEC BC
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -3999,10 +6680,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from bc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x0C() {
+    pub fn instr_INC_0x0C(&mut self) {
         //! Prototype: INC C
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -4015,10 +6706,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x97() {
+    pub fn instr_SUB_0x97(&mut self) {
         //! Prototype: SUB A
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4031,10 +6733,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts a from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x96() {
+    pub fn instr_SUB_0x96(&mut self) {
         //! Prototype: SUB (HL)
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4047,10 +6760,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts (hl) from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x95() {
+    pub fn instr_SUB_0x95(&mut self) {
         //! Prototype: SUB L
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4063,10 +6787,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts l from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x94() {
+    pub fn instr_SUB_0x94(&mut self) {
         //! Prototype: SUB H
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4079,10 +6814,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts h from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x93() {
+    pub fn instr_SUB_0x93(&mut self) {
         //! Prototype: SUB E
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4095,10 +6841,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts e from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x92() {
+    pub fn instr_SUB_0x92(&mut self) {
         //! Prototype: SUB D
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4111,10 +6868,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts d from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x91() {
+    pub fn instr_SUB_0x91(&mut self) {
         //! Prototype: SUB C
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4127,10 +6895,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts c from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SUB_0x90() {
+    pub fn instr_SUB_0x90(&mut self) {
         //! Prototype: SUB B
         //! Mnemonic:  SUB
         //! Size:      1 byte
@@ -4143,10 +6922,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts b from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x99() {
+    pub fn instr_SBC_0x99(&mut self) {
         //! Prototype: SBC A, C
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -4159,10 +6949,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts c and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SBC_0x98() {
+    pub fn instr_SBC_0x98(&mut self) {
         //! Prototype: SBC A, B
         //! Mnemonic:  SBC
         //! Size:      1 byte
@@ -4175,10 +6976,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Subtracts b and the carry flag from a.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0xE2() {
+    pub fn instr_LD_0xE2(&mut self) {
         //! Prototype: LD (C), A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4191,10 +7003,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_POP_0xE1() {
+    pub fn instr_POP_0xE1(&mut self) {
         //! Prototype: POP HL
         //! Mnemonic:  POP
         //! Size:      1 byte
@@ -4209,10 +7031,20 @@
         //!   The memory location pointed to by sp is stored into l and sp is
         //!   incremented. The memory location pointed to by sp is stored into h
         //!   and sp is incremented again.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LDH_0xE0() {
+    pub fn instr_LDH_0xE0(&mut self) {
         //! Prototype: LDH (a8), A
         //! Mnemonic:  LDH
         //! Size:      1 byte
@@ -4225,10 +7057,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RRC_0xCB09() {
+    pub fn instr_RRC_0xCB09(&mut self) {
         //! Prototype: RRC C
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4242,10 +7084,22 @@
         //! Description:
         //!   The contents of c are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RRC_0xCB08() {
+    pub fn instr_RRC_0xCB08(&mut self) {
         //! Prototype: RRC B
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4259,10 +7113,22 @@
         //! Description:
         //!   The contents of b are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_PUSH_0xE5() {
+    pub fn instr_PUSH_0xE5(&mut self) {
         //! Prototype: PUSH HL
         //! Mnemonic:  PUSH
         //! Size:      1 byte
@@ -4277,10 +7143,20 @@
         //!   sp is decremented and h is stored into the memory location pointed
         //!   to by sp. sp is decremented again and l is stored into the memory
         //!   location pointed to by sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RLC_0xCB05() {
+    pub fn instr_RLC_0xCB05(&mut self) {
         //! Prototype: RLC L
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4294,10 +7170,22 @@
         //! Description:
         //!   The contents of l are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RLC_0xCB04() {
+    pub fn instr_RLC_0xCB04(&mut self) {
         //! Prototype: RLC H
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4311,10 +7199,22 @@
         //! Description:
         //!   The contents of h are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RLC_0xCB07() {
+    pub fn instr_RLC_0xCB07(&mut self) {
         //! Prototype: RLC A
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4328,10 +7228,22 @@
         //! Description:
         //!   The contents of a are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RLC_0xCB06() {
+    pub fn instr_RLC_0xCB06(&mut self) {
         //! Prototype: RLC (HL)
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4345,10 +7257,22 @@
         //! Description:
         //!   The contents of (hl) are rotated left one bit position. The
         //!   contents of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RLC_0xCB01() {
+    pub fn instr_RLC_0xCB01(&mut self) {
         //! Prototype: RLC C
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4362,10 +7286,22 @@
         //! Description:
         //!   The contents of c are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RLC_0xCB00() {
+    pub fn instr_RLC_0xCB00(&mut self) {
         //! Prototype: RLC B
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4379,10 +7315,22 @@
         //! Description:
         //!   The contents of b are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RLC_0xCB03() {
+    pub fn instr_RLC_0xCB03(&mut self) {
         //! Prototype: RLC E
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4396,10 +7344,22 @@
         //! Description:
         //!   The contents of e are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RLC_0xCB02() {
+    pub fn instr_RLC_0xCB02(&mut self) {
         //! Prototype: RLC D
         //! Mnemonic:  RLC
         //! Size:      2 bytes
@@ -4413,10 +7373,22 @@
         //! Description:
         //!   The contents of d are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBE5() {
+    pub fn instr_SET_0xCBE5(&mut self) {
         //! Prototype: SET 4, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -4429,10 +7401,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0xEA() {
+    pub fn instr_LD_0xEA(&mut self) {
         //! Prototype: LD (a16), A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4445,10 +7427,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RST_0xEF() {
+    pub fn instr_RST_0xEF(&mut self) {
         //! Prototype: RST 28H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -4462,10 +7454,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 28h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_XOR_0xEE() {
+    pub fn instr_XOR_0xEE(&mut self) {
         //! Prototype: XOR d8
         //! Mnemonic:  XOR
         //! Size:      1 byte
@@ -4478,10 +7480,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise XOR on a with *.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RRC_0xCB0E() {
+    pub fn instr_RRC_0xCB0E(&mut self) {
         //! Prototype: RRC (HL)
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4495,10 +7510,22 @@
         //! Description:
         //!   The contents of (hl) are rotated right one bit position. The
         //!   contents of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RRC_0xCB0D() {
+    pub fn instr_RRC_0xCB0D(&mut self) {
         //! Prototype: RRC L
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4512,10 +7539,22 @@
         //! Description:
         //!   The contents of l are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RRC_0xCB0F() {
+    pub fn instr_RRC_0xCB0F(&mut self) {
         //! Prototype: RRC A
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4529,10 +7568,22 @@
         //! Description:
         //!   The contents of a are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RRC_0xCB0A() {
+    pub fn instr_RRC_0xCB0A(&mut self) {
         //! Prototype: RRC D
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4546,10 +7597,22 @@
         //! Description:
         //!   The contents of d are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RRC_0xCB0C() {
+    pub fn instr_RRC_0xCB0C(&mut self) {
         //! Prototype: RRC H
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4563,10 +7626,22 @@
         //! Description:
         //!   The contents of h are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RRC_0xCB0B() {
+    pub fn instr_RRC_0xCB0B(&mut self) {
         //! Prototype: RRC E
         //! Mnemonic:  RRC
         //! Size:      2 bytes
@@ -4580,10 +7655,22 @@
         //! Description:
         //!   The contents of e are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0x40() {
+    pub fn instr_LD_0x40(&mut self) {
         //! Prototype: LD B, B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4596,10 +7683,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x41() {
+    pub fn instr_LD_0x41(&mut self) {
         //! Prototype: LD B, C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4612,10 +7709,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x42() {
+    pub fn instr_LD_0x42(&mut self) {
         //! Prototype: LD B, D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4628,10 +7735,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x43() {
+    pub fn instr_LD_0x43(&mut self) {
         //! Prototype: LD B, E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4644,10 +7761,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x44() {
+    pub fn instr_LD_0x44(&mut self) {
         //! Prototype: LD B, H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4660,10 +7787,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x45() {
+    pub fn instr_LD_0x45(&mut self) {
         //! Prototype: LD B, L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4676,10 +7813,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x46() {
+    pub fn instr_LD_0x46(&mut self) {
         //! Prototype: LD B, (HL)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4692,10 +7839,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x47() {
+    pub fn instr_LD_0x47(&mut self) {
         //! Prototype: LD B, A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4708,10 +7865,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x48() {
+    pub fn instr_LD_0x48(&mut self) {
         //! Prototype: LD C, B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4724,10 +7891,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x49() {
+    pub fn instr_LD_0x49(&mut self) {
         //! Prototype: LD C, C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4740,10 +7917,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x4A() {
+    pub fn instr_LD_0x4A(&mut self) {
         //! Prototype: LD C, D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4756,10 +7943,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x4B() {
+    pub fn instr_LD_0x4B(&mut self) {
         //! Prototype: LD C, E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4772,10 +7969,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x4C() {
+    pub fn instr_LD_0x4C(&mut self) {
         //! Prototype: LD C, H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4788,10 +7995,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x4D() {
+    pub fn instr_LD_0x4D(&mut self) {
         //! Prototype: LD C, L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4804,10 +8021,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x4E() {
+    pub fn instr_LD_0x4E(&mut self) {
         //! Prototype: LD C, (HL)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4820,10 +8047,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x4F() {
+    pub fn instr_LD_0x4F(&mut self) {
         //! Prototype: LD C, A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -4836,10 +8073,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_BIT_0xCB4A() {
+    pub fn instr_BIT_0xCB4A(&mut self) {
         //! Prototype: BIT 1, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -4852,10 +8099,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB4C() {
+    pub fn instr_BIT_0xCB4C(&mut self) {
         //! Prototype: BIT 1, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -4868,10 +8127,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB4B() {
+    pub fn instr_BIT_0xCB4B(&mut self) {
         //! Prototype: BIT 1, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -4884,10 +8155,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB4E() {
+    pub fn instr_BIT_0xCB4E(&mut self) {
         //! Prototype: BIT 1, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -4900,10 +8183,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB4D() {
+    pub fn instr_BIT_0xCB4D(&mut self) {
         //! Prototype: BIT 1, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -4916,10 +8211,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB4F() {
+    pub fn instr_BIT_0xCB4F(&mut self) {
         //! Prototype: BIT 1, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -4932,10 +8239,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBBF() {
+    pub fn instr_RES_0xCBBF(&mut self) {
         //! Prototype: RES 7, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -4948,10 +8267,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBBE() {
+    pub fn instr_RES_0xCBBE(&mut self) {
         //! Prototype: RES 7, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -4964,10 +8293,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBBD() {
+    pub fn instr_RES_0xCBBD(&mut self) {
         //! Prototype: RES 7, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -4980,10 +8319,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBBC() {
+    pub fn instr_RES_0xCBBC(&mut self) {
         //! Prototype: RES 7, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -4996,10 +8345,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBBB() {
+    pub fn instr_RES_0xCBBB(&mut self) {
         //! Prototype: RES 7, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5012,10 +8371,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBBA() {
+    pub fn instr_RES_0xCBBA(&mut self) {
         //! Prototype: RES 7, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5028,10 +8397,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_CP_0xFE() {
+    pub fn instr_CP_0xFE(&mut self) {
         //! Prototype: CP d8
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5045,10 +8424,21 @@
         //! Description:
         //!   Subtracts * from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xBB() {
+    pub fn instr_CP_0xBB(&mut self) {
         //! Prototype: CP E
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5062,10 +8452,21 @@
         //! Description:
         //!   Subtracts e from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xBC() {
+    pub fn instr_CP_0xBC(&mut self) {
         //! Prototype: CP H
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5079,10 +8480,21 @@
         //! Description:
         //!   Subtracts h from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xBA() {
+    pub fn instr_CP_0xBA(&mut self) {
         //! Prototype: CP D
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5096,10 +8508,21 @@
         //! Description:
         //!   Subtracts d from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xBF() {
+    pub fn instr_CP_0xBF(&mut self) {
         //! Prototype: CP A
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5113,10 +8536,21 @@
         //! Description:
         //!   Subtracts a from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xBD() {
+    pub fn instr_CP_0xBD(&mut self) {
         //! Prototype: CP L
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5130,10 +8564,21 @@
         //! Description:
         //!   Subtracts l from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xBE() {
+    pub fn instr_CP_0xBE(&mut self) {
         //! Prototype: CP (HL)
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5147,10 +8592,21 @@
         //! Description:
         //!   Subtracts (hl) from a and affects flags according to the result. a
         //!   is not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xB8() {
+    pub fn instr_CP_0xB8(&mut self) {
         //! Prototype: CP B
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5164,10 +8620,21 @@
         //! Description:
         //!   Subtracts b from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CP_0xB9() {
+    pub fn instr_CP_0xB9(&mut self) {
         //! Prototype: CP C
         //! Mnemonic:  CP
         //! Size:      1 byte
@@ -5181,10 +8648,21 @@
         //! Description:
         //!   Subtracts c from a and affects flags according to the result. a is
         //!   not modified.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB2() {
+    pub fn instr_OR_0xB2(&mut self) {
         //! Prototype: OR D
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5197,10 +8675,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB3() {
+    pub fn instr_OR_0xB3(&mut self) {
         //! Prototype: OR E
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5213,10 +8704,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB0() {
+    pub fn instr_OR_0xB0(&mut self) {
         //! Prototype: OR B
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5229,10 +8733,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB1() {
+    pub fn instr_OR_0xB1(&mut self) {
         //! Prototype: OR C
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5245,10 +8762,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB6() {
+    pub fn instr_OR_0xB6(&mut self) {
         //! Prototype: OR (HL)
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5261,10 +8791,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB7() {
+    pub fn instr_OR_0xB7(&mut self) {
         //! Prototype: OR A
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5277,10 +8820,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB4() {
+    pub fn instr_OR_0xB4(&mut self) {
         //! Prototype: OR H
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5293,10 +8849,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xB5() {
+    pub fn instr_OR_0xB5(&mut self) {
         //! Prototype: OR L
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5309,10 +8878,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RES_0xCBB7() {
+    pub fn instr_RES_0xCBB7(&mut self) {
         //! Prototype: RES 6, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5325,10 +8907,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB6() {
+    pub fn instr_RES_0xCBB6(&mut self) {
         //! Prototype: RES 6, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5341,10 +8933,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB5() {
+    pub fn instr_RES_0xCBB5(&mut self) {
         //! Prototype: RES 6, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5357,10 +8959,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB4() {
+    pub fn instr_RES_0xCBB4(&mut self) {
         //! Prototype: RES 6, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5373,10 +8985,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB3() {
+    pub fn instr_RES_0xCBB3(&mut self) {
         //! Prototype: RES 6, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5389,10 +9011,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB2() {
+    pub fn instr_RES_0xCBB2(&mut self) {
         //! Prototype: RES 6, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5405,10 +9037,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB1() {
+    pub fn instr_RES_0xCBB1(&mut self) {
         //! Prototype: RES 6, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5421,10 +9063,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB0() {
+    pub fn instr_RES_0xCBB0(&mut self) {
         //! Prototype: RES 6, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5437,10 +9089,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 6 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_EI_0xFB() {
+    pub fn instr_EI_0xFB(&mut self) {
         //! Prototype: EI 
         //! Mnemonic:  EI
         //! Size:      1 byte
@@ -5455,10 +9117,20 @@
         //!   Sets both interrupt flip-flops, thus allowing maskable interrupts
         //!   to occur. An interrupt will not occur until after the immediatedly
         //!   following instruction.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RES_0xCBB9() {
+    pub fn instr_RES_0xCBB9(&mut self) {
         //! Prototype: RES 7, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5471,10 +9143,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBB8() {
+    pub fn instr_RES_0xCBB8(&mut self) {
         //! Prototype: RES 7, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -5487,10 +9169,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 7 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB41() {
+    pub fn instr_BIT_0xCB41(&mut self) {
         //! Prototype: BIT 0, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5503,10 +9195,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB40() {
+    pub fn instr_BIT_0xCB40(&mut self) {
         //! Prototype: BIT 0, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5519,10 +9223,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB43() {
+    pub fn instr_BIT_0xCB43(&mut self) {
         //! Prototype: BIT 0, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5535,10 +9251,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB42() {
+    pub fn instr_BIT_0xCB42(&mut self) {
         //! Prototype: BIT 0, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5551,10 +9279,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB45() {
+    pub fn instr_BIT_0xCB45(&mut self) {
         //! Prototype: BIT 0, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5567,10 +9307,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB44() {
+    pub fn instr_BIT_0xCB44(&mut self) {
         //! Prototype: BIT 0, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5583,10 +9335,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB47() {
+    pub fn instr_BIT_0xCB47(&mut self) {
         //! Prototype: BIT 0, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5599,10 +9363,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB46() {
+    pub fn instr_BIT_0xCB46(&mut self) {
         //! Prototype: BIT 0, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5615,10 +9391,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 0 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB49() {
+    pub fn instr_BIT_0xCB49(&mut self) {
         //! Prototype: BIT 1, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5631,10 +9419,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB48() {
+    pub fn instr_BIT_0xCB48(&mut self) {
         //! Prototype: BIT 1, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -5647,10 +9447,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 1 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RRA_0x1F() {
+    pub fn instr_RRA_0x1F(&mut self) {
         //! Prototype: RRA 
         //! Mnemonic:  RRA
         //! Size:      1 byte
@@ -5665,10 +9477,23 @@
         //!   The contents of a are rotated right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Zero as u8);
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x1E() {
+    pub fn instr_LD_0x1E(&mut self) {
         //! Prototype: LD E, d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -5681,10 +9506,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x1D() {
+    pub fn instr_DEC_0x1D(&mut self) {
         //! Prototype: DEC E
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -5697,10 +9532,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from e.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x1C() {
+    pub fn instr_INC_0x1C(&mut self) {
         //! Prototype: INC E
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -5713,10 +9559,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x1B() {
+    pub fn instr_DEC_0x1B(&mut self) {
         //! Prototype: DEC DE
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -5729,10 +9586,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from de.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x1A() {
+    pub fn instr_LD_0x1A(&mut self) {
         //! Prototype: LD A, (DE)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -5745,10 +9612,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value pointed to by de into a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_OR_0xF6() {
+    pub fn instr_OR_0xF6(&mut self) {
         //! Prototype: OR d8
         //! Mnemonic:  OR
         //! Size:      1 byte
@@ -5761,10 +9638,23 @@
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise OR on a with *.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RST_0xF7() {
+    pub fn instr_RST_0xF7(&mut self) {
         //! Prototype: RST 30H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -5778,10 +9668,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 30h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SET_0xCBE2() {
+    pub fn instr_SET_0xCBE2(&mut self) {
         //! Prototype: SET 4, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -5794,10 +9694,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_PUSH_0xF5() {
+    pub fn instr_PUSH_0xF5(&mut self) {
         //! Prototype: PUSH AF
         //! Mnemonic:  PUSH
         //! Size:      1 byte
@@ -5812,10 +9722,20 @@
         //!   sp is decremented and a is stored into the memory location pointed
         //!   to by sp. sp is decremented again and f is stored into the memory
         //!   location pointed to by sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SWAP_0xCB34() {
+    pub fn instr_SWAP_0xCB34(&mut self) {
         //! Prototype: SWAP H
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -5829,10 +9749,23 @@
         //! Description:
         //!   The contents of h are shifted left one bit position. The contents
         //!   of bit 7 are put into the carry flag and a one is put into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBE0() {
+    pub fn instr_SET_0xCBE0(&mut self) {
         //! Prototype: SET 4, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -5845,10 +9778,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_DI_0xF3() {
+    pub fn instr_DI_0xF3(&mut self) {
         //! Prototype: DI 
         //! Mnemonic:  DI
         //! Size:      1 byte
@@ -5862,10 +9805,20 @@
         //! Description:
         //!   Resets both interrupt flip-flops, thus prenting maskable
         //!   interrupts from triggering.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SET_0xCBE1() {
+    pub fn instr_SET_0xCBE1(&mut self) {
         //! Prototype: SET 4, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -5878,10 +9831,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LDH_0xF0() {
+    pub fn instr_LDH_0xF0(&mut self) {
         //! Prototype: LDH A, (a8)
         //! Mnemonic:  LDH
         //! Size:      1 byte
@@ -5894,10 +9857,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SET_0xCBE6() {
+    pub fn instr_SET_0xCBE6(&mut self) {
         //! Prototype: SET 4, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -5910,10 +9883,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_POP_0xF1() {
+    pub fn instr_POP_0xF1(&mut self) {
         //! Prototype: POP AF
         //! Mnemonic:  POP
         //! Size:      1 byte
@@ -5928,10 +9911,20 @@
         //!   The memory location pointed to by sp is stored into f and sp is
         //!   incremented. The memory location pointed to by sp is stored into a
         //!   and sp is incremented again.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SET_0xCBE7() {
+    pub fn instr_SET_0xCBE7(&mut self) {
         //! Prototype: SET 4, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -5944,10 +9937,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_ADD_0x19() {
+    pub fn instr_ADD_0x19(&mut self) {
         //! Prototype: ADD HL, DE
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -5960,10 +9963,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   The value of de is added to hl.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JR_0x18() {
+    pub fn instr_JR_0x18(&mut self) {
         //! Prototype: JR r8
         //! Mnemonic:  JR
         //! Size:      1 byte
@@ -5977,10 +9991,20 @@
         //! Description:
         //!   The signed value * is added to pc. The jump is measured from the
         //!   start of the instruction opcode.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RLA_0x17() {
+    pub fn instr_RLA_0x17(&mut self) {
         //! Prototype: RLA 
         //! Mnemonic:  RLA
         //! Size:      1 byte
@@ -5995,10 +10019,23 @@
         //!   The contents of a are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and the previous contents of
         //!   the carry flag are copied to bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Zero as u8);
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x16() {
+    pub fn instr_LD_0x16(&mut self) {
         //! Prototype: LD D, d8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6011,10 +10048,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads * into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_DEC_0x15() {
+    pub fn instr_DEC_0x15(&mut self) {
         //! Prototype: DEC D
         //! Mnemonic:  DEC
         //! Size:      1 byte
@@ -6027,10 +10074,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Subtracts one from d.
+
         unimplemented!();
+
+        // Update flags
+        self.f |= Flag::Operation as u8;
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x14() {
+    pub fn instr_INC_0x14(&mut self) {
         //! Prototype: INC D
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -6043,10 +10101,21 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_INC_0x13() {
+    pub fn instr_INC_0x13(&mut self) {
         //! Prototype: INC DE
         //! Mnemonic:  INC
         //! Size:      1 byte
@@ -6059,10 +10128,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Adds one to de.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x12() {
+    pub fn instr_LD_0x12(&mut self) {
         //! Prototype: LD (DE), A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6075,10 +10154,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Stores a into the memory location pointed to by de.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x11() {
+    pub fn instr_LD_0x11(&mut self) {
         //! Prototype: LD DE, d16
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6091,10 +10180,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads ** into de.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_STOP_0x10() {
+    pub fn instr_STOP_0x10(&mut self) {
         //! Prototype: STOP 0
         //! Mnemonic:  STOP
         //! Size:      1 byte
@@ -6109,10 +10208,20 @@
         //!   The b register is decremented, and if not zero, the signed value *
         //!   is added to pc. The jump is measured from the start of the
         //!   instruction opcode.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SET_0xCBFC() {
+    pub fn instr_SET_0xCBFC(&mut self) {
         //! Prototype: SET 7, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6125,10 +10234,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBFB() {
+    pub fn instr_SET_0xCBFB(&mut self) {
         //! Prototype: SET 7, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6141,10 +10260,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBFA() {
+    pub fn instr_SET_0xCBFA(&mut self) {
         //! Prototype: SET 7, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6157,10 +10286,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBFF() {
+    pub fn instr_SET_0xCBFF(&mut self) {
         //! Prototype: SET 7, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6173,10 +10312,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBFE() {
+    pub fn instr_SET_0xCBFE(&mut self) {
         //! Prototype: SET 7, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6189,10 +10338,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBFD() {
+    pub fn instr_SET_0xCBFD(&mut self) {
         //! Prototype: SET 7, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6205,10 +10364,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RST_0xFF() {
+    pub fn instr_RST_0xFF(&mut self) {
         //! Prototype: RST 38H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -6222,10 +10391,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 38h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SRL_0xCB3A() {
+    pub fn instr_SRL_0xCB3A(&mut self) {
         //! Prototype: SRL D
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6240,10 +10419,22 @@
         //!   The contents of d are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and a zero is put into bit
         //!   7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRL_0xCB3B() {
+    pub fn instr_SRL_0xCB3B(&mut self) {
         //! Prototype: SRL E
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6258,10 +10449,22 @@
         //!   The contents of e are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and a zero is put into bit
         //!   7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRL_0xCB3C() {
+    pub fn instr_SRL_0xCB3C(&mut self) {
         //! Prototype: SRL H
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6276,10 +10479,22 @@
         //!   The contents of h are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and a zero is put into bit
         //!   7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRL_0xCB3D() {
+    pub fn instr_SRL_0xCB3D(&mut self) {
         //! Prototype: SRL L
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6294,10 +10509,22 @@
         //!   The contents of l are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and a zero is put into bit
         //!   7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRL_0xCB3E() {
+    pub fn instr_SRL_0xCB3E(&mut self) {
         //! Prototype: SRL (HL)
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6312,10 +10539,22 @@
         //!   The contents of (hl) are shifted right one bit position. The
         //!   contents of bit 0 are copied to the carry flag and a zero is put
         //!   into bit 7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRL_0xCB3F() {
+    pub fn instr_SRL_0xCB3F(&mut self) {
         //! Prototype: SRL A
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6330,10 +10569,22 @@
         //!   The contents of a are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and a zero is put into bit
         //!   7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0xFA() {
+    pub fn instr_LD_0xFA(&mut self) {
         //! Prototype: LD A, (a16)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6346,10 +10597,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SRL_0xCB38() {
+    pub fn instr_SRL_0xCB38(&mut self) {
         //! Prototype: SRL B
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6364,10 +10625,22 @@
         //!   The contents of b are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and a zero is put into bit
         //!   7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SRL_0xCB39() {
+    pub fn instr_SRL_0xCB39(&mut self) {
         //! Prototype: SRL C
         //! Mnemonic:  SRL
         //! Size:      2 bytes
@@ -6382,10 +10655,22 @@
         //!   The contents of c are shifted right one bit position. The contents
         //!   of bit 0 are copied to the carry flag and a zero is put into bit
         //!   7.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0xF8() {
+    pub fn instr_LD_0xF8(&mut self) {
         //! Prototype: LD HL, SP+r8
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6398,10 +10683,22 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Zero as u8);
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0xF9() {
+    pub fn instr_LD_0xF9(&mut self) {
         //! Prototype: LD SP, HL
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6414,10 +10711,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Loads the value of hl into sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SWAP_0xCB30() {
+    pub fn instr_SWAP_0xCB30(&mut self) {
         //! Prototype: SWAP B
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -6431,10 +10738,23 @@
         //! Description:
         //!   The contents of b are shifted left one bit position. The contents
         //!   of bit 7 are put into the carry flag and a one is put into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SWAP_0xCB31() {
+    pub fn instr_SWAP_0xCB31(&mut self) {
         //! Prototype: SWAP C
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -6448,10 +10768,23 @@
         //! Description:
         //!   The contents of c are shifted left one bit position. The contents
         //!   of bit 7 are put into the carry flag and a one is put into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SWAP_0xCB32() {
+    pub fn instr_SWAP_0xCB32(&mut self) {
         //! Prototype: SWAP D
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -6465,10 +10798,23 @@
         //! Description:
         //!   The contents of d are shifted left one bit position. The contents
         //!   of bit 7 are put into the carry flag and a one is put into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SWAP_0xCB33() {
+    pub fn instr_SWAP_0xCB33(&mut self) {
         //! Prototype: SWAP E
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -6482,10 +10828,23 @@
         //! Description:
         //!   The contents of e are shifted left one bit position. The contents
         //!   of bit 7 are put into the carry flag and a one is put into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0xF2() {
+    pub fn instr_LD_0xF2(&mut self) {
         //! Prototype: LD A, (C)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6498,10 +10857,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SWAP_0xCB35() {
+    pub fn instr_SWAP_0xCB35(&mut self) {
         //! Prototype: SWAP L
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -6515,10 +10884,23 @@
         //! Description:
         //!   The contents of l are shifted left one bit position. The contents
         //!   of bit 7 are put into the carry flag and a one is put into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SWAP_0xCB36() {
+    pub fn instr_SWAP_0xCB36(&mut self) {
         //! Prototype: SWAP (HL)
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -6533,10 +10915,23 @@
         //!   The contents of (hl) are shifted left one bit position. The
         //!   contents of bit 7 are put into the carry flag and a one is put
         //!   into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SWAP_0xCB37() {
+    pub fn instr_SWAP_0xCB37(&mut self) {
         //! Prototype: SWAP A
         //! Mnemonic:  SWAP
         //! Size:      2 bytes
@@ -6550,10 +10945,23 @@
         //! Description:
         //!   The contents of a are shifted left one bit position. The contents
         //!   of bit 7 are put into the carry flag and a one is put into bit 0.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f &= !(Flag::HalfCarry as u8);
+        self.f &= !(Flag::Carry as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF9() {
+    pub fn instr_SET_0xCBF9(&mut self) {
         //! Prototype: SET 7, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6566,10 +10974,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF8() {
+    pub fn instr_SET_0xCBF8(&mut self) {
         //! Prototype: SET 7, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6582,10 +11000,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 7 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF3() {
+    pub fn instr_SET_0xCBF3(&mut self) {
         //! Prototype: SET 6, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6598,10 +11026,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF2() {
+    pub fn instr_SET_0xCBF2(&mut self) {
         //! Prototype: SET 6, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6614,10 +11052,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF1() {
+    pub fn instr_SET_0xCBF1(&mut self) {
         //! Prototype: SET 6, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6630,10 +11078,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF0() {
+    pub fn instr_SET_0xCBF0(&mut self) {
         //! Prototype: SET 6, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6646,10 +11104,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF7() {
+    pub fn instr_SET_0xCBF7(&mut self) {
         //! Prototype: SET 6, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6662,10 +11130,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF6() {
+    pub fn instr_SET_0xCBF6(&mut self) {
         //! Prototype: SET 6, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6678,10 +11156,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF5() {
+    pub fn instr_SET_0xCBF5(&mut self) {
         //! Prototype: SET 6, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6694,10 +11182,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBF4() {
+    pub fn instr_SET_0xCBF4(&mut self) {
         //! Prototype: SET 6, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -6710,10 +11208,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 6 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0x5C() {
+    pub fn instr_LD_0x5C(&mut self) {
         //! Prototype: LD E, H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6726,10 +11234,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x5B() {
+    pub fn instr_LD_0x5B(&mut self) {
         //! Prototype: LD E, E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6742,10 +11260,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x5A() {
+    pub fn instr_LD_0x5A(&mut self) {
         //! Prototype: LD E, D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6758,10 +11286,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x5F() {
+    pub fn instr_LD_0x5F(&mut self) {
         //! Prototype: LD E, A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6774,10 +11312,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x5E() {
+    pub fn instr_LD_0x5E(&mut self) {
         //! Prototype: LD E, (HL)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6790,10 +11338,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x5D() {
+    pub fn instr_LD_0x5D(&mut self) {
         //! Prototype: LD E, L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -6806,10 +11364,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RES_0xCBA8() {
+    pub fn instr_RES_0xCBA8(&mut self) {
         //! Prototype: RES 5, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6822,10 +11390,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA9() {
+    pub fn instr_RES_0xCBA9(&mut self) {
         //! Prototype: RES 5, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6838,10 +11416,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA6() {
+    pub fn instr_RES_0xCBA6(&mut self) {
         //! Prototype: RES 4, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6854,10 +11442,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA7() {
+    pub fn instr_RES_0xCBA7(&mut self) {
         //! Prototype: RES 4, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6870,10 +11468,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA4() {
+    pub fn instr_RES_0xCBA4(&mut self) {
         //! Prototype: RES 4, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6886,10 +11494,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA5() {
+    pub fn instr_RES_0xCBA5(&mut self) {
         //! Prototype: RES 4, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6902,10 +11520,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA2() {
+    pub fn instr_RES_0xCBA2(&mut self) {
         //! Prototype: RES 4, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6918,10 +11546,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA3() {
+    pub fn instr_RES_0xCBA3(&mut self) {
         //! Prototype: RES 4, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6934,10 +11572,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA0() {
+    pub fn instr_RES_0xCBA0(&mut self) {
         //! Prototype: RES 4, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6950,10 +11598,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBA1() {
+    pub fn instr_RES_0xCBA1(&mut self) {
         //! Prototype: RES 4, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6966,10 +11624,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 4 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBAF() {
+    pub fn instr_RES_0xCBAF(&mut self) {
         //! Prototype: RES 5, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6982,10 +11650,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBAD() {
+    pub fn instr_RES_0xCBAD(&mut self) {
         //! Prototype: RES 5, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -6998,10 +11676,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBAE() {
+    pub fn instr_RES_0xCBAE(&mut self) {
         //! Prototype: RES 5, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7014,10 +11702,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBAB() {
+    pub fn instr_RES_0xCBAB(&mut self) {
         //! Prototype: RES 5, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7030,10 +11728,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBAC() {
+    pub fn instr_RES_0xCBAC(&mut self) {
         //! Prototype: RES 5, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7046,10 +11754,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCBAA() {
+    pub fn instr_RES_0xCBAA(&mut self) {
         //! Prototype: RES 5, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7062,10 +11780,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 5 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_LD_0x53() {
+    pub fn instr_LD_0x53(&mut self) {
         //! Prototype: LD D, E
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7078,10 +11806,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of e are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x52() {
+    pub fn instr_LD_0x52(&mut self) {
         //! Prototype: LD D, D
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7094,10 +11832,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of d are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x51() {
+    pub fn instr_LD_0x51(&mut self) {
         //! Prototype: LD D, C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7110,10 +11858,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x50() {
+    pub fn instr_LD_0x50(&mut self) {
         //! Prototype: LD D, B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7126,10 +11884,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x57() {
+    pub fn instr_LD_0x57(&mut self) {
         //! Prototype: LD D, A
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7142,10 +11910,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of a are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x56() {
+    pub fn instr_LD_0x56(&mut self) {
         //! Prototype: LD D, (HL)
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7158,10 +11936,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of (hl) are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x55() {
+    pub fn instr_LD_0x55(&mut self) {
         //! Prototype: LD D, L
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7174,10 +11962,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of l are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x54() {
+    pub fn instr_LD_0x54(&mut self) {
         //! Prototype: LD D, H
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7190,10 +11988,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of h are loaded into d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x59() {
+    pub fn instr_LD_0x59(&mut self) {
         //! Prototype: LD E, C
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7206,10 +12014,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of c are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_LD_0x58() {
+    pub fn instr_LD_0x58(&mut self) {
         //! Prototype: LD E, B
         //! Mnemonic:  LD
         //! Size:      1 byte
@@ -7222,10 +12040,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The contents of b are loaded into e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_SET_0xCBEB() {
+    pub fn instr_SET_0xCBEB(&mut self) {
         //! Prototype: SET 5, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7238,10 +12066,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBEC() {
+    pub fn instr_SET_0xCBEC(&mut self) {
         //! Prototype: SET 5, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7254,10 +12092,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBEA() {
+    pub fn instr_SET_0xCBEA(&mut self) {
         //! Prototype: SET 5, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7270,10 +12118,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBEF() {
+    pub fn instr_SET_0xCBEF(&mut self) {
         //! Prototype: SET 5, A
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7286,10 +12144,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBED() {
+    pub fn instr_SET_0xCBED(&mut self) {
         //! Prototype: SET 5, L
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7302,10 +12170,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBEE() {
+    pub fn instr_SET_0xCBEE(&mut self) {
         //! Prototype: SET 5, (HL)
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7318,10 +12196,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_PUSH_0xC5() {
+    pub fn instr_PUSH_0xC5(&mut self) {
         //! Prototype: PUSH BC
         //! Mnemonic:  PUSH
         //! Size:      1 byte
@@ -7336,10 +12224,20 @@
         //!   sp is decremented and b is stored into the memory location pointed
         //!   to by sp. sp is decremented again and c is stored into the memory
         //!   location pointed to by sp.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CALL_0xC4() {
+    pub fn instr_CALL_0xC4(&mut self) {
         //! Prototype: CALL NZ, a16
         //! Mnemonic:  CALL
         //! Size:      1 byte
@@ -7353,10 +12251,20 @@
         //! Description:
         //!   If condition cc is true, the current pc value plus three is pushed
         //!   onto the stack, then is loaded with **.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RST_0xC7() {
+    pub fn instr_RST_0xC7(&mut self) {
         //! Prototype: RST 00H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -7370,10 +12278,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 00h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_ADD_0xC6() {
+    pub fn instr_ADD_0xC6(&mut self) {
         //! Prototype: ADD A, d8
         //! Mnemonic:  ADD
         //! Size:      1 byte
@@ -7386,10 +12304,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds * to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_POP_0xC1() {
+    pub fn instr_POP_0xC1(&mut self) {
         //! Prototype: POP BC
         //! Mnemonic:  POP
         //! Size:      1 byte
@@ -7404,10 +12333,20 @@
         //!   The memory location pointed to by sp is stored into c and sp is
         //!   incremented. The memory location pointed to by sp is stored into b
         //!   and sp is incremented again.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RET_0xC0() {
+    pub fn instr_RET_0xC0(&mut self) {
         //! Prototype: RET NZ
         //! Mnemonic:  RET
         //! Size:      1 byte
@@ -7420,10 +12359,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JP_0xC3() {
+    pub fn instr_JP_0xC3(&mut self) {
         //! Prototype: JP a16
         //! Mnemonic:  JP
         //! Size:      1 byte
@@ -7436,10 +12385,20 @@
         //!   - C: Preserved
         //! Description:
         //!   ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JP_0xC2() {
+    pub fn instr_JP_0xC2(&mut self) {
         //! Prototype: JP NZ, a16
         //! Mnemonic:  JP
         //! Size:      1 byte
@@ -7452,10 +12411,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RET_0xC9() {
+    pub fn instr_RET_0xC9(&mut self) {
         //! Prototype: RET 
         //! Mnemonic:  RET
         //! Size:      1 byte
@@ -7468,10 +12437,20 @@
         //!   - C: Preserved
         //! Description:
         //!   The top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RET_0xC8() {
+    pub fn instr_RET_0xC8(&mut self) {
         //! Prototype: RET Z
         //! Mnemonic:  RET
         //! Size:      1 byte
@@ -7484,10 +12463,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, the top stack entry is popped into pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RES_0xCB9F() {
+    pub fn instr_RES_0xCB9F(&mut self) {
         //! Prototype: RES 3, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7500,10 +12489,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBE3() {
+    pub fn instr_SET_0xCBE3(&mut self) {
         //! Prototype: SET 4, E
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7516,10 +12515,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB9D() {
+    pub fn instr_RES_0xCB9D(&mut self) {
         //! Prototype: RES 3, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7532,10 +12541,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB9E() {
+    pub fn instr_RES_0xCB9E(&mut self) {
         //! Prototype: RES 3, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7548,10 +12567,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB9B() {
+    pub fn instr_RES_0xCB9B(&mut self) {
         //! Prototype: RES 3, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7564,10 +12593,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB9C() {
+    pub fn instr_RES_0xCB9C(&mut self) {
         //! Prototype: RES 3, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7580,10 +12619,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBE4() {
+    pub fn instr_SET_0xCBE4(&mut self) {
         //! Prototype: SET 4, H
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7596,10 +12645,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 4 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB9A() {
+    pub fn instr_RES_0xCB9A(&mut self) {
         //! Prototype: RES 3, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7612,10 +12671,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBE8() {
+    pub fn instr_SET_0xCBE8(&mut self) {
         //! Prototype: SET 5, B
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7628,10 +12697,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBE9() {
+    pub fn instr_SET_0xCBE9(&mut self) {
         //! Prototype: SET 5, C
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7644,10 +12723,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 5 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_SET_0xCBC2() {
+    pub fn instr_SET_0xCBC2(&mut self) {
         //! Prototype: SET 0, D
         //! Mnemonic:  SET
         //! Size:      2 bytes
@@ -7660,10 +12749,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Sets bit 0 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB78() {
+    pub fn instr_BIT_0xCB78(&mut self) {
         //! Prototype: BIT 7, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7676,10 +12775,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB79() {
+    pub fn instr_BIT_0xCB79(&mut self) {
         //! Prototype: BIT 7, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7692,10 +12803,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB74() {
+    pub fn instr_BIT_0xCB74(&mut self) {
         //! Prototype: BIT 6, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7708,10 +12831,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB75() {
+    pub fn instr_BIT_0xCB75(&mut self) {
         //! Prototype: BIT 6, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7724,10 +12859,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB76() {
+    pub fn instr_BIT_0xCB76(&mut self) {
         //! Prototype: BIT 6, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7740,10 +12887,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB77() {
+    pub fn instr_BIT_0xCB77(&mut self) {
         //! Prototype: BIT 6, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7756,10 +12915,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB70() {
+    pub fn instr_BIT_0xCB70(&mut self) {
         //! Prototype: BIT 6, B
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7772,10 +12943,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of b.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB71() {
+    pub fn instr_BIT_0xCB71(&mut self) {
         //! Prototype: BIT 6, C
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7788,10 +12971,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of c.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB72() {
+    pub fn instr_BIT_0xCB72(&mut self) {
         //! Prototype: BIT 6, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7804,10 +12999,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB73() {
+    pub fn instr_BIT_0xCB73(&mut self) {
         //! Prototype: BIT 6, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7820,10 +13027,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 6 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB7D() {
+    pub fn instr_BIT_0xCB7D(&mut self) {
         //! Prototype: BIT 7, L
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7836,10 +13055,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of l.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB7E() {
+    pub fn instr_BIT_0xCB7E(&mut self) {
         //! Prototype: BIT 7, (HL)
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7852,10 +13083,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of (hl).
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB7F() {
+    pub fn instr_BIT_0xCB7F(&mut self) {
         //! Prototype: BIT 7, A
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7868,10 +13111,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB7A() {
+    pub fn instr_BIT_0xCB7A(&mut self) {
         //! Prototype: BIT 7, D
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7884,10 +13139,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of d.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB7B() {
+    pub fn instr_BIT_0xCB7B(&mut self) {
         //! Prototype: BIT 7, E
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7900,10 +13167,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of e.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_BIT_0xCB7C() {
+    pub fn instr_BIT_0xCB7C(&mut self) {
         //! Prototype: BIT 7, H
         //! Mnemonic:  BIT
         //! Size:      2 bytes
@@ -7916,10 +13195,22 @@
         //!   - C: Preserved
         //! Description:
         //!   Tests bit 7 of h.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+        self.f |= Flag::HalfCarry as u8;
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB96() {
+    pub fn instr_RES_0xCB96(&mut self) {
         //! Prototype: RES 2, (HL)
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7932,10 +13223,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of (hl).
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB97() {
+    pub fn instr_RES_0xCB97(&mut self) {
         //! Prototype: RES 2, A
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7948,10 +13249,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of a.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB94() {
+    pub fn instr_RES_0xCB94(&mut self) {
         //! Prototype: RES 2, H
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7964,10 +13275,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB95() {
+    pub fn instr_RES_0xCB95(&mut self) {
         //! Prototype: RES 2, L
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7980,10 +13301,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of l.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB92() {
+    pub fn instr_RES_0xCB92(&mut self) {
         //! Prototype: RES 2, D
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -7996,10 +13327,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of d.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB93() {
+    pub fn instr_RES_0xCB93(&mut self) {
         //! Prototype: RES 2, E
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -8012,10 +13353,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of e.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB90() {
+    pub fn instr_RES_0xCB90(&mut self) {
         //! Prototype: RES 2, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -8028,10 +13379,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB91() {
+    pub fn instr_RES_0xCB91(&mut self) {
         //! Prototype: RES 2, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -8044,10 +13405,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 2 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB98() {
+    pub fn instr_RES_0xCB98(&mut self) {
         //! Prototype: RES 3, B
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -8060,10 +13431,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of b.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_RES_0xCB99() {
+    pub fn instr_RES_0xCB99(&mut self) {
         //! Prototype: RES 3, C
         //! Mnemonic:  RES
         //! Size:      2 bytes
@@ -8076,10 +13457,20 @@
         //!   - C: Preserved
         //! Description:
         //!   Resets bit 3 of c.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 2;
     }
 
-    pub fn instr_ADC_0xCE() {
+    pub fn instr_ADC_0xCE(&mut self) {
         //! Prototype: ADC A, d8
         //! Mnemonic:  ADC
         //! Size:      1 byte
@@ -8092,10 +13483,21 @@
         //!   - C: Set if appropriate
         //! Description:
         //!   Adds * and the carry flag to a.
+
         unimplemented!();
+
+        // Update flags
+        self.f &= !(Flag::Operation as u8);
+
+        // Update clocks
+        self.m += 2;
+        self.t += 8;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CALL_0xCD() {
+    pub fn instr_CALL_0xCD(&mut self) {
         //! Prototype: CALL a16
         //! Mnemonic:  CALL
         //! Size:      1 byte
@@ -8109,10 +13511,20 @@
         //! Description:
         //!   The current pc value plus three is pushed onto the stack, then is
         //!   loaded with **.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 6;
+        self.t += 24;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_RST_0xCF() {
+    pub fn instr_RST_0xCF(&mut self) {
         //! Prototype: RST 08H
         //! Mnemonic:  RST
         //! Size:      1 byte
@@ -8126,10 +13538,20 @@
         //! Description:
         //!   The current pc value plus one is pushed onto the stack, then is
         //!   loaded with 08h.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 4;
+        self.t += 16;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_JP_0xCA() {
+    pub fn instr_JP_0xCA(&mut self) {
         //! Prototype: JP Z, a16
         //! Mnemonic:  JP
         //! Size:      1 byte
@@ -8142,10 +13564,20 @@
         //!   - C: Preserved
         //! Description:
         //!   If condition cc is true, ** is copied to pc.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_CALL_0xCC() {
+    pub fn instr_CALL_0xCC(&mut self) {
         //! Prototype: CALL Z, a16
         //! Mnemonic:  CALL
         //! Size:      1 byte
@@ -8159,10 +13591,20 @@
         //! Description:
         //!   If condition cc is true, the current pc value plus three is pushed
         //!   onto the stack, then is loaded with **.
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 3;
+        self.t += 12;
+
+        // Update program counter
+        self.pc += 1;
     }
 
-    pub fn instr_PREFIX_0xCB() {
+    pub fn instr_PREFIX_0xCB(&mut self) {
         //! Prototype: PREFIX CB
         //! Mnemonic:  PREFIX
         //! Size:      1 byte
@@ -8175,7 +13617,17 @@
         //!   - C: Preserved
         //! Description:
         //!   BITS instruction prefix
+
         unimplemented!();
+
+        // Update flags
+
+        // Update clocks
+        self.m += 1;
+        self.t += 4;
+
+        // Update program counter
+        self.pc += 1;
     }
 
     opcodes.insert(0x85, instr_ADD_0x85);
