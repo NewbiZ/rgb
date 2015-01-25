@@ -1,16 +1,16 @@
 use super::super::*;
 
 #[test]
-fn mmu_new() {
+fn new() {
     let m = Mmu::new();
     // Ensure memory is zero initialized
-    for i in 0..0x10000 {
+    for i in 0us..0x10000 {
         assert_eq!(m.memory[i], 0);
     }
 }
 
 #[test]
-fn mmu_write8() {
+fn write8() {
     let mut m = Mmu::new();
     m.write8(10, 0x42);
     // Ensure there is no overflow on adjacent cells
@@ -20,7 +20,7 @@ fn mmu_write8() {
 }
 
 #[test]
-fn mmu_write16() {
+fn write16() {
     let mut m = Mmu::new();
     m.write16(10, 0x1337);
     // Ensure there is no overflow on adjacent cells
@@ -33,7 +33,7 @@ fn mmu_write16() {
 }
 
 #[test]
-fn mmu_read8() {
+fn read8() {
     let mut m = Mmu::new();
     m.memory[10] = 0x42;
     // Ensure value is there
@@ -43,7 +43,7 @@ fn mmu_read8() {
 }
 
 #[test]
-fn mmu_read16() {
+fn read16() {
     let mut m = Mmu::new();
     m.memory[10] = 0x13;
     m.memory[11] = 0x37;

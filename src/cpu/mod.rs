@@ -80,23 +80,20 @@ impl Cpu {
         }
     }
 
-    pub fn instr_0x83(&mut self) {
-        //! Add register E to register A and set flags in register F if carry or zero.
-        // Reset flags
-        self.f = Flag::None as u8;
-        // Check if there will be an overflow
-        if self.a > (u8::MAX - self.e) {
-            self.f |= Flag::Carry as u8;
-        }
-        // Perform the ADD
-        self.a += self.e;
-        // Check for zero
-        if self.a == 0 {
-            self.f |= Flag::Zero as u8;
-        }
-        // Update clocks
-        self.m += 1;
-        self.t += 4;
+    pub fn reset(&mut self) {
+        //! Reset the `Cpu` to its pristine state. All registers are set to 0.
+        self.a =  0;
+        self.b =  0;
+        self.c =  0;
+        self.d =  0;
+        self.e =  0;
+        self.h =  0;
+        self.l =  0;
+        self.f =  Flag::None as u8;
+        self.pc = 0;
+        self.sp = 0;
+        self.m =  0;
+        self.t =  0;
     }
 
     pub fn instr_ADD_0x85(&mut self) {
@@ -113,10 +110,21 @@ impl Cpu {
         //! Description:
         //!   Adds l to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - self.l) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += self.l;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 1;
@@ -1964,10 +1972,21 @@ impl Cpu {
         //! Description:
         //!   Adds h to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - self.h) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += self.h;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 1;
@@ -2071,10 +2090,21 @@ impl Cpu {
         //! Description:
         //!   Adds b to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - self.b) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += self.b;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 1;
@@ -2098,10 +2128,21 @@ impl Cpu {
         //! Description:
         //!   Adds c to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - self.c) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += self.c;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 1;
@@ -2125,10 +2166,21 @@ impl Cpu {
         //! Description:
         //!   Adds d to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - self.d) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += self.d;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 1;
@@ -2152,10 +2204,21 @@ impl Cpu {
         //! Description:
         //!   Adds e to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - self.e) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += self.e;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 1;
@@ -3747,10 +3810,21 @@ impl Cpu {
         //! Description:
         //!   Adds a to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Check if there will be an overflow
+        if self.a > u8::MAX/2 {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += self.a;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 1;
@@ -12402,17 +12476,31 @@ impl Cpu {
         //! Description:
         //!   Adds * to a.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Operation as u8);
+        // Retrieve immediate value
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - d8) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the ADD
+        self.a += d8;
+
+        // Check for zero
+        if self.a == 0 {
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_POP_0xC1(&mut self) {
