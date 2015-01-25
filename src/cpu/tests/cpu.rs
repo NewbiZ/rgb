@@ -435,3 +435,71 @@ fn instr_RST_0xCF() {
     assert_eq!(c.pc, 0x08);
     assert_eq!(c.sp, 8);
 }
+
+#[test]
+fn instr_PUSH_0xD5() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.d  = 0x01;
+    c.e  = 0x02;
+    c.pc = 5;
+    c.sp = 10;
+    c.instr_PUSH_0xD5();
+    assert_eq!(c.d,  0x01);
+    assert_eq!(c.e,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 8);
+    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+}
+
+#[test]
+fn instr_PUSH_0xE5() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.h  = 0x01;
+    c.l  = 0x02;
+    c.pc = 5;
+    c.sp = 10;
+    c.instr_PUSH_0xE5();
+    assert_eq!(c.h,  0x01);
+    assert_eq!(c.l,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 8);
+    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+}
+
+#[test]
+fn instr_PUSH_0xF5() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a  = 0x01;
+    c.f  = 0x02;
+    c.pc = 5;
+    c.sp = 10;
+    c.instr_PUSH_0xF5();
+    assert_eq!(c.a,  0x01);
+    assert_eq!(c.f,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 8);
+    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+}
+
+#[test]
+fn instr_PUSH_0xC5() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.b  = 0x01;
+    c.c  = 0x02;
+    c.pc = 5;
+    c.sp = 10;
+    c.instr_PUSH_0xC5();
+    assert_eq!(c.b,  0x01);
+    assert_eq!(c.c,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 8);
+    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+}

@@ -4463,9 +4463,11 @@ impl Cpu {
         //!   to by sp. sp is decremented again and e is stored into the memory
         //!   location pointed to by sp.
 
-        unimplemented!();
-
-        // Update flags
+        // Push DE on the stack
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.d);
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.e);
 
         // Update clocks
         self.m += 4;
@@ -7315,9 +7317,11 @@ impl Cpu {
         //!   to by sp. sp is decremented again and l is stored into the memory
         //!   location pointed to by sp.
 
-        unimplemented!();
-
-        // Update flags
+        // Push HL on the stack
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.h);
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.l);
 
         // Update clocks
         self.m += 4;
@@ -9894,9 +9898,11 @@ impl Cpu {
         //!   to by sp. sp is decremented again and f is stored into the memory
         //!   location pointed to by sp.
 
-        unimplemented!();
-
-        // Update flags
+        // Push AF on the stack
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.a);
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.f);
 
         // Update clocks
         self.m += 4;
@@ -12396,9 +12402,11 @@ impl Cpu {
         //!   to by sp. sp is decremented again and c is stored into the memory
         //!   location pointed to by sp.
 
-        unimplemented!();
-
-        // Update flags
+        // Push BC on the stack
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.b);
+        self.sp -= 1;
+        self.mmu.write8(self.sp, self.c);
 
         // Update clocks
         self.m += 4;
