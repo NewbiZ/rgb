@@ -37,8 +37,8 @@ impl Mmu {
 
     pub fn write16(&mut self, address: u16, data: u16) {
         //! Write a single word to memory
-        self.memory[address as usize]   = (data >> 8) as u8;
-        self.memory[address as usize+1] = data as u8;
+        self.memory[address as usize+1] = (data >> 8) as u8;
+        self.memory[address as usize]   = data as u8;
     }
 
     pub fn read8(&self, address: u16) -> u8 {
@@ -48,7 +48,7 @@ impl Mmu {
 
     pub fn read16(&self, address: u16) -> u16 {
         //! Read a single word from memory
-        ((self.memory[address as usize] as u16) << 8) + self.memory[address as usize+1] as u16
+        ((self.memory[address as usize+1] as u16) << 8) + self.memory[address as usize] as u16
     }
 }
 
