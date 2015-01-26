@@ -632,7 +632,7 @@ fn instr_AND_0xA6() {
 #[test]
 fn instr_AND_0xA5() {
     let mut c = Cpu::new();
-    
+
     c.reset();
     c.a = 0b01010101 as u8;
     c.l = 0b00001111 as u8;
@@ -653,7 +653,7 @@ fn instr_AND_0xA5() {
 #[test]
 fn instr_AND_0xA4() {
     let mut c = Cpu::new();
-    
+
     c.reset();
     c.a = 0b01010101 as u8;
     c.h = 0b00001111 as u8;
@@ -674,7 +674,7 @@ fn instr_AND_0xA4() {
 #[test]
 fn instr_AND_0xA3() {
     let mut c = Cpu::new();
-    
+
     c.reset();
     c.a = 0b01010101 as u8;
     c.e = 0b00001111 as u8;
@@ -695,7 +695,7 @@ fn instr_AND_0xA3() {
 #[test]
 fn instr_AND_0xA2() {
     let mut c = Cpu::new();
-    
+
     c.reset();
     c.a = 0b01010101 as u8;
     c.d = 0b00001111 as u8;
@@ -716,7 +716,7 @@ fn instr_AND_0xA2() {
 #[test]
 fn instr_AND_0xA1() {
     let mut c = Cpu::new();
-    
+
     c.reset();
     c.a = 0b01010101 as u8;
     c.c = 0b00001111 as u8;
@@ -737,7 +737,7 @@ fn instr_AND_0xA1() {
 #[test]
 fn instr_AND_0xA0() {
     let mut c = Cpu::new();
-    
+
     c.reset();
     c.a = 0b01010101 as u8;
     c.b = 0b00001111 as u8;
