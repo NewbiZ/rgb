@@ -209,16 +209,24 @@ impl Cpu {
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
 
-        unimplemented!();
-
-        // Update flags
-
-        // Update clocks
-        self.m += 2;
-        self.t += 8;
-
-        // Update program counter
-        self.pc += 1;
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        if self.f & (Flag::Zero as u8) != 0 {
+            // Update clocks
+            self.m += 3;
+            self.t += 12;
+            // Update program counter
+            if r8 < 0 {
+                self.pc -= -r8 as u16;
+            } else {
+                self.pc += r8 as u16;
+            }
+        } else {
+            // Update clocks
+            self.m += 2;
+            self.t += 8;
+            // Update program counter
+            self.pc += 2;
+        }
     }
 
     pub fn instr_ADD_0x29(&mut self) {
@@ -315,16 +323,24 @@ impl Cpu {
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
 
-        unimplemented!();
-
-        // Update flags
-
-        // Update clocks
-        self.m += 2;
-        self.t += 8;
-
-        // Update program counter
-        self.pc += 1;
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        if self.f & (Flag::Zero as u8) == 0 {
+            // Update clocks
+            self.m += 3;
+            self.t += 12;
+            // Update program counter
+            if r8 < 0 {
+                self.pc -= -r8 as u16;
+            } else {
+                self.pc += r8 as u16;
+            }
+        } else {
+            // Update clocks
+            self.m += 2;
+            self.t += 8;
+            // Update program counter
+            self.pc += 2;
+        }
     }
 
     pub fn instr_LD_0x21(&mut self) {
@@ -4042,16 +4058,24 @@ impl Cpu {
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
 
-        unimplemented!();
-
-        // Update flags
-
-        // Update clocks
-        self.m += 2;
-        self.t += 8;
-
-        // Update program counter
-        self.pc += 1;
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        if self.f & (Flag::Carry as u8) == 0 {
+            // Update clocks
+            self.m += 3;
+            self.t += 12;
+            // Update program counter
+            if r8 < 0 {
+                self.pc -= -r8 as u16;
+            } else {
+                self.pc += r8 as u16;
+            }
+        } else {
+            // Update clocks
+            self.m += 2;
+            self.t += 8;
+            // Update program counter
+            self.pc += 2;
+        }
     }
 
     pub fn instr_INC_0x33(&mut self) {
@@ -4148,16 +4172,24 @@ impl Cpu {
         //!   If condition cc is true, the signed value * is added to pc. The
         //!   jump is measured from the start of the instruction opcode.
 
-        unimplemented!();
-
-        // Update flags
-
-        // Update clocks
-        self.m += 2;
-        self.t += 8;
-
-        // Update program counter
-        self.pc += 1;
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        if self.f & (Flag::Carry as u8) != 0 {
+            // Update clocks
+            self.m += 3;
+            self.t += 12;
+            // Update program counter
+            if r8 < 0 {
+                self.pc -= -r8 as u16;
+            } else {
+                self.pc += r8 as u16;
+            }
+        } else {
+            // Update clocks
+            self.m += 2;
+            self.t += 8;
+            // Update program counter
+            self.pc += 2;
+        }
     }
 
     pub fn instr_RES_0xCB8E(&mut self) {
@@ -10252,16 +10284,17 @@ impl Cpu {
         //!   The signed value * is added to pc. The jump is measured from the
         //!   start of the instruction opcode.
 
-        unimplemented!();
-
-        // Update flags
+        // Update program counter
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        if r8 < 0 {
+            self.pc -= -r8 as u16;
+        } else {
+            self.pc += r8 as u16;
+        }
 
         // Update clocks
         self.m += 3;
         self.t += 12;
-
-        // Update program counter
-        self.pc += 1;
     }
 
     pub fn instr_RLA_0x17(&mut self) {
