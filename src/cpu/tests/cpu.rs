@@ -754,3 +754,187 @@ fn instr_AND_0xA0() {
     assert_eq!(c.a, 0b00000000 as u8);
     assert_eq!(c.f, Flag::HalfCarry as u8 | Flag::Zero as u8);
 }
+
+#[test]
+fn instr_XOR_0xA9() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.c = 0b00001111 as u8;
+    c.instr_XOR_0xA9();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.c = 0b01010101 as u8;
+    c.instr_XOR_0xA9();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xA8() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.b = 0b00001111 as u8;
+    c.instr_XOR_0xA8();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.b = 0b01010101 as u8;
+    c.instr_XOR_0xA8();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xAF() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.instr_XOR_0xAF();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xAE() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.h = 0;
+    c.l = 10;
+    c.mmu.write8(10, 0b00001111);
+    c.instr_XOR_0xAE();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.h = 0;
+    c.l = 10;
+    c.mmu.write8(10, 0b01010101 as u8);
+    c.instr_XOR_0xAE();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xAD() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.l = 0b00001111 as u8;
+    c.instr_XOR_0xAD();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.l = 0b01010101 as u8;
+    c.instr_XOR_0xAD();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xAC() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.h = 0b00001111 as u8;
+    c.instr_XOR_0xAC();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.h = 0b01010101 as u8;
+    c.instr_XOR_0xAC();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xAB() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.e = 0b00001111 as u8;
+    c.instr_XOR_0xAB();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.e = 0b01010101 as u8;
+    c.instr_XOR_0xAB();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xAA() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.d = 0b00001111 as u8;
+    c.instr_XOR_0xAA();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.d = 0b01010101 as u8;
+    c.instr_XOR_0xAA();
+    assert_eq!(c.pc, 1);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}
+
+#[test]
+fn instr_XOR_0xEE() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.mmu.write8(1, 0b00001111 as u8);
+    c.instr_XOR_0xEE();
+    assert_eq!(c.pc, 2);
+    assert_eq!(c.a, 0b01011010 as u8);
+    assert_eq!(c.f, Flag::None as u8);
+
+    c.reset();
+    c.a = 0b01010101 as u8;
+    c.mmu.write8(1, 0b01010101 as u8);
+    c.instr_XOR_0xEE();
+    assert_eq!(c.pc, 2);
+    assert_eq!(c.a, 0b00000000 as u8);
+    assert_eq!(c.f, Flag::Zero as u8);
+}

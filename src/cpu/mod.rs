@@ -4604,9 +4604,12 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with c.
 
-        unimplemented!();
+        self.a ^= self.c;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -4633,9 +4636,12 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with b.
 
-        unimplemented!();
+        self.a ^= self.b;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -4661,8 +4667,6 @@ impl Cpu {
         //!   - C: Force unset (0)
         //! Description:
         //!   Bitwise AND on a with a.
-
-        self.a &= self.a;
 
         // Update flags
         if self.a==0 {
@@ -6173,9 +6177,10 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with a.
 
-        unimplemented!();
+        self.a = 0;
 
         // Update flags
+        self.f |= Flag::Zero as u8;
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -6202,9 +6207,13 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with (hl).
 
-        unimplemented!();
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.a ^= hl;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -6231,9 +6240,12 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with l.
 
-        unimplemented!();
+        self.a ^= self.l;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -6260,9 +6272,12 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with h.
 
-        unimplemented!();
+        self.a ^= self.h;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -6289,9 +6304,12 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with e.
 
-        unimplemented!();
+        self.a ^= self.e;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -6318,9 +6336,12 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with d.
 
-        unimplemented!();
+        self.a ^= self.d;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -7689,9 +7710,13 @@ impl Cpu {
         //! Description:
         //!   Bitwise XOR on a with *.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.a ^= d8;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
         self.f &= !(Flag::HalfCarry as u8);
         self.f &= !(Flag::Carry as u8);
@@ -7701,7 +7726,7 @@ impl Cpu {
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RRC_0xCB0E(&mut self) {
