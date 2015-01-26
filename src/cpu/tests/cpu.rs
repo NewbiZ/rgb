@@ -938,3 +938,25 @@ fn instr_XOR_0xEE() {
     assert_eq!(c.a, 0b00000000 as u8);
     assert_eq!(c.f, Flag::Zero as u8);
 }
+
+#[test]
+fn instr_NOP_0x00() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.instr_NOP_0x00();
+    c.instr_NOP_0x00();
+
+    assert_eq!(c.a,  0);
+    assert_eq!(c.b,  0);
+    assert_eq!(c.c,  0);
+    assert_eq!(c.d,  0);
+    assert_eq!(c.e,  0);
+    assert_eq!(c.h,  0);
+    assert_eq!(c.l,  0);
+    assert_eq!(c.f,  Flag::None as u8);
+    assert_eq!(c.pc, 2);
+    assert_eq!(c.sp, 0);
+    assert_eq!(c.m,  0);
+    assert_eq!(c.t,  0);
+}

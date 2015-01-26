@@ -6693,10 +6693,6 @@ impl Cpu {
         //! - Description
         //!   No operation is performed.
 
-        unimplemented!();
-
-        // Update flags
-
         // Update clocks
         self.m += 1;
         self.t += 4;
