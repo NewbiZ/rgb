@@ -1291,3 +1291,79 @@ fn instr_JR_0x18() {
     assert_eq!(c.m, 3);
     assert_eq!(c.t, 12);
 }
+
+#[test]
+fn instr_SET_0xCBC0() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.b = 0b00000000;
+    c.instr_SET_0xCBC0();
+    assert_eq!(c.b, 0b00000001);
+    assert_eq!(c.pc, 2);
+}
+
+#[test]
+fn instr_SET_0xCBC1() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.c = 0b00000000;
+    c.instr_SET_0xCBC1();
+    assert_eq!(c.c, 0b00000001);
+    assert_eq!(c.pc, 2);
+}
+
+#[test]
+fn instr_SET_0xCBC3() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.e = 0b00000000;
+    c.instr_SET_0xCBC3();
+    assert_eq!(c.e, 0b00000001);
+    assert_eq!(c.pc, 2);
+}
+
+#[test]
+fn instr_SET_0xCBC4() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.h = 0b00000000;
+    c.instr_SET_0xCBC4();
+    assert_eq!(c.h, 0b00000001);
+    assert_eq!(c.pc, 2);
+}
+
+fn instr_SET_0xCBC5() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.l = 0b00000000;
+    c.instr_SET_0xCBC5();
+    assert_eq!(c.l, 0b00000001);
+    assert_eq!(c.pc, 2);
+}
+
+fn instr_SET_0xCBC7() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 0b00000000;
+    c.instr_SET_0xCBC7();
+    assert_eq!(c.a, 0b00000001);
+    assert_eq!(c.pc, 2);
+}
+
+fn instr_SET_0xCBC6() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.mmu.write8(0x0005, 0b00000000);
+    c.h = 0x00;
+    c.l = 0x05;
+    c.instr_SET_0xCBC6();
+    assert_eq!(c.mmu.read8(0x0005), 0b00000001);
+    assert_eq!(c.pc, 2);
+}
