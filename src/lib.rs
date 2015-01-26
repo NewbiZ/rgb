@@ -29,3 +29,4 @@ mod util;
 mod cpu;
 mod mmu;
 mod gameboy;
+mod cartridge;
