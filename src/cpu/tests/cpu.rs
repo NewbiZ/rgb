@@ -957,6 +957,6 @@ fn instr_NOP_0x00() {
     assert_eq!(c.f,  Flag::None as u8);
     assert_eq!(c.pc, 2);
     assert_eq!(c.sp, 0);
-    assert_eq!(c.m,  0);
-    assert_eq!(c.t,  0);
+    assert_eq!(c.m,  2);
+    assert_eq!(c.t,  8);
 }
