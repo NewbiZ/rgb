@@ -4409,9 +4409,11 @@ impl Cpu {
         //!   incremented. The memory location pointed to by sp is stored into d
         //!   and sp is incremented again.
 
-        unimplemented!();
-
-        // Update flags
+        // Pop DE from stack
+        self.e = self.mmu.read8(self.sp);
+        self.sp += 1;
+        self.d = self.mmu.read8(self.sp);
+        self.sp += 1;
 
         // Update clocks
         self.m += 3;
@@ -7205,9 +7207,11 @@ impl Cpu {
         //!   incremented. The memory location pointed to by sp is stored into h
         //!   and sp is incremented again.
 
-        unimplemented!();
-
-        // Update flags
+        // Pop HL from stack
+        self.l = self.mmu.read8(self.sp);
+        self.sp += 1;
+        self.h = self.mmu.read8(self.sp);
+        self.sp += 1;
 
         // Update clocks
         self.m += 3;
@@ -10089,9 +10093,11 @@ impl Cpu {
         //!   incremented. The memory location pointed to by sp is stored into a
         //!   and sp is incremented again.
 
-        unimplemented!();
-
-        // Update flags
+        // Pop AF from stack
+        self.f = self.mmu.read8(self.sp);
+        self.sp += 1;
+        self.a = self.mmu.read8(self.sp);
+        self.sp += 1;
 
         // Update clocks
         self.m += 3;
@@ -12527,9 +12533,11 @@ impl Cpu {
         //!   incremented. The memory location pointed to by sp is stored into b
         //!   and sp is incremented again.
 
-        unimplemented!();
-
-        // Update flags
+        // Pop BC from stack
+        self.c = self.mmu.read8(self.sp);
+        self.sp += 1;
+        self.b = self.mmu.read8(self.sp);
+        self.sp += 1;
 
         // Update clocks
         self.m += 3;

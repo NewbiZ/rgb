@@ -450,7 +450,7 @@ fn instr_PUSH_0xD5() {
     assert_eq!(c.e,  0x02);
     assert_eq!(c.pc, 6);
     assert_eq!(c.sp, 8);
-    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+    assert_eq!(c.mmu.read16(c.sp), 0x0102);
 }
 
 #[test]
@@ -467,7 +467,7 @@ fn instr_PUSH_0xE5() {
     assert_eq!(c.l,  0x02);
     assert_eq!(c.pc, 6);
     assert_eq!(c.sp, 8);
-    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+    assert_eq!(c.mmu.read16(c.sp), 0x0102);
 }
 
 #[test]
@@ -484,7 +484,7 @@ fn instr_PUSH_0xF5() {
     assert_eq!(c.f,  0x02);
     assert_eq!(c.pc, 6);
     assert_eq!(c.sp, 8);
-    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+    assert_eq!(c.mmu.read16(c.sp), 0x0102);
 }
 
 #[test]
@@ -501,5 +501,65 @@ fn instr_PUSH_0xC5() {
     assert_eq!(c.c,  0x02);
     assert_eq!(c.pc, 6);
     assert_eq!(c.sp, 8);
-    assert_eq!(c.mmu.read16(c.sp), 0x0201);
+    assert_eq!(c.mmu.read16(c.sp), 0x0102);
+}
+
+#[test]
+fn instr_POP_0xD1() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.pc = 5;
+    c.sp = 10;
+    c.mmu.write16(10, 0x0102);
+    c.instr_POP_0xD1();
+    assert_eq!(c.d,  0x01);
+    assert_eq!(c.e,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 12);
+}
+
+#[test]
+fn instr_POP_0xE1() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.pc = 5;
+    c.sp = 10;
+    c.mmu.write16(10, 0x0102);
+    c.instr_POP_0xE1();
+    assert_eq!(c.h,  0x01);
+    assert_eq!(c.l,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 12);
+}
+
+#[test]
+fn instr_POP_0xF1() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.pc = 5;
+    c.sp = 10;
+    c.mmu.write16(10, 0x0102);
+    c.instr_POP_0xF1();
+    assert_eq!(c.a,  0x01);
+    assert_eq!(c.f,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 12);
+}
+
+#[test]
+fn instr_POP_0xC1() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.pc = 5;
+    c.sp = 10;
+    c.mmu.write16(10, 0x0102);
+    c.instr_POP_0xC1();
+    assert_eq!(c.b,  0x01);
+    assert_eq!(c.c,  0x02);
+    assert_eq!(c.pc, 6);
+    assert_eq!(c.sp, 12);
 }
