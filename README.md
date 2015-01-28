@@ -5,6 +5,7 @@ This is a LR35902 (modified Z80 used in GameBoy) emulator written in Rust.
 Dependencies
 ------------
 In order to build `rgb`, you will need the latest version of Rust (www.rust-lang.org).
+
 You can grab it with:
 
     $ curl -s https://static.rust-lang.org/rustup.sh | sudo sh
@@ -35,10 +36,12 @@ Usage
 Example `rgbdbg` session with a simple Z80 program computing the
 sum of integers from 1 to 10 in register `a`.
 
+    $ ./target/rgbdbg
     RGB debugger 0.0.1
     Copyright (C) 2015 Aurelien Vallee
     License MIT: http://opensource.org/licenses/MIT
-    (rgbdbg) Commands:
+    (rgbdbg) h
+    Commands:
       help |h    List available commands
       file |f    Load Z80 executable binary
       next |n    Step execute the next instruction
@@ -47,7 +50,8 @@ sum of integers from 1 to 10 in register `a`.
       dump |d    Dump memory at location
       print|p    Print the current CPU state
       quit |q    Quit
-    (rgbdbg) -> NOP
+    (rgbdbg) l
+    -> NOP
        NOP
        NOP
        NOP
@@ -57,19 +61,23 @@ sum of integers from 1 to 10 in register `a`.
        NOP
        NOP
        NOP
-    (rgbdbg) @x0000 | x00 x00 x00 x00 |
+    (rgbdbg) d
+    @x0000 | x00 x00 x00 x00 |
     @x0004 | x00 x00 x00 x00 |
     @x0008 | x00 x00 x00 x00 |
     @x000C | x00 x00 x00 x00 |
     @x0010 | x00 x00 x00 x00 |
     @x0014 | x00 x00 x00 x00 |
-    (rgbdbg) |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
+    (rgbdbg) p
+    |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
     | x00 x00 | x00 x00 | x00 x00 | x00 x00 | @x0000 | @x0000 | 00000000 |   0 |   0 |
     |   0   0 |   0   0 |   0   0 |   0   0 |      - |      - |
     |       0 |       0 |       0 |       0 | @    0 | @    0 |
-    (rgbdbg) Loading: samples/sum_integers.z80.
+    (rgbdbg) file samples/sum_integers.z80
+    Loading: samples/sum_integers.z80.
     Successfully loaded 8 bytes in memory.
-    (rgbdbg) -> LD B, 0x0A
+    (rgbdbg) l
+    -> LD B, 0x0A
        XOR A
        ADD A, B
        DEC B
@@ -79,26 +87,35 @@ sum of integers from 1 to 10 in register `a`.
        NOP
        NOP
        NOP
-    (rgbdbg) @x0000 | x06 x0A xAF x80 |
+    (rgbdbg) d
+    @x0000 | x06 x0A xAF x80 |
     @x0004 | x05 x20 xFE x10 |
     @x0008 | x00 x00 x00 x00 |
     @x000C | x00 x00 x00 x00 |
     @x0010 | x00 x00 x00 x00 |
     @x0014 | x00 x00 x00 x00 |
-    (rgbdbg) |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
+    (rgbdbg) p
+    |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
     | x00 x00 | x00 x00 | x00 x00 | x00 x00 | @x0000 | @x0000 | 00000000 |   0 |   0 |
     |   0   0 |   0   0 |   0   0 |   0   0 |      - |      - |
     |       0 |       0 |       0 |       0 | @    0 | @    0 |
-    (rgbdbg) LD B, 0x0A
-    (rgbdbg) XOR A
-    (rgbdbg) ADD A, B
-    (rgbdbg) DEC B
-    (rgbdbg) JR NZ, 0xFE
-    (rgbdbg) |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
+    (rgbdbg) n
+    LD B, 0x0A
+    (rgbdbg) n
+    XOR A
+    (rgbdbg) n
+    ADD A, B
+    (rgbdbg) n
+    DEC B
+    (rgbdbg) n
+    JR NZ, 0xFE
+    (rgbdbg) p
+    |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
     | x0A x40 | x09 x00 | x00 x00 | x00 x00 | @x0003 | @x0000 | 01000000 |   8 |  32 |
     |  10  64 |   9   0 |   0   0 |   0   0 |      - |      - |
     |    2624 |    2304 |       0 |       0 | @    3 | @    0 |
-    (rgbdbg) LD B, 0x0A
+    (rgbdbg) r
+    LD B, 0x0A
     XOR A
     ADD A, B
     DEC B
@@ -131,11 +148,13 @@ sum of integers from 1 to 10 in register `a`.
     DEC B
     JR NZ, 0xFE
     STOP 0
-    (rgbdbg) |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
+    (rgbdbg) p
+    |  A   F  |  B   C  |  D   E  |  H   L  |     PC |     SP | ZNHC---- |  M  |  T  |
     | x37 xC0 | x00 x00 | x00 x00 | x00 x00 | @x0008 | @x0000 | 11000000 |  53 | 212 |
     |  55 192 |   0   0 |   0   0 |   0   0 |      - |      - |
     |   14272 |       0 |       0 |       0 | @    8 | @    0 |
-    (rgbdbg) -> NOP
+    (rgbdbg) l
+    -> NOP
        NOP
        NOP
        NOP
@@ -145,7 +164,8 @@ sum of integers from 1 to 10 in register `a`.
        NOP
        NOP
        NOP
-    (rgbdbg) Bye.
+    (rgbdbg) q
+    Bye.
 
 Licensed under MIT/X
 --------------------
