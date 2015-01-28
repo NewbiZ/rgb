@@ -1405,5 +1405,5 @@ fn sum_ints() {
     c.mmu.write8(6,   -2 as u8);    // 06 ^-2
     c.mmu.write8(7, 0x10);          // 07 STOP
     // Run it
-    c.run();
+    c.run(true);
 }

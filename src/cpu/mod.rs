@@ -48,7 +48,7 @@ pub struct Cpu {
     /// Flag register
     f:  u8,
     /// Program counter register
-    pc: u16,
+    pub pc: u16,
     /// Stack pointer register
     sp: u16,
     /// Clock
@@ -56,9 +56,9 @@ pub struct Cpu {
     /// Clock
     t: u8,
     /// Memory management unit
-    mmu: Mmu,
+    pub mmu: Mmu,
     /// Boolean indicating whether processor is stopped
-    stop: bool,
+    pub stop: bool,
 }
 
 // ==============================================
@@ -103,22 +103,31 @@ impl Cpu {
         self.stop = true;
     }
 
+    pub fn stopped(&self) -> bool {
+        self.stop
+    }
+
     pub fn step(&mut self) {
         let opcode: u16 = self.mmu.read8(self.pc) as u16;
         match DECODER.get(&opcode) {
-            Some(instr) => instr(self),
+            Some(&(instr, _)) => instr(self),
+            _ => panic!("error: unknown opcode {0:X}", self.pc),
+        }
+    }
+
+    pub fn state(&self) -> (String, u8) {
+        let opcode: u16 = self.mmu.read8(self.pc) as u16;
+        match DECODER.get(&opcode) {
+            Some(&(_, disp)) => disp(self),
             _ => panic!("error: unknown opcode {0:X}", self.pc),
         }
     }
 
     pub fn run(&mut self) {
         self.stop = false;
-        println!("### STARTED");
         while !self.stop {
-            println!("{:?}", self);
             self.step();
         }
-        println!("### STOPPED");
     }
 
     pub fn instr_ADD_0x85(&mut self) {
@@ -14029,6 +14038,4684 @@ impl Cpu {
         // Update program counter
         self.pc += 1;
     }
+
+    fn disp_NOP_0x00(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("NOP");
+        (result, 1)
+    }
+
+    fn disp_LD_0x01(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("BC");
+        result.push_str(", ");
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", d16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_LD_0x02(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(BC)");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_INC_0x03(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("BC");
+        (result, 1)
+    }
+
+    fn disp_INC_0x04(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x05(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x06(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RLCA_0x07(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLCA");
+        (result, 1)
+    }
+
+    fn disp_LD_0x08(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        let pa16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("(0x{:0>4.4X})", pa16).as_slice());
+        result.push_str(", ");
+        result.push_str("SP");
+        (result, 3)
+    }
+
+    fn disp_ADD_0x09(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("HL");
+        result.push_str(", ");
+        result.push_str("BC");
+        (result, 1)
+    }
+
+    fn disp_LD_0x0A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(BC)");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x0B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("BC");
+        (result, 1)
+    }
+
+    fn disp_INC_0x0C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x0D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x0E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RRCA_0x0F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRCA");
+        (result, 1)
+    }
+
+    fn disp_STOP_0x10(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("STOP");
+        result.push_str(" ");
+        result.push_str("0");
+        (result, 1)
+    }
+
+    fn disp_LD_0x11(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("DE");
+        result.push_str(", ");
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", d16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_LD_0x12(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(DE)");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_INC_0x13(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("DE");
+        (result, 1)
+    }
+
+    fn disp_INC_0x14(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x15(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x16(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RLA_0x17(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLA");
+        (result, 1)
+    }
+
+    fn disp_JR_0x18(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JR");
+        result.push_str(" ");
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        result.push_str(format!("0x{:0>2.2X}", r8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_ADD_0x19(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("HL");
+        result.push_str(", ");
+        result.push_str("DE");
+        (result, 1)
+    }
+
+    fn disp_LD_0x1A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(DE)");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x1B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("DE");
+        (result, 1)
+    }
+
+    fn disp_INC_0x1C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x1D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x1E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RRA_0x1F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRA");
+        (result, 1)
+    }
+
+    fn disp_JR_0x20(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JR");
+        result.push_str(" ");
+        result.push_str("NZ");
+        result.push_str(", ");
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        result.push_str(format!("0x{:0>2.2X}", r8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_LD_0x21(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("HL");
+        result.push_str(", ");
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", d16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_LD_0x22(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL+)");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_INC_0x23(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("HL");
+        (result, 1)
+    }
+
+    fn disp_INC_0x24(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x25(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x26(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_DAA_0x27(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DAA");
+        (result, 1)
+    }
+
+    fn disp_JR_0x28(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JR");
+        result.push_str(" ");
+        result.push_str("Z");
+        result.push_str(", ");
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        result.push_str(format!("0x{:0>2.2X}", r8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_ADD_0x29(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("HL");
+        result.push_str(", ");
+        result.push_str("HL");
+        (result, 1)
+    }
+
+    fn disp_LD_0x2A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(HL+)");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x2B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("HL");
+        (result, 1)
+    }
+
+    fn disp_INC_0x2C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x2D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x2E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_CPL_0x2F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CPL");
+        (result, 1)
+    }
+
+    fn disp_JR_0x30(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JR");
+        result.push_str(" ");
+        result.push_str("NC");
+        result.push_str(", ");
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        result.push_str(format!("0x{:0>2.2X}", r8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_LD_0x31(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("SP");
+        result.push_str(", ");
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", d16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_LD_0x32(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL-)");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_INC_0x33(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("SP");
+        (result, 1)
+    }
+
+    fn disp_INC_0x34(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x35(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x36(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_SCF_0x37(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SCF");
+        (result, 1)
+    }
+
+    fn disp_JR_0x38(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JR");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        result.push_str(format!("0x{:0>2.2X}", r8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_ADD_0x39(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("HL");
+        result.push_str(", ");
+        result.push_str("SP");
+        (result, 1)
+    }
+
+    fn disp_LD_0x3A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(HL-)");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x3B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("SP");
+        (result, 1)
+    }
+
+    fn disp_INC_0x3C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("INC");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_DEC_0x3D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DEC");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x3E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_CCF_0x3F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CCF");
+        (result, 1)
+    }
+
+    fn disp_LD_0x40(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x41(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x42(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x43(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x44(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x45(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x46(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x47(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("B");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x48(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x49(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x4A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x4B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x4C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x4D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x4E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x4F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x50(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x51(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x52(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x53(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x54(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x55(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x56(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x57(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("D");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x58(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x59(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x5A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x5B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x5C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x5D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x5E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x5F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("E");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x60(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x61(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x62(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x63(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x64(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x65(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x66(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x67(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("H");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x68(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x69(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x6A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x6B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x6C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x6D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x6E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x6F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("L");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x70(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x71(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x72(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x73(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x74(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x75(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_HALT_0x76(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("HALT");
+        (result, 1)
+    }
+
+    fn disp_LD_0x77(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_LD_0x78(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_LD_0x79(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_LD_0x7A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_LD_0x7B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_LD_0x7C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_LD_0x7D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_LD_0x7E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0x7F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x80(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x81(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x82(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x83(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x84(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x85(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x86(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_ADD_0x87(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x88(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x89(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x8A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x8B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x8C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x8D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x8E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_ADC_0x8F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x90(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x91(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x92(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x93(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x94(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x95(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x96(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_SUB_0x97(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x98(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x99(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x9A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x9B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x9C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x9D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x9E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_SBC_0x9F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_AND_0xA7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xA8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xA9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xAA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xAB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xAC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xAD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xAE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_XOR_0xAF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_OR_0xB7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_CP_0xB8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 1)
+    }
+
+    fn disp_CP_0xB9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_CP_0xBA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 1)
+    }
+
+    fn disp_CP_0xBB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 1)
+    }
+
+    fn disp_CP_0xBC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 1)
+    }
+
+    fn disp_CP_0xBD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 1)
+    }
+
+    fn disp_CP_0xBE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_CP_0xBF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_RET_0xC0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RET");
+        result.push_str(" ");
+        result.push_str("NZ");
+        (result, 1)
+    }
+
+    fn disp_POP_0xC1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("POP");
+        result.push_str(" ");
+        result.push_str("BC");
+        (result, 1)
+    }
+
+    fn disp_JP_0xC2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JP");
+        result.push_str(" ");
+        result.push_str("NZ");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_JP_0xC3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JP");
+        result.push_str(" ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_CALL_0xC4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CALL");
+        result.push_str(" ");
+        result.push_str("NZ");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_PUSH_0xC5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("PUSH");
+        result.push_str(" ");
+        result.push_str("BC");
+        (result, 1)
+    }
+
+    fn disp_ADD_0xC6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xC7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("00H");
+        (result, 1)
+    }
+
+    fn disp_RET_0xC8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RET");
+        result.push_str(" ");
+        result.push_str("Z");
+        (result, 1)
+    }
+
+    fn disp_RET_0xC9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RET");
+        (result, 1)
+    }
+
+    fn disp_JP_0xCA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JP");
+        result.push_str(" ");
+        result.push_str("Z");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_PREFIX_0xCB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("PREFIX");
+        result.push_str(" ");
+        result.push_str("CB");
+        (result, 1)
+    }
+
+    fn disp_RLC_0xCB00(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RLC_0xCB01(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RLC_0xCB02(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RLC_0xCB03(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RLC_0xCB04(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RLC_0xCB05(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RLC_0xCB06(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RLC_0xCB07(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RLC");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB08(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB09(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB0A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB0B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB0C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB0D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB0E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RRC_0xCB0F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RRC");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB10(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB11(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB12(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB13(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB14(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB15(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB16(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RL_0xCB17(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RL");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB18(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB19(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB1A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB1B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB1C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB1D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB1E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RR_0xCB1F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RR");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB20(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB21(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB22(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB23(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB24(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB25(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB26(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SLA_0xCB27(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SLA");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB28(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB29(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB2A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB2B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB2C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB2D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB2E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SRA_0xCB2F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRA");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB30(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB31(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB32(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB33(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB34(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB35(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB36(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SWAP_0xCB37(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SWAP");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB38(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB39(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB3A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB3B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB3C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB3D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB3E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SRL_0xCB3F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SRL");
+        result.push_str(" ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB40(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB41(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB42(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB43(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB44(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB45(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB46(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB47(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB48(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB49(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB4A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB4B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB4C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB4D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB4E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB4F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB50(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB51(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB52(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB53(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB54(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB55(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB56(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB57(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB58(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB59(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB5A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB5B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB5C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB5D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB5E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB5F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB60(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB61(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB62(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB63(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB64(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB65(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB66(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB67(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB68(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB69(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB6A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB6B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB6C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB6D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB6E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB6F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB70(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB71(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB72(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB73(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB74(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB75(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB76(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB77(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB78(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB79(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB7A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB7B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB7C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB7D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB7E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_BIT_0xCB7F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("BIT");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB80(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB81(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB82(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB83(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB84(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB85(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB86(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB87(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB88(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB89(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB8A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB8B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB8C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB8D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB8E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB8F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB90(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB91(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB92(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB93(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB94(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB95(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB96(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB97(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB98(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB99(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB9A(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB9B(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB9C(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB9D(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB9E(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCB9F(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBA9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBAA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBAB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBAC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBAD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBAE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBAF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBB9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBBA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBBB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBBC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBBD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBBE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_RES_0xCBBF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RES");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("0");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBC9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBCA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBCB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBCC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBCD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBCE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBCF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("1");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("2");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBD9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBDA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBDB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBDC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBDD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBDE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBDF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("3");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("4");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBE9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBEA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBEB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBEC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBED(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBEE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBEF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("5");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("6");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("B");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBF9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("C");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBFA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("D");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBFB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("E");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBFC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("H");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBFD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("L");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBFE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("(HL)");
+        (result, 2)
+    }
+
+    fn disp_SET_0xCBFF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SET");
+        result.push_str(" ");
+        result.push_str("7");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_CALL_0xCC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CALL");
+        result.push_str(" ");
+        result.push_str("Z");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_CALL_0xCD(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CALL");
+        result.push_str(" ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_ADC_0xCE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xCF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("08H");
+        (result, 1)
+    }
+
+    fn disp_RET_0xD0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RET");
+        result.push_str(" ");
+        result.push_str("NC");
+        (result, 1)
+    }
+
+    fn disp_POP_0xD1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("POP");
+        result.push_str(" ");
+        result.push_str("DE");
+        (result, 1)
+    }
+
+    fn disp_JP_0xD2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JP");
+        result.push_str(" ");
+        result.push_str("NC");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_CALL_0xD4(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CALL");
+        result.push_str(" ");
+        result.push_str("NC");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_PUSH_0xD5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("PUSH");
+        result.push_str(" ");
+        result.push_str("DE");
+        (result, 1)
+    }
+
+    fn disp_SUB_0xD6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SUB");
+        result.push_str(" ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xD7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("10H");
+        (result, 1)
+    }
+
+    fn disp_RET_0xD8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RET");
+        result.push_str(" ");
+        result.push_str("C");
+        (result, 1)
+    }
+
+    fn disp_RETI_0xD9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RETI");
+        (result, 1)
+    }
+
+    fn disp_JP_0xDA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JP");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_CALL_0xDC(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CALL");
+        result.push_str(" ");
+        result.push_str("C");
+        result.push_str(", ");
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("0x{:0>4.4X}", a16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_SBC_0xDE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("SBC");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xDF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("18H");
+        (result, 1)
+    }
+
+    fn disp_LDH_0xE0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LDH");
+        result.push_str(" ");
+        let pa8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("(0x{:0>2.2X})", pa8).as_slice());
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 2)
+    }
+
+    fn disp_POP_0xE1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("POP");
+        result.push_str(" ");
+        result.push_str("HL");
+        (result, 1)
+    }
+
+    fn disp_LD_0xE2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("(C)");
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 1)
+    }
+
+    fn disp_PUSH_0xE5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("PUSH");
+        result.push_str(" ");
+        result.push_str("HL");
+        (result, 1)
+    }
+
+    fn disp_AND_0xE6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("AND");
+        result.push_str(" ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xE7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("20H");
+        (result, 1)
+    }
+
+    fn disp_ADD_0xE8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("ADD");
+        result.push_str(" ");
+        result.push_str("SP");
+        result.push_str(", ");
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        result.push_str(format!("0x{:0>2.2X}", r8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_JP_0xE9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("JP");
+        result.push_str(" ");
+        result.push_str("(HL)");
+        (result, 1)
+    }
+
+    fn disp_LD_0xEA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        let pa16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("(0x{:0>4.4X})", pa16).as_slice());
+        result.push_str(", ");
+        result.push_str("A");
+        (result, 3)
+    }
+
+    fn disp_XOR_0xEE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("XOR");
+        result.push_str(" ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xEF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("28H");
+        (result, 1)
+    }
+
+    fn disp_LDH_0xF0(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LDH");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        let pa8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("(0x{:0>2.2X})", pa8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_POP_0xF1(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("POP");
+        result.push_str(" ");
+        result.push_str("AF");
+        (result, 1)
+    }
+
+    fn disp_LD_0xF2(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        result.push_str("(C)");
+        (result, 1)
+    }
+
+    fn disp_DI_0xF3(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("DI");
+        (result, 1)
+    }
+
+    fn disp_PUSH_0xF5(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("PUSH");
+        result.push_str(" ");
+        result.push_str("AF");
+        (result, 1)
+    }
+
+    fn disp_OR_0xF6(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("OR");
+        result.push_str(" ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xF7(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("30H");
+        (result, 1)
+    }
+
+    fn disp_LD_0xF8(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("HL");
+        result.push_str(", ");
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        result.push_str(format!("SP+0x{:0>2.2X}", r8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_LD_0xF9(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("SP");
+        result.push_str(", ");
+        result.push_str("HL");
+        (result, 1)
+    }
+
+    fn disp_LD_0xFA(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("LD");
+        result.push_str(" ");
+        result.push_str("A");
+        result.push_str(", ");
+        let pa16: u16 = self.mmu.read16(self.pc + 1);
+        result.push_str(format!("(0x{:0>4.4X})", pa16).as_slice());
+        (result, 3)
+    }
+
+    fn disp_EI_0xFB(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("EI");
+        (result, 1)
+    }
+
+    fn disp_CP_0xFE(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("CP");
+        result.push_str(" ");
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        result.push_str(format!("0x{:0>2.2X}", d8).as_slice());
+        (result, 2)
+    }
+
+    fn disp_RST_0xFF(&self) -> (String, u8) {
+        let mut result: String = String::new();
+        result.push_str("RST");
+        result.push_str(" ");
+        result.push_str("38H");
+        (result, 1)
+    }
 }
 
 // ==============================================
@@ -14094,509 +18781,509 @@ impl fmt::Debug for Cpu {
 // ==============================================
 
 lazy_static! {
-    static ref DECODER: BTreeMap<u16, fn(&mut Cpu)> = {
-        let mut decoder: BTreeMap<u16, fn(&mut Cpu)> = BTreeMap::new();
-        decoder.insert(0x00 as u16, Cpu::instr_NOP_0x00);
-        decoder.insert(0x01 as u16, Cpu::instr_LD_0x01);
-        decoder.insert(0x02 as u16, Cpu::instr_LD_0x02);
-        decoder.insert(0x03 as u16, Cpu::instr_INC_0x03);
-        decoder.insert(0x04 as u16, Cpu::instr_INC_0x04);
-        decoder.insert(0x05 as u16, Cpu::instr_DEC_0x05);
-        decoder.insert(0x06 as u16, Cpu::instr_LD_0x06);
-        decoder.insert(0x07 as u16, Cpu::instr_RLCA_0x07);
-        decoder.insert(0x08 as u16, Cpu::instr_LD_0x08);
-        decoder.insert(0x09 as u16, Cpu::instr_ADD_0x09);
-        decoder.insert(0x0A as u16, Cpu::instr_LD_0x0A);
-        decoder.insert(0x0B as u16, Cpu::instr_DEC_0x0B);
-        decoder.insert(0x0C as u16, Cpu::instr_INC_0x0C);
-        decoder.insert(0x0D as u16, Cpu::instr_DEC_0x0D);
-        decoder.insert(0x0E as u16, Cpu::instr_LD_0x0E);
-        decoder.insert(0x0F as u16, Cpu::instr_RRCA_0x0F);
-        decoder.insert(0x10 as u16, Cpu::instr_STOP_0x10);
-        decoder.insert(0x11 as u16, Cpu::instr_LD_0x11);
-        decoder.insert(0x12 as u16, Cpu::instr_LD_0x12);
-        decoder.insert(0x13 as u16, Cpu::instr_INC_0x13);
-        decoder.insert(0x14 as u16, Cpu::instr_INC_0x14);
-        decoder.insert(0x15 as u16, Cpu::instr_DEC_0x15);
-        decoder.insert(0x16 as u16, Cpu::instr_LD_0x16);
-        decoder.insert(0x17 as u16, Cpu::instr_RLA_0x17);
-        decoder.insert(0x18 as u16, Cpu::instr_JR_0x18);
-        decoder.insert(0x19 as u16, Cpu::instr_ADD_0x19);
-        decoder.insert(0x1A as u16, Cpu::instr_LD_0x1A);
-        decoder.insert(0x1B as u16, Cpu::instr_DEC_0x1B);
-        decoder.insert(0x1C as u16, Cpu::instr_INC_0x1C);
-        decoder.insert(0x1D as u16, Cpu::instr_DEC_0x1D);
-        decoder.insert(0x1E as u16, Cpu::instr_LD_0x1E);
-        decoder.insert(0x1F as u16, Cpu::instr_RRA_0x1F);
-        decoder.insert(0x20 as u16, Cpu::instr_JR_0x20);
-        decoder.insert(0x21 as u16, Cpu::instr_LD_0x21);
-        decoder.insert(0x22 as u16, Cpu::instr_LD_0x22);
-        decoder.insert(0x23 as u16, Cpu::instr_INC_0x23);
-        decoder.insert(0x24 as u16, Cpu::instr_INC_0x24);
-        decoder.insert(0x25 as u16, Cpu::instr_DEC_0x25);
-        decoder.insert(0x26 as u16, Cpu::instr_LD_0x26);
-        decoder.insert(0x27 as u16, Cpu::instr_DAA_0x27);
-        decoder.insert(0x28 as u16, Cpu::instr_JR_0x28);
-        decoder.insert(0x29 as u16, Cpu::instr_ADD_0x29);
-        decoder.insert(0x2A as u16, Cpu::instr_LD_0x2A);
-        decoder.insert(0x2B as u16, Cpu::instr_DEC_0x2B);
-        decoder.insert(0x2C as u16, Cpu::instr_INC_0x2C);
-        decoder.insert(0x2D as u16, Cpu::instr_DEC_0x2D);
-        decoder.insert(0x2E as u16, Cpu::instr_LD_0x2E);
-        decoder.insert(0x2F as u16, Cpu::instr_CPL_0x2F);
-        decoder.insert(0x30 as u16, Cpu::instr_JR_0x30);
-        decoder.insert(0x31 as u16, Cpu::instr_LD_0x31);
-        decoder.insert(0x32 as u16, Cpu::instr_LD_0x32);
-        decoder.insert(0x33 as u16, Cpu::instr_INC_0x33);
-        decoder.insert(0x34 as u16, Cpu::instr_INC_0x34);
-        decoder.insert(0x35 as u16, Cpu::instr_DEC_0x35);
-        decoder.insert(0x36 as u16, Cpu::instr_LD_0x36);
-        decoder.insert(0x37 as u16, Cpu::instr_SCF_0x37);
-        decoder.insert(0x38 as u16, Cpu::instr_JR_0x38);
-        decoder.insert(0x39 as u16, Cpu::instr_ADD_0x39);
-        decoder.insert(0x3A as u16, Cpu::instr_LD_0x3A);
-        decoder.insert(0x3B as u16, Cpu::instr_DEC_0x3B);
-        decoder.insert(0x3C as u16, Cpu::instr_INC_0x3C);
-        decoder.insert(0x3D as u16, Cpu::instr_DEC_0x3D);
-        decoder.insert(0x3E as u16, Cpu::instr_LD_0x3E);
-        decoder.insert(0x3F as u16, Cpu::instr_CCF_0x3F);
-        decoder.insert(0x40 as u16, Cpu::instr_LD_0x40);
-        decoder.insert(0x41 as u16, Cpu::instr_LD_0x41);
-        decoder.insert(0x42 as u16, Cpu::instr_LD_0x42);
-        decoder.insert(0x43 as u16, Cpu::instr_LD_0x43);
-        decoder.insert(0x44 as u16, Cpu::instr_LD_0x44);
-        decoder.insert(0x45 as u16, Cpu::instr_LD_0x45);
-        decoder.insert(0x46 as u16, Cpu::instr_LD_0x46);
-        decoder.insert(0x47 as u16, Cpu::instr_LD_0x47);
-        decoder.insert(0x48 as u16, Cpu::instr_LD_0x48);
-        decoder.insert(0x49 as u16, Cpu::instr_LD_0x49);
-        decoder.insert(0x4A as u16, Cpu::instr_LD_0x4A);
-        decoder.insert(0x4B as u16, Cpu::instr_LD_0x4B);
-        decoder.insert(0x4C as u16, Cpu::instr_LD_0x4C);
-        decoder.insert(0x4D as u16, Cpu::instr_LD_0x4D);
-        decoder.insert(0x4E as u16, Cpu::instr_LD_0x4E);
-        decoder.insert(0x4F as u16, Cpu::instr_LD_0x4F);
-        decoder.insert(0x50 as u16, Cpu::instr_LD_0x50);
-        decoder.insert(0x51 as u16, Cpu::instr_LD_0x51);
-        decoder.insert(0x52 as u16, Cpu::instr_LD_0x52);
-        decoder.insert(0x53 as u16, Cpu::instr_LD_0x53);
-        decoder.insert(0x54 as u16, Cpu::instr_LD_0x54);
-        decoder.insert(0x55 as u16, Cpu::instr_LD_0x55);
-        decoder.insert(0x56 as u16, Cpu::instr_LD_0x56);
-        decoder.insert(0x57 as u16, Cpu::instr_LD_0x57);
-        decoder.insert(0x58 as u16, Cpu::instr_LD_0x58);
-        decoder.insert(0x59 as u16, Cpu::instr_LD_0x59);
-        decoder.insert(0x5A as u16, Cpu::instr_LD_0x5A);
-        decoder.insert(0x5B as u16, Cpu::instr_LD_0x5B);
-        decoder.insert(0x5C as u16, Cpu::instr_LD_0x5C);
-        decoder.insert(0x5D as u16, Cpu::instr_LD_0x5D);
-        decoder.insert(0x5E as u16, Cpu::instr_LD_0x5E);
-        decoder.insert(0x5F as u16, Cpu::instr_LD_0x5F);
-        decoder.insert(0x60 as u16, Cpu::instr_LD_0x60);
-        decoder.insert(0x61 as u16, Cpu::instr_LD_0x61);
-        decoder.insert(0x62 as u16, Cpu::instr_LD_0x62);
-        decoder.insert(0x63 as u16, Cpu::instr_LD_0x63);
-        decoder.insert(0x64 as u16, Cpu::instr_LD_0x64);
-        decoder.insert(0x65 as u16, Cpu::instr_LD_0x65);
-        decoder.insert(0x66 as u16, Cpu::instr_LD_0x66);
-        decoder.insert(0x67 as u16, Cpu::instr_LD_0x67);
-        decoder.insert(0x68 as u16, Cpu::instr_LD_0x68);
-        decoder.insert(0x69 as u16, Cpu::instr_LD_0x69);
-        decoder.insert(0x6A as u16, Cpu::instr_LD_0x6A);
-        decoder.insert(0x6B as u16, Cpu::instr_LD_0x6B);
-        decoder.insert(0x6C as u16, Cpu::instr_LD_0x6C);
-        decoder.insert(0x6D as u16, Cpu::instr_LD_0x6D);
-        decoder.insert(0x6E as u16, Cpu::instr_LD_0x6E);
-        decoder.insert(0x6F as u16, Cpu::instr_LD_0x6F);
-        decoder.insert(0x70 as u16, Cpu::instr_LD_0x70);
-        decoder.insert(0x71 as u16, Cpu::instr_LD_0x71);
-        decoder.insert(0x72 as u16, Cpu::instr_LD_0x72);
-        decoder.insert(0x73 as u16, Cpu::instr_LD_0x73);
-        decoder.insert(0x74 as u16, Cpu::instr_LD_0x74);
-        decoder.insert(0x75 as u16, Cpu::instr_LD_0x75);
-        decoder.insert(0x76 as u16, Cpu::instr_HALT_0x76);
-        decoder.insert(0x77 as u16, Cpu::instr_LD_0x77);
-        decoder.insert(0x78 as u16, Cpu::instr_LD_0x78);
-        decoder.insert(0x79 as u16, Cpu::instr_LD_0x79);
-        decoder.insert(0x7A as u16, Cpu::instr_LD_0x7A);
-        decoder.insert(0x7B as u16, Cpu::instr_LD_0x7B);
-        decoder.insert(0x7C as u16, Cpu::instr_LD_0x7C);
-        decoder.insert(0x7D as u16, Cpu::instr_LD_0x7D);
-        decoder.insert(0x7E as u16, Cpu::instr_LD_0x7E);
-        decoder.insert(0x7F as u16, Cpu::instr_LD_0x7F);
-        decoder.insert(0x80 as u16, Cpu::instr_ADD_0x80);
-        decoder.insert(0x81 as u16, Cpu::instr_ADD_0x81);
-        decoder.insert(0x82 as u16, Cpu::instr_ADD_0x82);
-        decoder.insert(0x83 as u16, Cpu::instr_ADD_0x83);
-        decoder.insert(0x84 as u16, Cpu::instr_ADD_0x84);
-        decoder.insert(0x85 as u16, Cpu::instr_ADD_0x85);
-        decoder.insert(0x86 as u16, Cpu::instr_ADD_0x86);
-        decoder.insert(0x87 as u16, Cpu::instr_ADD_0x87);
-        decoder.insert(0x88 as u16, Cpu::instr_ADC_0x88);
-        decoder.insert(0x89 as u16, Cpu::instr_ADC_0x89);
-        decoder.insert(0x8A as u16, Cpu::instr_ADC_0x8A);
-        decoder.insert(0x8B as u16, Cpu::instr_ADC_0x8B);
-        decoder.insert(0x8C as u16, Cpu::instr_ADC_0x8C);
-        decoder.insert(0x8D as u16, Cpu::instr_ADC_0x8D);
-        decoder.insert(0x8E as u16, Cpu::instr_ADC_0x8E);
-        decoder.insert(0x8F as u16, Cpu::instr_ADC_0x8F);
-        decoder.insert(0x90 as u16, Cpu::instr_SUB_0x90);
-        decoder.insert(0x91 as u16, Cpu::instr_SUB_0x91);
-        decoder.insert(0x92 as u16, Cpu::instr_SUB_0x92);
-        decoder.insert(0x93 as u16, Cpu::instr_SUB_0x93);
-        decoder.insert(0x94 as u16, Cpu::instr_SUB_0x94);
-        decoder.insert(0x95 as u16, Cpu::instr_SUB_0x95);
-        decoder.insert(0x96 as u16, Cpu::instr_SUB_0x96);
-        decoder.insert(0x97 as u16, Cpu::instr_SUB_0x97);
-        decoder.insert(0x98 as u16, Cpu::instr_SBC_0x98);
-        decoder.insert(0x99 as u16, Cpu::instr_SBC_0x99);
-        decoder.insert(0x9A as u16, Cpu::instr_SBC_0x9A);
-        decoder.insert(0x9B as u16, Cpu::instr_SBC_0x9B);
-        decoder.insert(0x9C as u16, Cpu::instr_SBC_0x9C);
-        decoder.insert(0x9D as u16, Cpu::instr_SBC_0x9D);
-        decoder.insert(0x9E as u16, Cpu::instr_SBC_0x9E);
-        decoder.insert(0x9F as u16, Cpu::instr_SBC_0x9F);
-        decoder.insert(0xA0 as u16, Cpu::instr_AND_0xA0);
-        decoder.insert(0xA1 as u16, Cpu::instr_AND_0xA1);
-        decoder.insert(0xA2 as u16, Cpu::instr_AND_0xA2);
-        decoder.insert(0xA3 as u16, Cpu::instr_AND_0xA3);
-        decoder.insert(0xA4 as u16, Cpu::instr_AND_0xA4);
-        decoder.insert(0xA5 as u16, Cpu::instr_AND_0xA5);
-        decoder.insert(0xA6 as u16, Cpu::instr_AND_0xA6);
-        decoder.insert(0xA7 as u16, Cpu::instr_AND_0xA7);
-        decoder.insert(0xA8 as u16, Cpu::instr_XOR_0xA8);
-        decoder.insert(0xA9 as u16, Cpu::instr_XOR_0xA9);
-        decoder.insert(0xAA as u16, Cpu::instr_XOR_0xAA);
-        decoder.insert(0xAB as u16, Cpu::instr_XOR_0xAB);
-        decoder.insert(0xAC as u16, Cpu::instr_XOR_0xAC);
-        decoder.insert(0xAD as u16, Cpu::instr_XOR_0xAD);
-        decoder.insert(0xAE as u16, Cpu::instr_XOR_0xAE);
-        decoder.insert(0xAF as u16, Cpu::instr_XOR_0xAF);
-        decoder.insert(0xB0 as u16, Cpu::instr_OR_0xB0);
-        decoder.insert(0xB1 as u16, Cpu::instr_OR_0xB1);
-        decoder.insert(0xB2 as u16, Cpu::instr_OR_0xB2);
-        decoder.insert(0xB3 as u16, Cpu::instr_OR_0xB3);
-        decoder.insert(0xB4 as u16, Cpu::instr_OR_0xB4);
-        decoder.insert(0xB5 as u16, Cpu::instr_OR_0xB5);
-        decoder.insert(0xB6 as u16, Cpu::instr_OR_0xB6);
-        decoder.insert(0xB7 as u16, Cpu::instr_OR_0xB7);
-        decoder.insert(0xB8 as u16, Cpu::instr_CP_0xB8);
-        decoder.insert(0xB9 as u16, Cpu::instr_CP_0xB9);
-        decoder.insert(0xBA as u16, Cpu::instr_CP_0xBA);
-        decoder.insert(0xBB as u16, Cpu::instr_CP_0xBB);
-        decoder.insert(0xBC as u16, Cpu::instr_CP_0xBC);
-        decoder.insert(0xBD as u16, Cpu::instr_CP_0xBD);
-        decoder.insert(0xBE as u16, Cpu::instr_CP_0xBE);
-        decoder.insert(0xBF as u16, Cpu::instr_CP_0xBF);
-        decoder.insert(0xC0 as u16, Cpu::instr_RET_0xC0);
-        decoder.insert(0xC1 as u16, Cpu::instr_POP_0xC1);
-        decoder.insert(0xC2 as u16, Cpu::instr_JP_0xC2);
-        decoder.insert(0xC3 as u16, Cpu::instr_JP_0xC3);
-        decoder.insert(0xC4 as u16, Cpu::instr_CALL_0xC4);
-        decoder.insert(0xC5 as u16, Cpu::instr_PUSH_0xC5);
-        decoder.insert(0xC6 as u16, Cpu::instr_ADD_0xC6);
-        decoder.insert(0xC7 as u16, Cpu::instr_RST_0xC7);
-        decoder.insert(0xC8 as u16, Cpu::instr_RET_0xC8);
-        decoder.insert(0xC9 as u16, Cpu::instr_RET_0xC9);
-        decoder.insert(0xCA as u16, Cpu::instr_JP_0xCA);
-        decoder.insert(0xCB as u16, Cpu::instr_PREFIX_0xCB);
-        decoder.insert(0xCC as u16, Cpu::instr_CALL_0xCC);
-        decoder.insert(0xCD as u16, Cpu::instr_CALL_0xCD);
-        decoder.insert(0xCE as u16, Cpu::instr_ADC_0xCE);
-        decoder.insert(0xCF as u16, Cpu::instr_RST_0xCF);
-        decoder.insert(0xD0 as u16, Cpu::instr_RET_0xD0);
-        decoder.insert(0xD1 as u16, Cpu::instr_POP_0xD1);
-        decoder.insert(0xD2 as u16, Cpu::instr_JP_0xD2);
-        decoder.insert(0xD4 as u16, Cpu::instr_CALL_0xD4);
-        decoder.insert(0xD5 as u16, Cpu::instr_PUSH_0xD5);
-        decoder.insert(0xD6 as u16, Cpu::instr_SUB_0xD6);
-        decoder.insert(0xD7 as u16, Cpu::instr_RST_0xD7);
-        decoder.insert(0xD8 as u16, Cpu::instr_RET_0xD8);
-        decoder.insert(0xD9 as u16, Cpu::instr_RETI_0xD9);
-        decoder.insert(0xDA as u16, Cpu::instr_JP_0xDA);
-        decoder.insert(0xDC as u16, Cpu::instr_CALL_0xDC);
-        decoder.insert(0xDE as u16, Cpu::instr_SBC_0xDE);
-        decoder.insert(0xDF as u16, Cpu::instr_RST_0xDF);
-        decoder.insert(0xE0 as u16, Cpu::instr_LDH_0xE0);
-        decoder.insert(0xE1 as u16, Cpu::instr_POP_0xE1);
-        decoder.insert(0xE2 as u16, Cpu::instr_LD_0xE2);
-        decoder.insert(0xE5 as u16, Cpu::instr_PUSH_0xE5);
-        decoder.insert(0xE6 as u16, Cpu::instr_AND_0xE6);
-        decoder.insert(0xE7 as u16, Cpu::instr_RST_0xE7);
-        decoder.insert(0xE8 as u16, Cpu::instr_ADD_0xE8);
-        decoder.insert(0xE9 as u16, Cpu::instr_JP_0xE9);
-        decoder.insert(0xEA as u16, Cpu::instr_LD_0xEA);
-        decoder.insert(0xEE as u16, Cpu::instr_XOR_0xEE);
-        decoder.insert(0xEF as u16, Cpu::instr_RST_0xEF);
-        decoder.insert(0xF0 as u16, Cpu::instr_LDH_0xF0);
-        decoder.insert(0xF1 as u16, Cpu::instr_POP_0xF1);
-        decoder.insert(0xF2 as u16, Cpu::instr_LD_0xF2);
-        decoder.insert(0xF3 as u16, Cpu::instr_DI_0xF3);
-        decoder.insert(0xF5 as u16, Cpu::instr_PUSH_0xF5);
-        decoder.insert(0xF6 as u16, Cpu::instr_OR_0xF6);
-        decoder.insert(0xF7 as u16, Cpu::instr_RST_0xF7);
-        decoder.insert(0xF8 as u16, Cpu::instr_LD_0xF8);
-        decoder.insert(0xF9 as u16, Cpu::instr_LD_0xF9);
-        decoder.insert(0xFA as u16, Cpu::instr_LD_0xFA);
-        decoder.insert(0xFB as u16, Cpu::instr_EI_0xFB);
-        decoder.insert(0xFE as u16, Cpu::instr_CP_0xFE);
-        decoder.insert(0xFF as u16, Cpu::instr_RST_0xFF);
-        decoder.insert(0xCB00 as u16, Cpu::instr_RLC_0xCB00);
-        decoder.insert(0xCB01 as u16, Cpu::instr_RLC_0xCB01);
-        decoder.insert(0xCB02 as u16, Cpu::instr_RLC_0xCB02);
-        decoder.insert(0xCB03 as u16, Cpu::instr_RLC_0xCB03);
-        decoder.insert(0xCB04 as u16, Cpu::instr_RLC_0xCB04);
-        decoder.insert(0xCB05 as u16, Cpu::instr_RLC_0xCB05);
-        decoder.insert(0xCB06 as u16, Cpu::instr_RLC_0xCB06);
-        decoder.insert(0xCB07 as u16, Cpu::instr_RLC_0xCB07);
-        decoder.insert(0xCB08 as u16, Cpu::instr_RRC_0xCB08);
-        decoder.insert(0xCB09 as u16, Cpu::instr_RRC_0xCB09);
-        decoder.insert(0xCB0A as u16, Cpu::instr_RRC_0xCB0A);
-        decoder.insert(0xCB0B as u16, Cpu::instr_RRC_0xCB0B);
-        decoder.insert(0xCB0C as u16, Cpu::instr_RRC_0xCB0C);
-        decoder.insert(0xCB0D as u16, Cpu::instr_RRC_0xCB0D);
-        decoder.insert(0xCB0E as u16, Cpu::instr_RRC_0xCB0E);
-        decoder.insert(0xCB0F as u16, Cpu::instr_RRC_0xCB0F);
-        decoder.insert(0xCB10 as u16, Cpu::instr_RL_0xCB10);
-        decoder.insert(0xCB11 as u16, Cpu::instr_RL_0xCB11);
-        decoder.insert(0xCB12 as u16, Cpu::instr_RL_0xCB12);
-        decoder.insert(0xCB13 as u16, Cpu::instr_RL_0xCB13);
-        decoder.insert(0xCB14 as u16, Cpu::instr_RL_0xCB14);
-        decoder.insert(0xCB15 as u16, Cpu::instr_RL_0xCB15);
-        decoder.insert(0xCB16 as u16, Cpu::instr_RL_0xCB16);
-        decoder.insert(0xCB17 as u16, Cpu::instr_RL_0xCB17);
-        decoder.insert(0xCB18 as u16, Cpu::instr_RR_0xCB18);
-        decoder.insert(0xCB19 as u16, Cpu::instr_RR_0xCB19);
-        decoder.insert(0xCB1A as u16, Cpu::instr_RR_0xCB1A);
-        decoder.insert(0xCB1B as u16, Cpu::instr_RR_0xCB1B);
-        decoder.insert(0xCB1C as u16, Cpu::instr_RR_0xCB1C);
-        decoder.insert(0xCB1D as u16, Cpu::instr_RR_0xCB1D);
-        decoder.insert(0xCB1E as u16, Cpu::instr_RR_0xCB1E);
-        decoder.insert(0xCB1F as u16, Cpu::instr_RR_0xCB1F);
-        decoder.insert(0xCB20 as u16, Cpu::instr_SLA_0xCB20);
-        decoder.insert(0xCB21 as u16, Cpu::instr_SLA_0xCB21);
-        decoder.insert(0xCB22 as u16, Cpu::instr_SLA_0xCB22);
-        decoder.insert(0xCB23 as u16, Cpu::instr_SLA_0xCB23);
-        decoder.insert(0xCB24 as u16, Cpu::instr_SLA_0xCB24);
-        decoder.insert(0xCB25 as u16, Cpu::instr_SLA_0xCB25);
-        decoder.insert(0xCB26 as u16, Cpu::instr_SLA_0xCB26);
-        decoder.insert(0xCB27 as u16, Cpu::instr_SLA_0xCB27);
-        decoder.insert(0xCB28 as u16, Cpu::instr_SRA_0xCB28);
-        decoder.insert(0xCB29 as u16, Cpu::instr_SRA_0xCB29);
-        decoder.insert(0xCB2A as u16, Cpu::instr_SRA_0xCB2A);
-        decoder.insert(0xCB2B as u16, Cpu::instr_SRA_0xCB2B);
-        decoder.insert(0xCB2C as u16, Cpu::instr_SRA_0xCB2C);
-        decoder.insert(0xCB2D as u16, Cpu::instr_SRA_0xCB2D);
-        decoder.insert(0xCB2E as u16, Cpu::instr_SRA_0xCB2E);
-        decoder.insert(0xCB2F as u16, Cpu::instr_SRA_0xCB2F);
-        decoder.insert(0xCB30 as u16, Cpu::instr_SWAP_0xCB30);
-        decoder.insert(0xCB31 as u16, Cpu::instr_SWAP_0xCB31);
-        decoder.insert(0xCB32 as u16, Cpu::instr_SWAP_0xCB32);
-        decoder.insert(0xCB33 as u16, Cpu::instr_SWAP_0xCB33);
-        decoder.insert(0xCB34 as u16, Cpu::instr_SWAP_0xCB34);
-        decoder.insert(0xCB35 as u16, Cpu::instr_SWAP_0xCB35);
-        decoder.insert(0xCB36 as u16, Cpu::instr_SWAP_0xCB36);
-        decoder.insert(0xCB37 as u16, Cpu::instr_SWAP_0xCB37);
-        decoder.insert(0xCB38 as u16, Cpu::instr_SRL_0xCB38);
-        decoder.insert(0xCB39 as u16, Cpu::instr_SRL_0xCB39);
-        decoder.insert(0xCB3A as u16, Cpu::instr_SRL_0xCB3A);
-        decoder.insert(0xCB3B as u16, Cpu::instr_SRL_0xCB3B);
-        decoder.insert(0xCB3C as u16, Cpu::instr_SRL_0xCB3C);
-        decoder.insert(0xCB3D as u16, Cpu::instr_SRL_0xCB3D);
-        decoder.insert(0xCB3E as u16, Cpu::instr_SRL_0xCB3E);
-        decoder.insert(0xCB3F as u16, Cpu::instr_SRL_0xCB3F);
-        decoder.insert(0xCB40 as u16, Cpu::instr_BIT_0xCB40);
-        decoder.insert(0xCB41 as u16, Cpu::instr_BIT_0xCB41);
-        decoder.insert(0xCB42 as u16, Cpu::instr_BIT_0xCB42);
-        decoder.insert(0xCB43 as u16, Cpu::instr_BIT_0xCB43);
-        decoder.insert(0xCB44 as u16, Cpu::instr_BIT_0xCB44);
-        decoder.insert(0xCB45 as u16, Cpu::instr_BIT_0xCB45);
-        decoder.insert(0xCB46 as u16, Cpu::instr_BIT_0xCB46);
-        decoder.insert(0xCB47 as u16, Cpu::instr_BIT_0xCB47);
-        decoder.insert(0xCB48 as u16, Cpu::instr_BIT_0xCB48);
-        decoder.insert(0xCB49 as u16, Cpu::instr_BIT_0xCB49);
-        decoder.insert(0xCB4A as u16, Cpu::instr_BIT_0xCB4A);
-        decoder.insert(0xCB4B as u16, Cpu::instr_BIT_0xCB4B);
-        decoder.insert(0xCB4C as u16, Cpu::instr_BIT_0xCB4C);
-        decoder.insert(0xCB4D as u16, Cpu::instr_BIT_0xCB4D);
-        decoder.insert(0xCB4E as u16, Cpu::instr_BIT_0xCB4E);
-        decoder.insert(0xCB4F as u16, Cpu::instr_BIT_0xCB4F);
-        decoder.insert(0xCB50 as u16, Cpu::instr_BIT_0xCB50);
-        decoder.insert(0xCB51 as u16, Cpu::instr_BIT_0xCB51);
-        decoder.insert(0xCB52 as u16, Cpu::instr_BIT_0xCB52);
-        decoder.insert(0xCB53 as u16, Cpu::instr_BIT_0xCB53);
-        decoder.insert(0xCB54 as u16, Cpu::instr_BIT_0xCB54);
-        decoder.insert(0xCB55 as u16, Cpu::instr_BIT_0xCB55);
-        decoder.insert(0xCB56 as u16, Cpu::instr_BIT_0xCB56);
-        decoder.insert(0xCB57 as u16, Cpu::instr_BIT_0xCB57);
-        decoder.insert(0xCB58 as u16, Cpu::instr_BIT_0xCB58);
-        decoder.insert(0xCB59 as u16, Cpu::instr_BIT_0xCB59);
-        decoder.insert(0xCB5A as u16, Cpu::instr_BIT_0xCB5A);
-        decoder.insert(0xCB5B as u16, Cpu::instr_BIT_0xCB5B);
-        decoder.insert(0xCB5C as u16, Cpu::instr_BIT_0xCB5C);
-        decoder.insert(0xCB5D as u16, Cpu::instr_BIT_0xCB5D);
-        decoder.insert(0xCB5E as u16, Cpu::instr_BIT_0xCB5E);
-        decoder.insert(0xCB5F as u16, Cpu::instr_BIT_0xCB5F);
-        decoder.insert(0xCB60 as u16, Cpu::instr_BIT_0xCB60);
-        decoder.insert(0xCB61 as u16, Cpu::instr_BIT_0xCB61);
-        decoder.insert(0xCB62 as u16, Cpu::instr_BIT_0xCB62);
-        decoder.insert(0xCB63 as u16, Cpu::instr_BIT_0xCB63);
-        decoder.insert(0xCB64 as u16, Cpu::instr_BIT_0xCB64);
-        decoder.insert(0xCB65 as u16, Cpu::instr_BIT_0xCB65);
-        decoder.insert(0xCB66 as u16, Cpu::instr_BIT_0xCB66);
-        decoder.insert(0xCB67 as u16, Cpu::instr_BIT_0xCB67);
-        decoder.insert(0xCB68 as u16, Cpu::instr_BIT_0xCB68);
-        decoder.insert(0xCB69 as u16, Cpu::instr_BIT_0xCB69);
-        decoder.insert(0xCB6A as u16, Cpu::instr_BIT_0xCB6A);
-        decoder.insert(0xCB6B as u16, Cpu::instr_BIT_0xCB6B);
-        decoder.insert(0xCB6C as u16, Cpu::instr_BIT_0xCB6C);
-        decoder.insert(0xCB6D as u16, Cpu::instr_BIT_0xCB6D);
-        decoder.insert(0xCB6E as u16, Cpu::instr_BIT_0xCB6E);
-        decoder.insert(0xCB6F as u16, Cpu::instr_BIT_0xCB6F);
-        decoder.insert(0xCB70 as u16, Cpu::instr_BIT_0xCB70);
-        decoder.insert(0xCB71 as u16, Cpu::instr_BIT_0xCB71);
-        decoder.insert(0xCB72 as u16, Cpu::instr_BIT_0xCB72);
-        decoder.insert(0xCB73 as u16, Cpu::instr_BIT_0xCB73);
-        decoder.insert(0xCB74 as u16, Cpu::instr_BIT_0xCB74);
-        decoder.insert(0xCB75 as u16, Cpu::instr_BIT_0xCB75);
-        decoder.insert(0xCB76 as u16, Cpu::instr_BIT_0xCB76);
-        decoder.insert(0xCB77 as u16, Cpu::instr_BIT_0xCB77);
-        decoder.insert(0xCB78 as u16, Cpu::instr_BIT_0xCB78);
-        decoder.insert(0xCB79 as u16, Cpu::instr_BIT_0xCB79);
-        decoder.insert(0xCB7A as u16, Cpu::instr_BIT_0xCB7A);
-        decoder.insert(0xCB7B as u16, Cpu::instr_BIT_0xCB7B);
-        decoder.insert(0xCB7C as u16, Cpu::instr_BIT_0xCB7C);
-        decoder.insert(0xCB7D as u16, Cpu::instr_BIT_0xCB7D);
-        decoder.insert(0xCB7E as u16, Cpu::instr_BIT_0xCB7E);
-        decoder.insert(0xCB7F as u16, Cpu::instr_BIT_0xCB7F);
-        decoder.insert(0xCB80 as u16, Cpu::instr_RES_0xCB80);
-        decoder.insert(0xCB81 as u16, Cpu::instr_RES_0xCB81);
-        decoder.insert(0xCB82 as u16, Cpu::instr_RES_0xCB82);
-        decoder.insert(0xCB83 as u16, Cpu::instr_RES_0xCB83);
-        decoder.insert(0xCB84 as u16, Cpu::instr_RES_0xCB84);
-        decoder.insert(0xCB85 as u16, Cpu::instr_RES_0xCB85);
-        decoder.insert(0xCB86 as u16, Cpu::instr_RES_0xCB86);
-        decoder.insert(0xCB87 as u16, Cpu::instr_RES_0xCB87);
-        decoder.insert(0xCB88 as u16, Cpu::instr_RES_0xCB88);
-        decoder.insert(0xCB89 as u16, Cpu::instr_RES_0xCB89);
-        decoder.insert(0xCB8A as u16, Cpu::instr_RES_0xCB8A);
-        decoder.insert(0xCB8B as u16, Cpu::instr_RES_0xCB8B);
-        decoder.insert(0xCB8C as u16, Cpu::instr_RES_0xCB8C);
-        decoder.insert(0xCB8D as u16, Cpu::instr_RES_0xCB8D);
-        decoder.insert(0xCB8E as u16, Cpu::instr_RES_0xCB8E);
-        decoder.insert(0xCB8F as u16, Cpu::instr_RES_0xCB8F);
-        decoder.insert(0xCB90 as u16, Cpu::instr_RES_0xCB90);
-        decoder.insert(0xCB91 as u16, Cpu::instr_RES_0xCB91);
-        decoder.insert(0xCB92 as u16, Cpu::instr_RES_0xCB92);
-        decoder.insert(0xCB93 as u16, Cpu::instr_RES_0xCB93);
-        decoder.insert(0xCB94 as u16, Cpu::instr_RES_0xCB94);
-        decoder.insert(0xCB95 as u16, Cpu::instr_RES_0xCB95);
-        decoder.insert(0xCB96 as u16, Cpu::instr_RES_0xCB96);
-        decoder.insert(0xCB97 as u16, Cpu::instr_RES_0xCB97);
-        decoder.insert(0xCB98 as u16, Cpu::instr_RES_0xCB98);
-        decoder.insert(0xCB99 as u16, Cpu::instr_RES_0xCB99);
-        decoder.insert(0xCB9A as u16, Cpu::instr_RES_0xCB9A);
-        decoder.insert(0xCB9B as u16, Cpu::instr_RES_0xCB9B);
-        decoder.insert(0xCB9C as u16, Cpu::instr_RES_0xCB9C);
-        decoder.insert(0xCB9D as u16, Cpu::instr_RES_0xCB9D);
-        decoder.insert(0xCB9E as u16, Cpu::instr_RES_0xCB9E);
-        decoder.insert(0xCB9F as u16, Cpu::instr_RES_0xCB9F);
-        decoder.insert(0xCBA0 as u16, Cpu::instr_RES_0xCBA0);
-        decoder.insert(0xCBA1 as u16, Cpu::instr_RES_0xCBA1);
-        decoder.insert(0xCBA2 as u16, Cpu::instr_RES_0xCBA2);
-        decoder.insert(0xCBA3 as u16, Cpu::instr_RES_0xCBA3);
-        decoder.insert(0xCBA4 as u16, Cpu::instr_RES_0xCBA4);
-        decoder.insert(0xCBA5 as u16, Cpu::instr_RES_0xCBA5);
-        decoder.insert(0xCBA6 as u16, Cpu::instr_RES_0xCBA6);
-        decoder.insert(0xCBA7 as u16, Cpu::instr_RES_0xCBA7);
-        decoder.insert(0xCBA8 as u16, Cpu::instr_RES_0xCBA8);
-        decoder.insert(0xCBA9 as u16, Cpu::instr_RES_0xCBA9);
-        decoder.insert(0xCBAA as u16, Cpu::instr_RES_0xCBAA);
-        decoder.insert(0xCBAB as u16, Cpu::instr_RES_0xCBAB);
-        decoder.insert(0xCBAC as u16, Cpu::instr_RES_0xCBAC);
-        decoder.insert(0xCBAD as u16, Cpu::instr_RES_0xCBAD);
-        decoder.insert(0xCBAE as u16, Cpu::instr_RES_0xCBAE);
-        decoder.insert(0xCBAF as u16, Cpu::instr_RES_0xCBAF);
-        decoder.insert(0xCBB0 as u16, Cpu::instr_RES_0xCBB0);
-        decoder.insert(0xCBB1 as u16, Cpu::instr_RES_0xCBB1);
-        decoder.insert(0xCBB2 as u16, Cpu::instr_RES_0xCBB2);
-        decoder.insert(0xCBB3 as u16, Cpu::instr_RES_0xCBB3);
-        decoder.insert(0xCBB4 as u16, Cpu::instr_RES_0xCBB4);
-        decoder.insert(0xCBB5 as u16, Cpu::instr_RES_0xCBB5);
-        decoder.insert(0xCBB6 as u16, Cpu::instr_RES_0xCBB6);
-        decoder.insert(0xCBB7 as u16, Cpu::instr_RES_0xCBB7);
-        decoder.insert(0xCBB8 as u16, Cpu::instr_RES_0xCBB8);
-        decoder.insert(0xCBB9 as u16, Cpu::instr_RES_0xCBB9);
-        decoder.insert(0xCBBA as u16, Cpu::instr_RES_0xCBBA);
-        decoder.insert(0xCBBB as u16, Cpu::instr_RES_0xCBBB);
-        decoder.insert(0xCBBC as u16, Cpu::instr_RES_0xCBBC);
-        decoder.insert(0xCBBD as u16, Cpu::instr_RES_0xCBBD);
-        decoder.insert(0xCBBE as u16, Cpu::instr_RES_0xCBBE);
-        decoder.insert(0xCBBF as u16, Cpu::instr_RES_0xCBBF);
-        decoder.insert(0xCBC0 as u16, Cpu::instr_SET_0xCBC0);
-        decoder.insert(0xCBC1 as u16, Cpu::instr_SET_0xCBC1);
-        decoder.insert(0xCBC2 as u16, Cpu::instr_SET_0xCBC2);
-        decoder.insert(0xCBC3 as u16, Cpu::instr_SET_0xCBC3);
-        decoder.insert(0xCBC4 as u16, Cpu::instr_SET_0xCBC4);
-        decoder.insert(0xCBC5 as u16, Cpu::instr_SET_0xCBC5);
-        decoder.insert(0xCBC6 as u16, Cpu::instr_SET_0xCBC6);
-        decoder.insert(0xCBC7 as u16, Cpu::instr_SET_0xCBC7);
-        decoder.insert(0xCBC8 as u16, Cpu::instr_SET_0xCBC8);
-        decoder.insert(0xCBC9 as u16, Cpu::instr_SET_0xCBC9);
-        decoder.insert(0xCBCA as u16, Cpu::instr_SET_0xCBCA);
-        decoder.insert(0xCBCB as u16, Cpu::instr_SET_0xCBCB);
-        decoder.insert(0xCBCC as u16, Cpu::instr_SET_0xCBCC);
-        decoder.insert(0xCBCD as u16, Cpu::instr_SET_0xCBCD);
-        decoder.insert(0xCBCE as u16, Cpu::instr_SET_0xCBCE);
-        decoder.insert(0xCBCF as u16, Cpu::instr_SET_0xCBCF);
-        decoder.insert(0xCBD0 as u16, Cpu::instr_SET_0xCBD0);
-        decoder.insert(0xCBD1 as u16, Cpu::instr_SET_0xCBD1);
-        decoder.insert(0xCBD2 as u16, Cpu::instr_SET_0xCBD2);
-        decoder.insert(0xCBD3 as u16, Cpu::instr_SET_0xCBD3);
-        decoder.insert(0xCBD4 as u16, Cpu::instr_SET_0xCBD4);
-        decoder.insert(0xCBD5 as u16, Cpu::instr_SET_0xCBD5);
-        decoder.insert(0xCBD6 as u16, Cpu::instr_SET_0xCBD6);
-        decoder.insert(0xCBD7 as u16, Cpu::instr_SET_0xCBD7);
-        decoder.insert(0xCBD8 as u16, Cpu::instr_SET_0xCBD8);
-        decoder.insert(0xCBD9 as u16, Cpu::instr_SET_0xCBD9);
-        decoder.insert(0xCBDA as u16, Cpu::instr_SET_0xCBDA);
-        decoder.insert(0xCBDB as u16, Cpu::instr_SET_0xCBDB);
-        decoder.insert(0xCBDC as u16, Cpu::instr_SET_0xCBDC);
-        decoder.insert(0xCBDD as u16, Cpu::instr_SET_0xCBDD);
-        decoder.insert(0xCBDE as u16, Cpu::instr_SET_0xCBDE);
-        decoder.insert(0xCBDF as u16, Cpu::instr_SET_0xCBDF);
-        decoder.insert(0xCBE0 as u16, Cpu::instr_SET_0xCBE0);
-        decoder.insert(0xCBE1 as u16, Cpu::instr_SET_0xCBE1);
-        decoder.insert(0xCBE2 as u16, Cpu::instr_SET_0xCBE2);
-        decoder.insert(0xCBE3 as u16, Cpu::instr_SET_0xCBE3);
-        decoder.insert(0xCBE4 as u16, Cpu::instr_SET_0xCBE4);
-        decoder.insert(0xCBE5 as u16, Cpu::instr_SET_0xCBE5);
-        decoder.insert(0xCBE6 as u16, Cpu::instr_SET_0xCBE6);
-        decoder.insert(0xCBE7 as u16, Cpu::instr_SET_0xCBE7);
-        decoder.insert(0xCBE8 as u16, Cpu::instr_SET_0xCBE8);
-        decoder.insert(0xCBE9 as u16, Cpu::instr_SET_0xCBE9);
-        decoder.insert(0xCBEA as u16, Cpu::instr_SET_0xCBEA);
-        decoder.insert(0xCBEB as u16, Cpu::instr_SET_0xCBEB);
-        decoder.insert(0xCBEC as u16, Cpu::instr_SET_0xCBEC);
-        decoder.insert(0xCBED as u16, Cpu::instr_SET_0xCBED);
-        decoder.insert(0xCBEE as u16, Cpu::instr_SET_0xCBEE);
-        decoder.insert(0xCBEF as u16, Cpu::instr_SET_0xCBEF);
-        decoder.insert(0xCBF0 as u16, Cpu::instr_SET_0xCBF0);
-        decoder.insert(0xCBF1 as u16, Cpu::instr_SET_0xCBF1);
-        decoder.insert(0xCBF2 as u16, Cpu::instr_SET_0xCBF2);
-        decoder.insert(0xCBF3 as u16, Cpu::instr_SET_0xCBF3);
-        decoder.insert(0xCBF4 as u16, Cpu::instr_SET_0xCBF4);
-        decoder.insert(0xCBF5 as u16, Cpu::instr_SET_0xCBF5);
-        decoder.insert(0xCBF6 as u16, Cpu::instr_SET_0xCBF6);
-        decoder.insert(0xCBF7 as u16, Cpu::instr_SET_0xCBF7);
-        decoder.insert(0xCBF8 as u16, Cpu::instr_SET_0xCBF8);
-        decoder.insert(0xCBF9 as u16, Cpu::instr_SET_0xCBF9);
-        decoder.insert(0xCBFA as u16, Cpu::instr_SET_0xCBFA);
-        decoder.insert(0xCBFB as u16, Cpu::instr_SET_0xCBFB);
-        decoder.insert(0xCBFC as u16, Cpu::instr_SET_0xCBFC);
-        decoder.insert(0xCBFD as u16, Cpu::instr_SET_0xCBFD);
-        decoder.insert(0xCBFE as u16, Cpu::instr_SET_0xCBFE);
-        decoder.insert(0xCBFF as u16, Cpu::instr_SET_0xCBFF);
+    static ref DECODER: BTreeMap<u16, (fn(&mut Cpu), fn(&Cpu) -> (String, u8))> = {
+        let mut decoder: BTreeMap<u16, (fn(&mut Cpu), fn(&Cpu) -> (String, u8))> = BTreeMap::new();
+        decoder.insert(0x00 as u16, (Cpu::instr_NOP_0x00, Cpu::disp_NOP_0x00));
+        decoder.insert(0x01 as u16, (Cpu::instr_LD_0x01, Cpu::disp_LD_0x01));
+        decoder.insert(0x02 as u16, (Cpu::instr_LD_0x02, Cpu::disp_LD_0x02));
+        decoder.insert(0x03 as u16, (Cpu::instr_INC_0x03, Cpu::disp_INC_0x03));
+        decoder.insert(0x04 as u16, (Cpu::instr_INC_0x04, Cpu::disp_INC_0x04));
+        decoder.insert(0x05 as u16, (Cpu::instr_DEC_0x05, Cpu::disp_DEC_0x05));
+        decoder.insert(0x06 as u16, (Cpu::instr_LD_0x06, Cpu::disp_LD_0x06));
+        decoder.insert(0x07 as u16, (Cpu::instr_RLCA_0x07, Cpu::disp_RLCA_0x07));
+        decoder.insert(0x08 as u16, (Cpu::instr_LD_0x08, Cpu::disp_LD_0x08));
+        decoder.insert(0x09 as u16, (Cpu::instr_ADD_0x09, Cpu::disp_ADD_0x09));
+        decoder.insert(0x0A as u16, (Cpu::instr_LD_0x0A, Cpu::disp_LD_0x0A));
+        decoder.insert(0x0B as u16, (Cpu::instr_DEC_0x0B, Cpu::disp_DEC_0x0B));
+        decoder.insert(0x0C as u16, (Cpu::instr_INC_0x0C, Cpu::disp_INC_0x0C));
+        decoder.insert(0x0D as u16, (Cpu::instr_DEC_0x0D, Cpu::disp_DEC_0x0D));
+        decoder.insert(0x0E as u16, (Cpu::instr_LD_0x0E, Cpu::disp_LD_0x0E));
+        decoder.insert(0x0F as u16, (Cpu::instr_RRCA_0x0F, Cpu::disp_RRCA_0x0F));
+        decoder.insert(0x10 as u16, (Cpu::instr_STOP_0x10, Cpu::disp_STOP_0x10));
+        decoder.insert(0x11 as u16, (Cpu::instr_LD_0x11, Cpu::disp_LD_0x11));
+        decoder.insert(0x12 as u16, (Cpu::instr_LD_0x12, Cpu::disp_LD_0x12));
+        decoder.insert(0x13 as u16, (Cpu::instr_INC_0x13, Cpu::disp_INC_0x13));
+        decoder.insert(0x14 as u16, (Cpu::instr_INC_0x14, Cpu::disp_INC_0x14));
+        decoder.insert(0x15 as u16, (Cpu::instr_DEC_0x15, Cpu::disp_DEC_0x15));
+        decoder.insert(0x16 as u16, (Cpu::instr_LD_0x16, Cpu::disp_LD_0x16));
+        decoder.insert(0x17 as u16, (Cpu::instr_RLA_0x17, Cpu::disp_RLA_0x17));
+        decoder.insert(0x18 as u16, (Cpu::instr_JR_0x18, Cpu::disp_JR_0x18));
+        decoder.insert(0x19 as u16, (Cpu::instr_ADD_0x19, Cpu::disp_ADD_0x19));
+        decoder.insert(0x1A as u16, (Cpu::instr_LD_0x1A, Cpu::disp_LD_0x1A));
+        decoder.insert(0x1B as u16, (Cpu::instr_DEC_0x1B, Cpu::disp_DEC_0x1B));
+        decoder.insert(0x1C as u16, (Cpu::instr_INC_0x1C, Cpu::disp_INC_0x1C));
+        decoder.insert(0x1D as u16, (Cpu::instr_DEC_0x1D, Cpu::disp_DEC_0x1D));
+        decoder.insert(0x1E as u16, (Cpu::instr_LD_0x1E, Cpu::disp_LD_0x1E));
+        decoder.insert(0x1F as u16, (Cpu::instr_RRA_0x1F, Cpu::disp_RRA_0x1F));
+        decoder.insert(0x20 as u16, (Cpu::instr_JR_0x20, Cpu::disp_JR_0x20));
+        decoder.insert(0x21 as u16, (Cpu::instr_LD_0x21, Cpu::disp_LD_0x21));
+        decoder.insert(0x22 as u16, (Cpu::instr_LD_0x22, Cpu::disp_LD_0x22));
+        decoder.insert(0x23 as u16, (Cpu::instr_INC_0x23, Cpu::disp_INC_0x23));
+        decoder.insert(0x24 as u16, (Cpu::instr_INC_0x24, Cpu::disp_INC_0x24));
+        decoder.insert(0x25 as u16, (Cpu::instr_DEC_0x25, Cpu::disp_DEC_0x25));
+        decoder.insert(0x26 as u16, (Cpu::instr_LD_0x26, Cpu::disp_LD_0x26));
+        decoder.insert(0x27 as u16, (Cpu::instr_DAA_0x27, Cpu::disp_DAA_0x27));
+        decoder.insert(0x28 as u16, (Cpu::instr_JR_0x28, Cpu::disp_JR_0x28));
+        decoder.insert(0x29 as u16, (Cpu::instr_ADD_0x29, Cpu::disp_ADD_0x29));
+        decoder.insert(0x2A as u16, (Cpu::instr_LD_0x2A, Cpu::disp_LD_0x2A));
+        decoder.insert(0x2B as u16, (Cpu::instr_DEC_0x2B, Cpu::disp_DEC_0x2B));
+        decoder.insert(0x2C as u16, (Cpu::instr_INC_0x2C, Cpu::disp_INC_0x2C));
+        decoder.insert(0x2D as u16, (Cpu::instr_DEC_0x2D, Cpu::disp_DEC_0x2D));
+        decoder.insert(0x2E as u16, (Cpu::instr_LD_0x2E, Cpu::disp_LD_0x2E));
+        decoder.insert(0x2F as u16, (Cpu::instr_CPL_0x2F, Cpu::disp_CPL_0x2F));
+        decoder.insert(0x30 as u16, (Cpu::instr_JR_0x30, Cpu::disp_JR_0x30));
+        decoder.insert(0x31 as u16, (Cpu::instr_LD_0x31, Cpu::disp_LD_0x31));
+        decoder.insert(0x32 as u16, (Cpu::instr_LD_0x32, Cpu::disp_LD_0x32));
+        decoder.insert(0x33 as u16, (Cpu::instr_INC_0x33, Cpu::disp_INC_0x33));
+        decoder.insert(0x34 as u16, (Cpu::instr_INC_0x34, Cpu::disp_INC_0x34));
+        decoder.insert(0x35 as u16, (Cpu::instr_DEC_0x35, Cpu::disp_DEC_0x35));
+        decoder.insert(0x36 as u16, (Cpu::instr_LD_0x36, Cpu::disp_LD_0x36));
+        decoder.insert(0x37 as u16, (Cpu::instr_SCF_0x37, Cpu::disp_SCF_0x37));
+        decoder.insert(0x38 as u16, (Cpu::instr_JR_0x38, Cpu::disp_JR_0x38));
+        decoder.insert(0x39 as u16, (Cpu::instr_ADD_0x39, Cpu::disp_ADD_0x39));
+        decoder.insert(0x3A as u16, (Cpu::instr_LD_0x3A, Cpu::disp_LD_0x3A));
+        decoder.insert(0x3B as u16, (Cpu::instr_DEC_0x3B, Cpu::disp_DEC_0x3B));
+        decoder.insert(0x3C as u16, (Cpu::instr_INC_0x3C, Cpu::disp_INC_0x3C));
+        decoder.insert(0x3D as u16, (Cpu::instr_DEC_0x3D, Cpu::disp_DEC_0x3D));
+        decoder.insert(0x3E as u16, (Cpu::instr_LD_0x3E, Cpu::disp_LD_0x3E));
+        decoder.insert(0x3F as u16, (Cpu::instr_CCF_0x3F, Cpu::disp_CCF_0x3F));
+        decoder.insert(0x40 as u16, (Cpu::instr_LD_0x40, Cpu::disp_LD_0x40));
+        decoder.insert(0x41 as u16, (Cpu::instr_LD_0x41, Cpu::disp_LD_0x41));
+        decoder.insert(0x42 as u16, (Cpu::instr_LD_0x42, Cpu::disp_LD_0x42));
+        decoder.insert(0x43 as u16, (Cpu::instr_LD_0x43, Cpu::disp_LD_0x43));
+        decoder.insert(0x44 as u16, (Cpu::instr_LD_0x44, Cpu::disp_LD_0x44));
+        decoder.insert(0x45 as u16, (Cpu::instr_LD_0x45, Cpu::disp_LD_0x45));
+        decoder.insert(0x46 as u16, (Cpu::instr_LD_0x46, Cpu::disp_LD_0x46));
+        decoder.insert(0x47 as u16, (Cpu::instr_LD_0x47, Cpu::disp_LD_0x47));
+        decoder.insert(0x48 as u16, (Cpu::instr_LD_0x48, Cpu::disp_LD_0x48));
+        decoder.insert(0x49 as u16, (Cpu::instr_LD_0x49, Cpu::disp_LD_0x49));
+        decoder.insert(0x4A as u16, (Cpu::instr_LD_0x4A, Cpu::disp_LD_0x4A));
+        decoder.insert(0x4B as u16, (Cpu::instr_LD_0x4B, Cpu::disp_LD_0x4B));
+        decoder.insert(0x4C as u16, (Cpu::instr_LD_0x4C, Cpu::disp_LD_0x4C));
+        decoder.insert(0x4D as u16, (Cpu::instr_LD_0x4D, Cpu::disp_LD_0x4D));
+        decoder.insert(0x4E as u16, (Cpu::instr_LD_0x4E, Cpu::disp_LD_0x4E));
+        decoder.insert(0x4F as u16, (Cpu::instr_LD_0x4F, Cpu::disp_LD_0x4F));
+        decoder.insert(0x50 as u16, (Cpu::instr_LD_0x50, Cpu::disp_LD_0x50));
+        decoder.insert(0x51 as u16, (Cpu::instr_LD_0x51, Cpu::disp_LD_0x51));
+        decoder.insert(0x52 as u16, (Cpu::instr_LD_0x52, Cpu::disp_LD_0x52));
+        decoder.insert(0x53 as u16, (Cpu::instr_LD_0x53, Cpu::disp_LD_0x53));
+        decoder.insert(0x54 as u16, (Cpu::instr_LD_0x54, Cpu::disp_LD_0x54));
+        decoder.insert(0x55 as u16, (Cpu::instr_LD_0x55, Cpu::disp_LD_0x55));
+        decoder.insert(0x56 as u16, (Cpu::instr_LD_0x56, Cpu::disp_LD_0x56));
+        decoder.insert(0x57 as u16, (Cpu::instr_LD_0x57, Cpu::disp_LD_0x57));
+        decoder.insert(0x58 as u16, (Cpu::instr_LD_0x58, Cpu::disp_LD_0x58));
+        decoder.insert(0x59 as u16, (Cpu::instr_LD_0x59, Cpu::disp_LD_0x59));
+        decoder.insert(0x5A as u16, (Cpu::instr_LD_0x5A, Cpu::disp_LD_0x5A));
+        decoder.insert(0x5B as u16, (Cpu::instr_LD_0x5B, Cpu::disp_LD_0x5B));
+        decoder.insert(0x5C as u16, (Cpu::instr_LD_0x5C, Cpu::disp_LD_0x5C));
+        decoder.insert(0x5D as u16, (Cpu::instr_LD_0x5D, Cpu::disp_LD_0x5D));
+        decoder.insert(0x5E as u16, (Cpu::instr_LD_0x5E, Cpu::disp_LD_0x5E));
+        decoder.insert(0x5F as u16, (Cpu::instr_LD_0x5F, Cpu::disp_LD_0x5F));
+        decoder.insert(0x60 as u16, (Cpu::instr_LD_0x60, Cpu::disp_LD_0x60));
+        decoder.insert(0x61 as u16, (Cpu::instr_LD_0x61, Cpu::disp_LD_0x61));
+        decoder.insert(0x62 as u16, (Cpu::instr_LD_0x62, Cpu::disp_LD_0x62));
+        decoder.insert(0x63 as u16, (Cpu::instr_LD_0x63, Cpu::disp_LD_0x63));
+        decoder.insert(0x64 as u16, (Cpu::instr_LD_0x64, Cpu::disp_LD_0x64));
+        decoder.insert(0x65 as u16, (Cpu::instr_LD_0x65, Cpu::disp_LD_0x65));
+        decoder.insert(0x66 as u16, (Cpu::instr_LD_0x66, Cpu::disp_LD_0x66));
+        decoder.insert(0x67 as u16, (Cpu::instr_LD_0x67, Cpu::disp_LD_0x67));
+        decoder.insert(0x68 as u16, (Cpu::instr_LD_0x68, Cpu::disp_LD_0x68));
+        decoder.insert(0x69 as u16, (Cpu::instr_LD_0x69, Cpu::disp_LD_0x69));
+        decoder.insert(0x6A as u16, (Cpu::instr_LD_0x6A, Cpu::disp_LD_0x6A));
+        decoder.insert(0x6B as u16, (Cpu::instr_LD_0x6B, Cpu::disp_LD_0x6B));
+        decoder.insert(0x6C as u16, (Cpu::instr_LD_0x6C, Cpu::disp_LD_0x6C));
+        decoder.insert(0x6D as u16, (Cpu::instr_LD_0x6D, Cpu::disp_LD_0x6D));
+        decoder.insert(0x6E as u16, (Cpu::instr_LD_0x6E, Cpu::disp_LD_0x6E));
+        decoder.insert(0x6F as u16, (Cpu::instr_LD_0x6F, Cpu::disp_LD_0x6F));
+        decoder.insert(0x70 as u16, (Cpu::instr_LD_0x70, Cpu::disp_LD_0x70));
+        decoder.insert(0x71 as u16, (Cpu::instr_LD_0x71, Cpu::disp_LD_0x71));
+        decoder.insert(0x72 as u16, (Cpu::instr_LD_0x72, Cpu::disp_LD_0x72));
+        decoder.insert(0x73 as u16, (Cpu::instr_LD_0x73, Cpu::disp_LD_0x73));
+        decoder.insert(0x74 as u16, (Cpu::instr_LD_0x74, Cpu::disp_LD_0x74));
+        decoder.insert(0x75 as u16, (Cpu::instr_LD_0x75, Cpu::disp_LD_0x75));
+        decoder.insert(0x76 as u16, (Cpu::instr_HALT_0x76, Cpu::disp_HALT_0x76));
+        decoder.insert(0x77 as u16, (Cpu::instr_LD_0x77, Cpu::disp_LD_0x77));
+        decoder.insert(0x78 as u16, (Cpu::instr_LD_0x78, Cpu::disp_LD_0x78));
+        decoder.insert(0x79 as u16, (Cpu::instr_LD_0x79, Cpu::disp_LD_0x79));
+        decoder.insert(0x7A as u16, (Cpu::instr_LD_0x7A, Cpu::disp_LD_0x7A));
+        decoder.insert(0x7B as u16, (Cpu::instr_LD_0x7B, Cpu::disp_LD_0x7B));
+        decoder.insert(0x7C as u16, (Cpu::instr_LD_0x7C, Cpu::disp_LD_0x7C));
+        decoder.insert(0x7D as u16, (Cpu::instr_LD_0x7D, Cpu::disp_LD_0x7D));
+        decoder.insert(0x7E as u16, (Cpu::instr_LD_0x7E, Cpu::disp_LD_0x7E));
+        decoder.insert(0x7F as u16, (Cpu::instr_LD_0x7F, Cpu::disp_LD_0x7F));
+        decoder.insert(0x80 as u16, (Cpu::instr_ADD_0x80, Cpu::disp_ADD_0x80));
+        decoder.insert(0x81 as u16, (Cpu::instr_ADD_0x81, Cpu::disp_ADD_0x81));
+        decoder.insert(0x82 as u16, (Cpu::instr_ADD_0x82, Cpu::disp_ADD_0x82));
+        decoder.insert(0x83 as u16, (Cpu::instr_ADD_0x83, Cpu::disp_ADD_0x83));
+        decoder.insert(0x84 as u16, (Cpu::instr_ADD_0x84, Cpu::disp_ADD_0x84));
+        decoder.insert(0x85 as u16, (Cpu::instr_ADD_0x85, Cpu::disp_ADD_0x85));
+        decoder.insert(0x86 as u16, (Cpu::instr_ADD_0x86, Cpu::disp_ADD_0x86));
+        decoder.insert(0x87 as u16, (Cpu::instr_ADD_0x87, Cpu::disp_ADD_0x87));
+        decoder.insert(0x88 as u16, (Cpu::instr_ADC_0x88, Cpu::disp_ADC_0x88));
+        decoder.insert(0x89 as u16, (Cpu::instr_ADC_0x89, Cpu::disp_ADC_0x89));
+        decoder.insert(0x8A as u16, (Cpu::instr_ADC_0x8A, Cpu::disp_ADC_0x8A));
+        decoder.insert(0x8B as u16, (Cpu::instr_ADC_0x8B, Cpu::disp_ADC_0x8B));
+        decoder.insert(0x8C as u16, (Cpu::instr_ADC_0x8C, Cpu::disp_ADC_0x8C));
+        decoder.insert(0x8D as u16, (Cpu::instr_ADC_0x8D, Cpu::disp_ADC_0x8D));
+        decoder.insert(0x8E as u16, (Cpu::instr_ADC_0x8E, Cpu::disp_ADC_0x8E));
+        decoder.insert(0x8F as u16, (Cpu::instr_ADC_0x8F, Cpu::disp_ADC_0x8F));
+        decoder.insert(0x90 as u16, (Cpu::instr_SUB_0x90, Cpu::disp_SUB_0x90));
+        decoder.insert(0x91 as u16, (Cpu::instr_SUB_0x91, Cpu::disp_SUB_0x91));
+        decoder.insert(0x92 as u16, (Cpu::instr_SUB_0x92, Cpu::disp_SUB_0x92));
+        decoder.insert(0x93 as u16, (Cpu::instr_SUB_0x93, Cpu::disp_SUB_0x93));
+        decoder.insert(0x94 as u16, (Cpu::instr_SUB_0x94, Cpu::disp_SUB_0x94));
+        decoder.insert(0x95 as u16, (Cpu::instr_SUB_0x95, Cpu::disp_SUB_0x95));
+        decoder.insert(0x96 as u16, (Cpu::instr_SUB_0x96, Cpu::disp_SUB_0x96));
+        decoder.insert(0x97 as u16, (Cpu::instr_SUB_0x97, Cpu::disp_SUB_0x97));
+        decoder.insert(0x98 as u16, (Cpu::instr_SBC_0x98, Cpu::disp_SBC_0x98));
+        decoder.insert(0x99 as u16, (Cpu::instr_SBC_0x99, Cpu::disp_SBC_0x99));
+        decoder.insert(0x9A as u16, (Cpu::instr_SBC_0x9A, Cpu::disp_SBC_0x9A));
+        decoder.insert(0x9B as u16, (Cpu::instr_SBC_0x9B, Cpu::disp_SBC_0x9B));
+        decoder.insert(0x9C as u16, (Cpu::instr_SBC_0x9C, Cpu::disp_SBC_0x9C));
+        decoder.insert(0x9D as u16, (Cpu::instr_SBC_0x9D, Cpu::disp_SBC_0x9D));
+        decoder.insert(0x9E as u16, (Cpu::instr_SBC_0x9E, Cpu::disp_SBC_0x9E));
+        decoder.insert(0x9F as u16, (Cpu::instr_SBC_0x9F, Cpu::disp_SBC_0x9F));
+        decoder.insert(0xA0 as u16, (Cpu::instr_AND_0xA0, Cpu::disp_AND_0xA0));
+        decoder.insert(0xA1 as u16, (Cpu::instr_AND_0xA1, Cpu::disp_AND_0xA1));
+        decoder.insert(0xA2 as u16, (Cpu::instr_AND_0xA2, Cpu::disp_AND_0xA2));
+        decoder.insert(0xA3 as u16, (Cpu::instr_AND_0xA3, Cpu::disp_AND_0xA3));
+        decoder.insert(0xA4 as u16, (Cpu::instr_AND_0xA4, Cpu::disp_AND_0xA4));
+        decoder.insert(0xA5 as u16, (Cpu::instr_AND_0xA5, Cpu::disp_AND_0xA5));
+        decoder.insert(0xA6 as u16, (Cpu::instr_AND_0xA6, Cpu::disp_AND_0xA6));
+        decoder.insert(0xA7 as u16, (Cpu::instr_AND_0xA7, Cpu::disp_AND_0xA7));
+        decoder.insert(0xA8 as u16, (Cpu::instr_XOR_0xA8, Cpu::disp_XOR_0xA8));
+        decoder.insert(0xA9 as u16, (Cpu::instr_XOR_0xA9, Cpu::disp_XOR_0xA9));
+        decoder.insert(0xAA as u16, (Cpu::instr_XOR_0xAA, Cpu::disp_XOR_0xAA));
+        decoder.insert(0xAB as u16, (Cpu::instr_XOR_0xAB, Cpu::disp_XOR_0xAB));
+        decoder.insert(0xAC as u16, (Cpu::instr_XOR_0xAC, Cpu::disp_XOR_0xAC));
+        decoder.insert(0xAD as u16, (Cpu::instr_XOR_0xAD, Cpu::disp_XOR_0xAD));
+        decoder.insert(0xAE as u16, (Cpu::instr_XOR_0xAE, Cpu::disp_XOR_0xAE));
+        decoder.insert(0xAF as u16, (Cpu::instr_XOR_0xAF, Cpu::disp_XOR_0xAF));
+        decoder.insert(0xB0 as u16, (Cpu::instr_OR_0xB0, Cpu::disp_OR_0xB0));
+        decoder.insert(0xB1 as u16, (Cpu::instr_OR_0xB1, Cpu::disp_OR_0xB1));
+        decoder.insert(0xB2 as u16, (Cpu::instr_OR_0xB2, Cpu::disp_OR_0xB2));
+        decoder.insert(0xB3 as u16, (Cpu::instr_OR_0xB3, Cpu::disp_OR_0xB3));
+        decoder.insert(0xB4 as u16, (Cpu::instr_OR_0xB4, Cpu::disp_OR_0xB4));
+        decoder.insert(0xB5 as u16, (Cpu::instr_OR_0xB5, Cpu::disp_OR_0xB5));
+        decoder.insert(0xB6 as u16, (Cpu::instr_OR_0xB6, Cpu::disp_OR_0xB6));
+        decoder.insert(0xB7 as u16, (Cpu::instr_OR_0xB7, Cpu::disp_OR_0xB7));
+        decoder.insert(0xB8 as u16, (Cpu::instr_CP_0xB8, Cpu::disp_CP_0xB8));
+        decoder.insert(0xB9 as u16, (Cpu::instr_CP_0xB9, Cpu::disp_CP_0xB9));
+        decoder.insert(0xBA as u16, (Cpu::instr_CP_0xBA, Cpu::disp_CP_0xBA));
+        decoder.insert(0xBB as u16, (Cpu::instr_CP_0xBB, Cpu::disp_CP_0xBB));
+        decoder.insert(0xBC as u16, (Cpu::instr_CP_0xBC, Cpu::disp_CP_0xBC));
+        decoder.insert(0xBD as u16, (Cpu::instr_CP_0xBD, Cpu::disp_CP_0xBD));
+        decoder.insert(0xBE as u16, (Cpu::instr_CP_0xBE, Cpu::disp_CP_0xBE));
+        decoder.insert(0xBF as u16, (Cpu::instr_CP_0xBF, Cpu::disp_CP_0xBF));
+        decoder.insert(0xC0 as u16, (Cpu::instr_RET_0xC0, Cpu::disp_RET_0xC0));
+        decoder.insert(0xC1 as u16, (Cpu::instr_POP_0xC1, Cpu::disp_POP_0xC1));
+        decoder.insert(0xC2 as u16, (Cpu::instr_JP_0xC2, Cpu::disp_JP_0xC2));
+        decoder.insert(0xC3 as u16, (Cpu::instr_JP_0xC3, Cpu::disp_JP_0xC3));
+        decoder.insert(0xC4 as u16, (Cpu::instr_CALL_0xC4, Cpu::disp_CALL_0xC4));
+        decoder.insert(0xC5 as u16, (Cpu::instr_PUSH_0xC5, Cpu::disp_PUSH_0xC5));
+        decoder.insert(0xC6 as u16, (Cpu::instr_ADD_0xC6, Cpu::disp_ADD_0xC6));
+        decoder.insert(0xC7 as u16, (Cpu::instr_RST_0xC7, Cpu::disp_RST_0xC7));
+        decoder.insert(0xC8 as u16, (Cpu::instr_RET_0xC8, Cpu::disp_RET_0xC8));
+        decoder.insert(0xC9 as u16, (Cpu::instr_RET_0xC9, Cpu::disp_RET_0xC9));
+        decoder.insert(0xCA as u16, (Cpu::instr_JP_0xCA, Cpu::disp_JP_0xCA));
+        decoder.insert(0xCB as u16, (Cpu::instr_PREFIX_0xCB, Cpu::disp_PREFIX_0xCB));
+        decoder.insert(0xCC as u16, (Cpu::instr_CALL_0xCC, Cpu::disp_CALL_0xCC));
+        decoder.insert(0xCD as u16, (Cpu::instr_CALL_0xCD, Cpu::disp_CALL_0xCD));
+        decoder.insert(0xCE as u16, (Cpu::instr_ADC_0xCE, Cpu::disp_ADC_0xCE));
+        decoder.insert(0xCF as u16, (Cpu::instr_RST_0xCF, Cpu::disp_RST_0xCF));
+        decoder.insert(0xD0 as u16, (Cpu::instr_RET_0xD0, Cpu::disp_RET_0xD0));
+        decoder.insert(0xD1 as u16, (Cpu::instr_POP_0xD1, Cpu::disp_POP_0xD1));
+        decoder.insert(0xD2 as u16, (Cpu::instr_JP_0xD2, Cpu::disp_JP_0xD2));
+        decoder.insert(0xD4 as u16, (Cpu::instr_CALL_0xD4, Cpu::disp_CALL_0xD4));
+        decoder.insert(0xD5 as u16, (Cpu::instr_PUSH_0xD5, Cpu::disp_PUSH_0xD5));
+        decoder.insert(0xD6 as u16, (Cpu::instr_SUB_0xD6, Cpu::disp_SUB_0xD6));
+        decoder.insert(0xD7 as u16, (Cpu::instr_RST_0xD7, Cpu::disp_RST_0xD7));
+        decoder.insert(0xD8 as u16, (Cpu::instr_RET_0xD8, Cpu::disp_RET_0xD8));
+        decoder.insert(0xD9 as u16, (Cpu::instr_RETI_0xD9, Cpu::disp_RETI_0xD9));
+        decoder.insert(0xDA as u16, (Cpu::instr_JP_0xDA, Cpu::disp_JP_0xDA));
+        decoder.insert(0xDC as u16, (Cpu::instr_CALL_0xDC, Cpu::disp_CALL_0xDC));
+        decoder.insert(0xDE as u16, (Cpu::instr_SBC_0xDE, Cpu::disp_SBC_0xDE));
+        decoder.insert(0xDF as u16, (Cpu::instr_RST_0xDF, Cpu::disp_RST_0xDF));
+        decoder.insert(0xE0 as u16, (Cpu::instr_LDH_0xE0, Cpu::disp_LDH_0xE0));
+        decoder.insert(0xE1 as u16, (Cpu::instr_POP_0xE1, Cpu::disp_POP_0xE1));
+        decoder.insert(0xE2 as u16, (Cpu::instr_LD_0xE2, Cpu::disp_LD_0xE2));
+        decoder.insert(0xE5 as u16, (Cpu::instr_PUSH_0xE5, Cpu::disp_PUSH_0xE5));
+        decoder.insert(0xE6 as u16, (Cpu::instr_AND_0xE6, Cpu::disp_AND_0xE6));
+        decoder.insert(0xE7 as u16, (Cpu::instr_RST_0xE7, Cpu::disp_RST_0xE7));
+        decoder.insert(0xE8 as u16, (Cpu::instr_ADD_0xE8, Cpu::disp_ADD_0xE8));
+        decoder.insert(0xE9 as u16, (Cpu::instr_JP_0xE9, Cpu::disp_JP_0xE9));
+        decoder.insert(0xEA as u16, (Cpu::instr_LD_0xEA, Cpu::disp_LD_0xEA));
+        decoder.insert(0xEE as u16, (Cpu::instr_XOR_0xEE, Cpu::disp_XOR_0xEE));
+        decoder.insert(0xEF as u16, (Cpu::instr_RST_0xEF, Cpu::disp_RST_0xEF));
+        decoder.insert(0xF0 as u16, (Cpu::instr_LDH_0xF0, Cpu::disp_LDH_0xF0));
+        decoder.insert(0xF1 as u16, (Cpu::instr_POP_0xF1, Cpu::disp_POP_0xF1));
+        decoder.insert(0xF2 as u16, (Cpu::instr_LD_0xF2, Cpu::disp_LD_0xF2));
+        decoder.insert(0xF3 as u16, (Cpu::instr_DI_0xF3, Cpu::disp_DI_0xF3));
+        decoder.insert(0xF5 as u16, (Cpu::instr_PUSH_0xF5, Cpu::disp_PUSH_0xF5));
+        decoder.insert(0xF6 as u16, (Cpu::instr_OR_0xF6, Cpu::disp_OR_0xF6));
+        decoder.insert(0xF7 as u16, (Cpu::instr_RST_0xF7, Cpu::disp_RST_0xF7));
+        decoder.insert(0xF8 as u16, (Cpu::instr_LD_0xF8, Cpu::disp_LD_0xF8));
+        decoder.insert(0xF9 as u16, (Cpu::instr_LD_0xF9, Cpu::disp_LD_0xF9));
+        decoder.insert(0xFA as u16, (Cpu::instr_LD_0xFA, Cpu::disp_LD_0xFA));
+        decoder.insert(0xFB as u16, (Cpu::instr_EI_0xFB, Cpu::disp_EI_0xFB));
+        decoder.insert(0xFE as u16, (Cpu::instr_CP_0xFE, Cpu::disp_CP_0xFE));
+        decoder.insert(0xFF as u16, (Cpu::instr_RST_0xFF, Cpu::disp_RST_0xFF));
+        decoder.insert(0xCB00 as u16, (Cpu::instr_RLC_0xCB00, Cpu::disp_RLC_0xCB00));
+        decoder.insert(0xCB01 as u16, (Cpu::instr_RLC_0xCB01, Cpu::disp_RLC_0xCB01));
+        decoder.insert(0xCB02 as u16, (Cpu::instr_RLC_0xCB02, Cpu::disp_RLC_0xCB02));
+        decoder.insert(0xCB03 as u16, (Cpu::instr_RLC_0xCB03, Cpu::disp_RLC_0xCB03));
+        decoder.insert(0xCB04 as u16, (Cpu::instr_RLC_0xCB04, Cpu::disp_RLC_0xCB04));
+        decoder.insert(0xCB05 as u16, (Cpu::instr_RLC_0xCB05, Cpu::disp_RLC_0xCB05));
+        decoder.insert(0xCB06 as u16, (Cpu::instr_RLC_0xCB06, Cpu::disp_RLC_0xCB06));
+        decoder.insert(0xCB07 as u16, (Cpu::instr_RLC_0xCB07, Cpu::disp_RLC_0xCB07));
+        decoder.insert(0xCB08 as u16, (Cpu::instr_RRC_0xCB08, Cpu::disp_RRC_0xCB08));
+        decoder.insert(0xCB09 as u16, (Cpu::instr_RRC_0xCB09, Cpu::disp_RRC_0xCB09));
+        decoder.insert(0xCB0A as u16, (Cpu::instr_RRC_0xCB0A, Cpu::disp_RRC_0xCB0A));
+        decoder.insert(0xCB0B as u16, (Cpu::instr_RRC_0xCB0B, Cpu::disp_RRC_0xCB0B));
+        decoder.insert(0xCB0C as u16, (Cpu::instr_RRC_0xCB0C, Cpu::disp_RRC_0xCB0C));
+        decoder.insert(0xCB0D as u16, (Cpu::instr_RRC_0xCB0D, Cpu::disp_RRC_0xCB0D));
+        decoder.insert(0xCB0E as u16, (Cpu::instr_RRC_0xCB0E, Cpu::disp_RRC_0xCB0E));
+        decoder.insert(0xCB0F as u16, (Cpu::instr_RRC_0xCB0F, Cpu::disp_RRC_0xCB0F));
+        decoder.insert(0xCB10 as u16, (Cpu::instr_RL_0xCB10, Cpu::disp_RL_0xCB10));
+        decoder.insert(0xCB11 as u16, (Cpu::instr_RL_0xCB11, Cpu::disp_RL_0xCB11));
+        decoder.insert(0xCB12 as u16, (Cpu::instr_RL_0xCB12, Cpu::disp_RL_0xCB12));
+        decoder.insert(0xCB13 as u16, (Cpu::instr_RL_0xCB13, Cpu::disp_RL_0xCB13));
+        decoder.insert(0xCB14 as u16, (Cpu::instr_RL_0xCB14, Cpu::disp_RL_0xCB14));
+        decoder.insert(0xCB15 as u16, (Cpu::instr_RL_0xCB15, Cpu::disp_RL_0xCB15));
+        decoder.insert(0xCB16 as u16, (Cpu::instr_RL_0xCB16, Cpu::disp_RL_0xCB16));
+        decoder.insert(0xCB17 as u16, (Cpu::instr_RL_0xCB17, Cpu::disp_RL_0xCB17));
+        decoder.insert(0xCB18 as u16, (Cpu::instr_RR_0xCB18, Cpu::disp_RR_0xCB18));
+        decoder.insert(0xCB19 as u16, (Cpu::instr_RR_0xCB19, Cpu::disp_RR_0xCB19));
+        decoder.insert(0xCB1A as u16, (Cpu::instr_RR_0xCB1A, Cpu::disp_RR_0xCB1A));
+        decoder.insert(0xCB1B as u16, (Cpu::instr_RR_0xCB1B, Cpu::disp_RR_0xCB1B));
+        decoder.insert(0xCB1C as u16, (Cpu::instr_RR_0xCB1C, Cpu::disp_RR_0xCB1C));
+        decoder.insert(0xCB1D as u16, (Cpu::instr_RR_0xCB1D, Cpu::disp_RR_0xCB1D));
+        decoder.insert(0xCB1E as u16, (Cpu::instr_RR_0xCB1E, Cpu::disp_RR_0xCB1E));
+        decoder.insert(0xCB1F as u16, (Cpu::instr_RR_0xCB1F, Cpu::disp_RR_0xCB1F));
+        decoder.insert(0xCB20 as u16, (Cpu::instr_SLA_0xCB20, Cpu::disp_SLA_0xCB20));
+        decoder.insert(0xCB21 as u16, (Cpu::instr_SLA_0xCB21, Cpu::disp_SLA_0xCB21));
+        decoder.insert(0xCB22 as u16, (Cpu::instr_SLA_0xCB22, Cpu::disp_SLA_0xCB22));
+        decoder.insert(0xCB23 as u16, (Cpu::instr_SLA_0xCB23, Cpu::disp_SLA_0xCB23));
+        decoder.insert(0xCB24 as u16, (Cpu::instr_SLA_0xCB24, Cpu::disp_SLA_0xCB24));
+        decoder.insert(0xCB25 as u16, (Cpu::instr_SLA_0xCB25, Cpu::disp_SLA_0xCB25));
+        decoder.insert(0xCB26 as u16, (Cpu::instr_SLA_0xCB26, Cpu::disp_SLA_0xCB26));
+        decoder.insert(0xCB27 as u16, (Cpu::instr_SLA_0xCB27, Cpu::disp_SLA_0xCB27));
+        decoder.insert(0xCB28 as u16, (Cpu::instr_SRA_0xCB28, Cpu::disp_SRA_0xCB28));
+        decoder.insert(0xCB29 as u16, (Cpu::instr_SRA_0xCB29, Cpu::disp_SRA_0xCB29));
+        decoder.insert(0xCB2A as u16, (Cpu::instr_SRA_0xCB2A, Cpu::disp_SRA_0xCB2A));
+        decoder.insert(0xCB2B as u16, (Cpu::instr_SRA_0xCB2B, Cpu::disp_SRA_0xCB2B));
+        decoder.insert(0xCB2C as u16, (Cpu::instr_SRA_0xCB2C, Cpu::disp_SRA_0xCB2C));
+        decoder.insert(0xCB2D as u16, (Cpu::instr_SRA_0xCB2D, Cpu::disp_SRA_0xCB2D));
+        decoder.insert(0xCB2E as u16, (Cpu::instr_SRA_0xCB2E, Cpu::disp_SRA_0xCB2E));
+        decoder.insert(0xCB2F as u16, (Cpu::instr_SRA_0xCB2F, Cpu::disp_SRA_0xCB2F));
+        decoder.insert(0xCB30 as u16, (Cpu::instr_SWAP_0xCB30, Cpu::disp_SWAP_0xCB30));
+        decoder.insert(0xCB31 as u16, (Cpu::instr_SWAP_0xCB31, Cpu::disp_SWAP_0xCB31));
+        decoder.insert(0xCB32 as u16, (Cpu::instr_SWAP_0xCB32, Cpu::disp_SWAP_0xCB32));
+        decoder.insert(0xCB33 as u16, (Cpu::instr_SWAP_0xCB33, Cpu::disp_SWAP_0xCB33));
+        decoder.insert(0xCB34 as u16, (Cpu::instr_SWAP_0xCB34, Cpu::disp_SWAP_0xCB34));
+        decoder.insert(0xCB35 as u16, (Cpu::instr_SWAP_0xCB35, Cpu::disp_SWAP_0xCB35));
+        decoder.insert(0xCB36 as u16, (Cpu::instr_SWAP_0xCB36, Cpu::disp_SWAP_0xCB36));
+        decoder.insert(0xCB37 as u16, (Cpu::instr_SWAP_0xCB37, Cpu::disp_SWAP_0xCB37));
+        decoder.insert(0xCB38 as u16, (Cpu::instr_SRL_0xCB38, Cpu::disp_SRL_0xCB38));
+        decoder.insert(0xCB39 as u16, (Cpu::instr_SRL_0xCB39, Cpu::disp_SRL_0xCB39));
+        decoder.insert(0xCB3A as u16, (Cpu::instr_SRL_0xCB3A, Cpu::disp_SRL_0xCB3A));
+        decoder.insert(0xCB3B as u16, (Cpu::instr_SRL_0xCB3B, Cpu::disp_SRL_0xCB3B));
+        decoder.insert(0xCB3C as u16, (Cpu::instr_SRL_0xCB3C, Cpu::disp_SRL_0xCB3C));
+        decoder.insert(0xCB3D as u16, (Cpu::instr_SRL_0xCB3D, Cpu::disp_SRL_0xCB3D));
+        decoder.insert(0xCB3E as u16, (Cpu::instr_SRL_0xCB3E, Cpu::disp_SRL_0xCB3E));
+        decoder.insert(0xCB3F as u16, (Cpu::instr_SRL_0xCB3F, Cpu::disp_SRL_0xCB3F));
+        decoder.insert(0xCB40 as u16, (Cpu::instr_BIT_0xCB40, Cpu::disp_BIT_0xCB40));
+        decoder.insert(0xCB41 as u16, (Cpu::instr_BIT_0xCB41, Cpu::disp_BIT_0xCB41));
+        decoder.insert(0xCB42 as u16, (Cpu::instr_BIT_0xCB42, Cpu::disp_BIT_0xCB42));
+        decoder.insert(0xCB43 as u16, (Cpu::instr_BIT_0xCB43, Cpu::disp_BIT_0xCB43));
+        decoder.insert(0xCB44 as u16, (Cpu::instr_BIT_0xCB44, Cpu::disp_BIT_0xCB44));
+        decoder.insert(0xCB45 as u16, (Cpu::instr_BIT_0xCB45, Cpu::disp_BIT_0xCB45));
+        decoder.insert(0xCB46 as u16, (Cpu::instr_BIT_0xCB46, Cpu::disp_BIT_0xCB46));
+        decoder.insert(0xCB47 as u16, (Cpu::instr_BIT_0xCB47, Cpu::disp_BIT_0xCB47));
+        decoder.insert(0xCB48 as u16, (Cpu::instr_BIT_0xCB48, Cpu::disp_BIT_0xCB48));
+        decoder.insert(0xCB49 as u16, (Cpu::instr_BIT_0xCB49, Cpu::disp_BIT_0xCB49));
+        decoder.insert(0xCB4A as u16, (Cpu::instr_BIT_0xCB4A, Cpu::disp_BIT_0xCB4A));
+        decoder.insert(0xCB4B as u16, (Cpu::instr_BIT_0xCB4B, Cpu::disp_BIT_0xCB4B));
+        decoder.insert(0xCB4C as u16, (Cpu::instr_BIT_0xCB4C, Cpu::disp_BIT_0xCB4C));
+        decoder.insert(0xCB4D as u16, (Cpu::instr_BIT_0xCB4D, Cpu::disp_BIT_0xCB4D));
+        decoder.insert(0xCB4E as u16, (Cpu::instr_BIT_0xCB4E, Cpu::disp_BIT_0xCB4E));
+        decoder.insert(0xCB4F as u16, (Cpu::instr_BIT_0xCB4F, Cpu::disp_BIT_0xCB4F));
+        decoder.insert(0xCB50 as u16, (Cpu::instr_BIT_0xCB50, Cpu::disp_BIT_0xCB50));
+        decoder.insert(0xCB51 as u16, (Cpu::instr_BIT_0xCB51, Cpu::disp_BIT_0xCB51));
+        decoder.insert(0xCB52 as u16, (Cpu::instr_BIT_0xCB52, Cpu::disp_BIT_0xCB52));
+        decoder.insert(0xCB53 as u16, (Cpu::instr_BIT_0xCB53, Cpu::disp_BIT_0xCB53));
+        decoder.insert(0xCB54 as u16, (Cpu::instr_BIT_0xCB54, Cpu::disp_BIT_0xCB54));
+        decoder.insert(0xCB55 as u16, (Cpu::instr_BIT_0xCB55, Cpu::disp_BIT_0xCB55));
+        decoder.insert(0xCB56 as u16, (Cpu::instr_BIT_0xCB56, Cpu::disp_BIT_0xCB56));
+        decoder.insert(0xCB57 as u16, (Cpu::instr_BIT_0xCB57, Cpu::disp_BIT_0xCB57));
+        decoder.insert(0xCB58 as u16, (Cpu::instr_BIT_0xCB58, Cpu::disp_BIT_0xCB58));
+        decoder.insert(0xCB59 as u16, (Cpu::instr_BIT_0xCB59, Cpu::disp_BIT_0xCB59));
+        decoder.insert(0xCB5A as u16, (Cpu::instr_BIT_0xCB5A, Cpu::disp_BIT_0xCB5A));
+        decoder.insert(0xCB5B as u16, (Cpu::instr_BIT_0xCB5B, Cpu::disp_BIT_0xCB5B));
+        decoder.insert(0xCB5C as u16, (Cpu::instr_BIT_0xCB5C, Cpu::disp_BIT_0xCB5C));
+        decoder.insert(0xCB5D as u16, (Cpu::instr_BIT_0xCB5D, Cpu::disp_BIT_0xCB5D));
+        decoder.insert(0xCB5E as u16, (Cpu::instr_BIT_0xCB5E, Cpu::disp_BIT_0xCB5E));
+        decoder.insert(0xCB5F as u16, (Cpu::instr_BIT_0xCB5F, Cpu::disp_BIT_0xCB5F));
+        decoder.insert(0xCB60 as u16, (Cpu::instr_BIT_0xCB60, Cpu::disp_BIT_0xCB60));
+        decoder.insert(0xCB61 as u16, (Cpu::instr_BIT_0xCB61, Cpu::disp_BIT_0xCB61));
+        decoder.insert(0xCB62 as u16, (Cpu::instr_BIT_0xCB62, Cpu::disp_BIT_0xCB62));
+        decoder.insert(0xCB63 as u16, (Cpu::instr_BIT_0xCB63, Cpu::disp_BIT_0xCB63));
+        decoder.insert(0xCB64 as u16, (Cpu::instr_BIT_0xCB64, Cpu::disp_BIT_0xCB64));
+        decoder.insert(0xCB65 as u16, (Cpu::instr_BIT_0xCB65, Cpu::disp_BIT_0xCB65));
+        decoder.insert(0xCB66 as u16, (Cpu::instr_BIT_0xCB66, Cpu::disp_BIT_0xCB66));
+        decoder.insert(0xCB67 as u16, (Cpu::instr_BIT_0xCB67, Cpu::disp_BIT_0xCB67));
+        decoder.insert(0xCB68 as u16, (Cpu::instr_BIT_0xCB68, Cpu::disp_BIT_0xCB68));
+        decoder.insert(0xCB69 as u16, (Cpu::instr_BIT_0xCB69, Cpu::disp_BIT_0xCB69));
+        decoder.insert(0xCB6A as u16, (Cpu::instr_BIT_0xCB6A, Cpu::disp_BIT_0xCB6A));
+        decoder.insert(0xCB6B as u16, (Cpu::instr_BIT_0xCB6B, Cpu::disp_BIT_0xCB6B));
+        decoder.insert(0xCB6C as u16, (Cpu::instr_BIT_0xCB6C, Cpu::disp_BIT_0xCB6C));
+        decoder.insert(0xCB6D as u16, (Cpu::instr_BIT_0xCB6D, Cpu::disp_BIT_0xCB6D));
+        decoder.insert(0xCB6E as u16, (Cpu::instr_BIT_0xCB6E, Cpu::disp_BIT_0xCB6E));
+        decoder.insert(0xCB6F as u16, (Cpu::instr_BIT_0xCB6F, Cpu::disp_BIT_0xCB6F));
+        decoder.insert(0xCB70 as u16, (Cpu::instr_BIT_0xCB70, Cpu::disp_BIT_0xCB70));
+        decoder.insert(0xCB71 as u16, (Cpu::instr_BIT_0xCB71, Cpu::disp_BIT_0xCB71));
+        decoder.insert(0xCB72 as u16, (Cpu::instr_BIT_0xCB72, Cpu::disp_BIT_0xCB72));
+        decoder.insert(0xCB73 as u16, (Cpu::instr_BIT_0xCB73, Cpu::disp_BIT_0xCB73));
+        decoder.insert(0xCB74 as u16, (Cpu::instr_BIT_0xCB74, Cpu::disp_BIT_0xCB74));
+        decoder.insert(0xCB75 as u16, (Cpu::instr_BIT_0xCB75, Cpu::disp_BIT_0xCB75));
+        decoder.insert(0xCB76 as u16, (Cpu::instr_BIT_0xCB76, Cpu::disp_BIT_0xCB76));
+        decoder.insert(0xCB77 as u16, (Cpu::instr_BIT_0xCB77, Cpu::disp_BIT_0xCB77));
+        decoder.insert(0xCB78 as u16, (Cpu::instr_BIT_0xCB78, Cpu::disp_BIT_0xCB78));
+        decoder.insert(0xCB79 as u16, (Cpu::instr_BIT_0xCB79, Cpu::disp_BIT_0xCB79));
+        decoder.insert(0xCB7A as u16, (Cpu::instr_BIT_0xCB7A, Cpu::disp_BIT_0xCB7A));
+        decoder.insert(0xCB7B as u16, (Cpu::instr_BIT_0xCB7B, Cpu::disp_BIT_0xCB7B));
+        decoder.insert(0xCB7C as u16, (Cpu::instr_BIT_0xCB7C, Cpu::disp_BIT_0xCB7C));
+        decoder.insert(0xCB7D as u16, (Cpu::instr_BIT_0xCB7D, Cpu::disp_BIT_0xCB7D));
+        decoder.insert(0xCB7E as u16, (Cpu::instr_BIT_0xCB7E, Cpu::disp_BIT_0xCB7E));
+        decoder.insert(0xCB7F as u16, (Cpu::instr_BIT_0xCB7F, Cpu::disp_BIT_0xCB7F));
+        decoder.insert(0xCB80 as u16, (Cpu::instr_RES_0xCB80, Cpu::disp_RES_0xCB80));
+        decoder.insert(0xCB81 as u16, (Cpu::instr_RES_0xCB81, Cpu::disp_RES_0xCB81));
+        decoder.insert(0xCB82 as u16, (Cpu::instr_RES_0xCB82, Cpu::disp_RES_0xCB82));
+        decoder.insert(0xCB83 as u16, (Cpu::instr_RES_0xCB83, Cpu::disp_RES_0xCB83));
+        decoder.insert(0xCB84 as u16, (Cpu::instr_RES_0xCB84, Cpu::disp_RES_0xCB84));
+        decoder.insert(0xCB85 as u16, (Cpu::instr_RES_0xCB85, Cpu::disp_RES_0xCB85));
+        decoder.insert(0xCB86 as u16, (Cpu::instr_RES_0xCB86, Cpu::disp_RES_0xCB86));
+        decoder.insert(0xCB87 as u16, (Cpu::instr_RES_0xCB87, Cpu::disp_RES_0xCB87));
+        decoder.insert(0xCB88 as u16, (Cpu::instr_RES_0xCB88, Cpu::disp_RES_0xCB88));
+        decoder.insert(0xCB89 as u16, (Cpu::instr_RES_0xCB89, Cpu::disp_RES_0xCB89));
+        decoder.insert(0xCB8A as u16, (Cpu::instr_RES_0xCB8A, Cpu::disp_RES_0xCB8A));
+        decoder.insert(0xCB8B as u16, (Cpu::instr_RES_0xCB8B, Cpu::disp_RES_0xCB8B));
+        decoder.insert(0xCB8C as u16, (Cpu::instr_RES_0xCB8C, Cpu::disp_RES_0xCB8C));
+        decoder.insert(0xCB8D as u16, (Cpu::instr_RES_0xCB8D, Cpu::disp_RES_0xCB8D));
+        decoder.insert(0xCB8E as u16, (Cpu::instr_RES_0xCB8E, Cpu::disp_RES_0xCB8E));
+        decoder.insert(0xCB8F as u16, (Cpu::instr_RES_0xCB8F, Cpu::disp_RES_0xCB8F));
+        decoder.insert(0xCB90 as u16, (Cpu::instr_RES_0xCB90, Cpu::disp_RES_0xCB90));
+        decoder.insert(0xCB91 as u16, (Cpu::instr_RES_0xCB91, Cpu::disp_RES_0xCB91));
+        decoder.insert(0xCB92 as u16, (Cpu::instr_RES_0xCB92, Cpu::disp_RES_0xCB92));
+        decoder.insert(0xCB93 as u16, (Cpu::instr_RES_0xCB93, Cpu::disp_RES_0xCB93));
+        decoder.insert(0xCB94 as u16, (Cpu::instr_RES_0xCB94, Cpu::disp_RES_0xCB94));
+        decoder.insert(0xCB95 as u16, (Cpu::instr_RES_0xCB95, Cpu::disp_RES_0xCB95));
+        decoder.insert(0xCB96 as u16, (Cpu::instr_RES_0xCB96, Cpu::disp_RES_0xCB96));
+        decoder.insert(0xCB97 as u16, (Cpu::instr_RES_0xCB97, Cpu::disp_RES_0xCB97));
+        decoder.insert(0xCB98 as u16, (Cpu::instr_RES_0xCB98, Cpu::disp_RES_0xCB98));
+        decoder.insert(0xCB99 as u16, (Cpu::instr_RES_0xCB99, Cpu::disp_RES_0xCB99));
+        decoder.insert(0xCB9A as u16, (Cpu::instr_RES_0xCB9A, Cpu::disp_RES_0xCB9A));
+        decoder.insert(0xCB9B as u16, (Cpu::instr_RES_0xCB9B, Cpu::disp_RES_0xCB9B));
+        decoder.insert(0xCB9C as u16, (Cpu::instr_RES_0xCB9C, Cpu::disp_RES_0xCB9C));
+        decoder.insert(0xCB9D as u16, (Cpu::instr_RES_0xCB9D, Cpu::disp_RES_0xCB9D));
+        decoder.insert(0xCB9E as u16, (Cpu::instr_RES_0xCB9E, Cpu::disp_RES_0xCB9E));
+        decoder.insert(0xCB9F as u16, (Cpu::instr_RES_0xCB9F, Cpu::disp_RES_0xCB9F));
+        decoder.insert(0xCBA0 as u16, (Cpu::instr_RES_0xCBA0, Cpu::disp_RES_0xCBA0));
+        decoder.insert(0xCBA1 as u16, (Cpu::instr_RES_0xCBA1, Cpu::disp_RES_0xCBA1));
+        decoder.insert(0xCBA2 as u16, (Cpu::instr_RES_0xCBA2, Cpu::disp_RES_0xCBA2));
+        decoder.insert(0xCBA3 as u16, (Cpu::instr_RES_0xCBA3, Cpu::disp_RES_0xCBA3));
+        decoder.insert(0xCBA4 as u16, (Cpu::instr_RES_0xCBA4, Cpu::disp_RES_0xCBA4));
+        decoder.insert(0xCBA5 as u16, (Cpu::instr_RES_0xCBA5, Cpu::disp_RES_0xCBA5));
+        decoder.insert(0xCBA6 as u16, (Cpu::instr_RES_0xCBA6, Cpu::disp_RES_0xCBA6));
+        decoder.insert(0xCBA7 as u16, (Cpu::instr_RES_0xCBA7, Cpu::disp_RES_0xCBA7));
+        decoder.insert(0xCBA8 as u16, (Cpu::instr_RES_0xCBA8, Cpu::disp_RES_0xCBA8));
+        decoder.insert(0xCBA9 as u16, (Cpu::instr_RES_0xCBA9, Cpu::disp_RES_0xCBA9));
+        decoder.insert(0xCBAA as u16, (Cpu::instr_RES_0xCBAA, Cpu::disp_RES_0xCBAA));
+        decoder.insert(0xCBAB as u16, (Cpu::instr_RES_0xCBAB, Cpu::disp_RES_0xCBAB));
+        decoder.insert(0xCBAC as u16, (Cpu::instr_RES_0xCBAC, Cpu::disp_RES_0xCBAC));
+        decoder.insert(0xCBAD as u16, (Cpu::instr_RES_0xCBAD, Cpu::disp_RES_0xCBAD));
+        decoder.insert(0xCBAE as u16, (Cpu::instr_RES_0xCBAE, Cpu::disp_RES_0xCBAE));
+        decoder.insert(0xCBAF as u16, (Cpu::instr_RES_0xCBAF, Cpu::disp_RES_0xCBAF));
+        decoder.insert(0xCBB0 as u16, (Cpu::instr_RES_0xCBB0, Cpu::disp_RES_0xCBB0));
+        decoder.insert(0xCBB1 as u16, (Cpu::instr_RES_0xCBB1, Cpu::disp_RES_0xCBB1));
+        decoder.insert(0xCBB2 as u16, (Cpu::instr_RES_0xCBB2, Cpu::disp_RES_0xCBB2));
+        decoder.insert(0xCBB3 as u16, (Cpu::instr_RES_0xCBB3, Cpu::disp_RES_0xCBB3));
+        decoder.insert(0xCBB4 as u16, (Cpu::instr_RES_0xCBB4, Cpu::disp_RES_0xCBB4));
+        decoder.insert(0xCBB5 as u16, (Cpu::instr_RES_0xCBB5, Cpu::disp_RES_0xCBB5));
+        decoder.insert(0xCBB6 as u16, (Cpu::instr_RES_0xCBB6, Cpu::disp_RES_0xCBB6));
+        decoder.insert(0xCBB7 as u16, (Cpu::instr_RES_0xCBB7, Cpu::disp_RES_0xCBB7));
+        decoder.insert(0xCBB8 as u16, (Cpu::instr_RES_0xCBB8, Cpu::disp_RES_0xCBB8));
+        decoder.insert(0xCBB9 as u16, (Cpu::instr_RES_0xCBB9, Cpu::disp_RES_0xCBB9));
+        decoder.insert(0xCBBA as u16, (Cpu::instr_RES_0xCBBA, Cpu::disp_RES_0xCBBA));
+        decoder.insert(0xCBBB as u16, (Cpu::instr_RES_0xCBBB, Cpu::disp_RES_0xCBBB));
+        decoder.insert(0xCBBC as u16, (Cpu::instr_RES_0xCBBC, Cpu::disp_RES_0xCBBC));
+        decoder.insert(0xCBBD as u16, (Cpu::instr_RES_0xCBBD, Cpu::disp_RES_0xCBBD));
+        decoder.insert(0xCBBE as u16, (Cpu::instr_RES_0xCBBE, Cpu::disp_RES_0xCBBE));
+        decoder.insert(0xCBBF as u16, (Cpu::instr_RES_0xCBBF, Cpu::disp_RES_0xCBBF));
+        decoder.insert(0xCBC0 as u16, (Cpu::instr_SET_0xCBC0, Cpu::disp_SET_0xCBC0));
+        decoder.insert(0xCBC1 as u16, (Cpu::instr_SET_0xCBC1, Cpu::disp_SET_0xCBC1));
+        decoder.insert(0xCBC2 as u16, (Cpu::instr_SET_0xCBC2, Cpu::disp_SET_0xCBC2));
+        decoder.insert(0xCBC3 as u16, (Cpu::instr_SET_0xCBC3, Cpu::disp_SET_0xCBC3));
+        decoder.insert(0xCBC4 as u16, (Cpu::instr_SET_0xCBC4, Cpu::disp_SET_0xCBC4));
+        decoder.insert(0xCBC5 as u16, (Cpu::instr_SET_0xCBC5, Cpu::disp_SET_0xCBC5));
+        decoder.insert(0xCBC6 as u16, (Cpu::instr_SET_0xCBC6, Cpu::disp_SET_0xCBC6));
+        decoder.insert(0xCBC7 as u16, (Cpu::instr_SET_0xCBC7, Cpu::disp_SET_0xCBC7));
+        decoder.insert(0xCBC8 as u16, (Cpu::instr_SET_0xCBC8, Cpu::disp_SET_0xCBC8));
+        decoder.insert(0xCBC9 as u16, (Cpu::instr_SET_0xCBC9, Cpu::disp_SET_0xCBC9));
+        decoder.insert(0xCBCA as u16, (Cpu::instr_SET_0xCBCA, Cpu::disp_SET_0xCBCA));
+        decoder.insert(0xCBCB as u16, (Cpu::instr_SET_0xCBCB, Cpu::disp_SET_0xCBCB));
+        decoder.insert(0xCBCC as u16, (Cpu::instr_SET_0xCBCC, Cpu::disp_SET_0xCBCC));
+        decoder.insert(0xCBCD as u16, (Cpu::instr_SET_0xCBCD, Cpu::disp_SET_0xCBCD));
+        decoder.insert(0xCBCE as u16, (Cpu::instr_SET_0xCBCE, Cpu::disp_SET_0xCBCE));
+        decoder.insert(0xCBCF as u16, (Cpu::instr_SET_0xCBCF, Cpu::disp_SET_0xCBCF));
+        decoder.insert(0xCBD0 as u16, (Cpu::instr_SET_0xCBD0, Cpu::disp_SET_0xCBD0));
+        decoder.insert(0xCBD1 as u16, (Cpu::instr_SET_0xCBD1, Cpu::disp_SET_0xCBD1));
+        decoder.insert(0xCBD2 as u16, (Cpu::instr_SET_0xCBD2, Cpu::disp_SET_0xCBD2));
+        decoder.insert(0xCBD3 as u16, (Cpu::instr_SET_0xCBD3, Cpu::disp_SET_0xCBD3));
+        decoder.insert(0xCBD4 as u16, (Cpu::instr_SET_0xCBD4, Cpu::disp_SET_0xCBD4));
+        decoder.insert(0xCBD5 as u16, (Cpu::instr_SET_0xCBD5, Cpu::disp_SET_0xCBD5));
+        decoder.insert(0xCBD6 as u16, (Cpu::instr_SET_0xCBD6, Cpu::disp_SET_0xCBD6));
+        decoder.insert(0xCBD7 as u16, (Cpu::instr_SET_0xCBD7, Cpu::disp_SET_0xCBD7));
+        decoder.insert(0xCBD8 as u16, (Cpu::instr_SET_0xCBD8, Cpu::disp_SET_0xCBD8));
+        decoder.insert(0xCBD9 as u16, (Cpu::instr_SET_0xCBD9, Cpu::disp_SET_0xCBD9));
+        decoder.insert(0xCBDA as u16, (Cpu::instr_SET_0xCBDA, Cpu::disp_SET_0xCBDA));
+        decoder.insert(0xCBDB as u16, (Cpu::instr_SET_0xCBDB, Cpu::disp_SET_0xCBDB));
+        decoder.insert(0xCBDC as u16, (Cpu::instr_SET_0xCBDC, Cpu::disp_SET_0xCBDC));
+        decoder.insert(0xCBDD as u16, (Cpu::instr_SET_0xCBDD, Cpu::disp_SET_0xCBDD));
+        decoder.insert(0xCBDE as u16, (Cpu::instr_SET_0xCBDE, Cpu::disp_SET_0xCBDE));
+        decoder.insert(0xCBDF as u16, (Cpu::instr_SET_0xCBDF, Cpu::disp_SET_0xCBDF));
+        decoder.insert(0xCBE0 as u16, (Cpu::instr_SET_0xCBE0, Cpu::disp_SET_0xCBE0));
+        decoder.insert(0xCBE1 as u16, (Cpu::instr_SET_0xCBE1, Cpu::disp_SET_0xCBE1));
+        decoder.insert(0xCBE2 as u16, (Cpu::instr_SET_0xCBE2, Cpu::disp_SET_0xCBE2));
+        decoder.insert(0xCBE3 as u16, (Cpu::instr_SET_0xCBE3, Cpu::disp_SET_0xCBE3));
+        decoder.insert(0xCBE4 as u16, (Cpu::instr_SET_0xCBE4, Cpu::disp_SET_0xCBE4));
+        decoder.insert(0xCBE5 as u16, (Cpu::instr_SET_0xCBE5, Cpu::disp_SET_0xCBE5));
+        decoder.insert(0xCBE6 as u16, (Cpu::instr_SET_0xCBE6, Cpu::disp_SET_0xCBE6));
+        decoder.insert(0xCBE7 as u16, (Cpu::instr_SET_0xCBE7, Cpu::disp_SET_0xCBE7));
+        decoder.insert(0xCBE8 as u16, (Cpu::instr_SET_0xCBE8, Cpu::disp_SET_0xCBE8));
+        decoder.insert(0xCBE9 as u16, (Cpu::instr_SET_0xCBE9, Cpu::disp_SET_0xCBE9));
+        decoder.insert(0xCBEA as u16, (Cpu::instr_SET_0xCBEA, Cpu::disp_SET_0xCBEA));
+        decoder.insert(0xCBEB as u16, (Cpu::instr_SET_0xCBEB, Cpu::disp_SET_0xCBEB));
+        decoder.insert(0xCBEC as u16, (Cpu::instr_SET_0xCBEC, Cpu::disp_SET_0xCBEC));
+        decoder.insert(0xCBED as u16, (Cpu::instr_SET_0xCBED, Cpu::disp_SET_0xCBED));
+        decoder.insert(0xCBEE as u16, (Cpu::instr_SET_0xCBEE, Cpu::disp_SET_0xCBEE));
+        decoder.insert(0xCBEF as u16, (Cpu::instr_SET_0xCBEF, Cpu::disp_SET_0xCBEF));
+        decoder.insert(0xCBF0 as u16, (Cpu::instr_SET_0xCBF0, Cpu::disp_SET_0xCBF0));
+        decoder.insert(0xCBF1 as u16, (Cpu::instr_SET_0xCBF1, Cpu::disp_SET_0xCBF1));
+        decoder.insert(0xCBF2 as u16, (Cpu::instr_SET_0xCBF2, Cpu::disp_SET_0xCBF2));
+        decoder.insert(0xCBF3 as u16, (Cpu::instr_SET_0xCBF3, Cpu::disp_SET_0xCBF3));
+        decoder.insert(0xCBF4 as u16, (Cpu::instr_SET_0xCBF4, Cpu::disp_SET_0xCBF4));
+        decoder.insert(0xCBF5 as u16, (Cpu::instr_SET_0xCBF5, Cpu::disp_SET_0xCBF5));
+        decoder.insert(0xCBF6 as u16, (Cpu::instr_SET_0xCBF6, Cpu::disp_SET_0xCBF6));
+        decoder.insert(0xCBF7 as u16, (Cpu::instr_SET_0xCBF7, Cpu::disp_SET_0xCBF7));
+        decoder.insert(0xCBF8 as u16, (Cpu::instr_SET_0xCBF8, Cpu::disp_SET_0xCBF8));
+        decoder.insert(0xCBF9 as u16, (Cpu::instr_SET_0xCBF9, Cpu::disp_SET_0xCBF9));
+        decoder.insert(0xCBFA as u16, (Cpu::instr_SET_0xCBFA, Cpu::disp_SET_0xCBFA));
+        decoder.insert(0xCBFB as u16, (Cpu::instr_SET_0xCBFB, Cpu::disp_SET_0xCBFB));
+        decoder.insert(0xCBFC as u16, (Cpu::instr_SET_0xCBFC, Cpu::disp_SET_0xCBFC));
+        decoder.insert(0xCBFD as u16, (Cpu::instr_SET_0xCBFD, Cpu::disp_SET_0xCBFD));
+        decoder.insert(0xCBFE as u16, (Cpu::instr_SET_0xCBFE, Cpu::disp_SET_0xCBFE));
+        decoder.insert(0xCBFF as u16, (Cpu::instr_SET_0xCBFF, Cpu::disp_SET_0xCBFF));
         decoder
     };
 }

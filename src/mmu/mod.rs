@@ -15,7 +15,7 @@ mod tests;
 pub struct Mmu {
     /// For now, the `Mmu` just uses a single memory array
     /// of 2^16 bytes.
-    memory: [u8; 0x10000],
+    pub memory: [u8; 0x10000],
 }
 
 // ==============================================
