@@ -12,4 +12,4 @@ clean:
 	cargo clean
 
 check:
-	cargo test
+	cargo test -j1 --test rgb -- --nocapture

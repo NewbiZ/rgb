@@ -30,12 +30,12 @@ impl Cartridge {
     pub fn from_file(path: String) -> Cartridge {
         let mut file = match File::open(&Path::new(path)) {
             Ok(f) => f,
-            Err(e) => panic!("error: cannot open cartridge file."),
+            Err(e) => panic!("error: {}", e.desc),
         };
 
         let stat = match file.stat() {
             Ok(s) => s,
-            Err(e) => panic!("error: cannot stat cartridge file."),
+            Err(e) => panic!("error: {}", e.desc),
         };
 
         if stat.size > 0x4000 {
@@ -43,9 +43,9 @@ impl Cartridge {
         }
 
         let mut cart = Cartridge::new();
-        let size = match file.read(&mut cart.rom0) {
+        match file.read(&mut cart.rom0) {
             Ok(s) => s,
-            Err(e) => panic!("error: cannot read cartridge file."),
+            Err(e) => panic!("error: {}", e.desc),
         };
 
         return cart;

@@ -54,285 +54,6 @@ fn reset() {
 }
 
 #[test]
-fn instr_ADD_0x85() {
-    let mut c = Cpu::new();
-
-    c.reset();
-    c.a = 42;
-    c.l = 42;
-    c.instr_ADD_0x85();
-    assert_eq!(c.a, 84);
-    assert_eq!(c.l, 42);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.l = 5;
-    c.instr_ADD_0x85();
-    assert_eq!(c.a, 255);
-    assert_eq!(c.l, 5);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.l = 6;
-    c.instr_ADD_0x85();
-    assert_eq!(c.a, 0);
-    assert_eq!(c.l, 6);
-    assert_eq!(c.f, Flag::Zero as u8 | Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.l = 7;
-    c.instr_ADD_0x85();
-    assert_eq!(c.a, 1);
-    assert_eq!(c.l, 7);
-    assert_eq!(c.f, Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-}
-
-#[test]
-fn instr_ADD_0x84() {
-    let mut c = Cpu::new();
-
-    c.reset();
-    c.a = 42;
-    c.h = 42;
-    c.instr_ADD_0x84();
-    assert_eq!(c.a, 84);
-    assert_eq!(c.h, 42);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.h = 5;
-    c.instr_ADD_0x84();
-    assert_eq!(c.a, 255);
-    assert_eq!(c.h, 5);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.h = 6;
-    c.instr_ADD_0x84();
-    assert_eq!(c.a, 0);
-    assert_eq!(c.h, 6);
-    assert_eq!(c.f, Flag::Zero as u8 | Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.h = 7;
-    c.instr_ADD_0x84();
-    assert_eq!(c.a, 1);
-    assert_eq!(c.h, 7);
-    assert_eq!(c.f, Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-}
-
-#[test]
-fn instr_ADD_0x80() {
-    let mut c = Cpu::new();
-
-    c.reset();
-    c.a = 42;
-    c.b = 42;
-    c.instr_ADD_0x80();
-    assert_eq!(c.a, 84);
-    assert_eq!(c.b, 42);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.b = 5;
-    c.instr_ADD_0x80();
-    assert_eq!(c.a, 255);
-    assert_eq!(c.b, 5);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.b = 6;
-    c.instr_ADD_0x80();
-    assert_eq!(c.a, 0);
-    assert_eq!(c.b, 6);
-    assert_eq!(c.f, Flag::Zero as u8 | Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.b = 7;
-    c.instr_ADD_0x80();
-    assert_eq!(c.a, 1);
-    assert_eq!(c.b, 7);
-    assert_eq!(c.f, Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-}
-
-#[test]
-fn instr_ADD_0x81() {
-    let mut c = Cpu::new();
-
-    c.reset();
-    c.a = 42;
-    c.c = 42;
-    c.instr_ADD_0x81();
-    assert_eq!(c.a, 84);
-    assert_eq!(c.c, 42);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.c = 5;
-    c.instr_ADD_0x81();
-    assert_eq!(c.a, 255);
-    assert_eq!(c.c, 5);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.c = 6;
-    c.instr_ADD_0x81();
-    assert_eq!(c.a, 0);
-    assert_eq!(c.c, 6);
-    assert_eq!(c.f, Flag::Zero as u8 | Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.c = 7;
-    c.instr_ADD_0x81();
-    assert_eq!(c.a, 1);
-    assert_eq!(c.c, 7);
-    assert_eq!(c.f, Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-}
-
-#[test]
-fn instr_ADD_0x82() {
-    let mut c = Cpu::new();
-
-    c.reset();
-    c.a = 42;
-    c.d = 42;
-    c.instr_ADD_0x82();
-    assert_eq!(c.a, 84);
-    assert_eq!(c.d, 42);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.d = 5;
-    c.instr_ADD_0x82();
-    assert_eq!(c.a, 255);
-    assert_eq!(c.d, 5);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.d = 6;
-    c.instr_ADD_0x82();
-    assert_eq!(c.a, 0);
-    assert_eq!(c.d, 6);
-    assert_eq!(c.f, Flag::Zero as u8 | Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 250;
-    c.d = 7;
-    c.instr_ADD_0x82();
-    assert_eq!(c.a, 1);
-    assert_eq!(c.d, 7);
-    assert_eq!(c.f, Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-}
-
-#[test]
-fn instr_ADD_0x87() {
-    let mut c = Cpu::new();
-
-    c.reset();
-    c.a = 42;
-    c.instr_ADD_0x87();
-    assert_eq!(c.a, 84);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 127;
-    c.instr_ADD_0x87();
-    assert_eq!(c.a, 254);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 128;
-    c.instr_ADD_0x87();
-    assert_eq!(c.a, 0);
-    assert_eq!(c.f, Flag::Zero as u8 | Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-
-    c.reset();
-    c.a = 150;
-    c.instr_ADD_0x87();
-    assert_eq!(c.a, 44);
-    assert_eq!(c.f, Flag::Carry as u8);
-    assert_eq!(c.pc, 1);
-}
-
-#[test]
-fn instr_ADD_0xC6() {
-    let mut c = Cpu::new();
-
-    c.reset();
-    c.a = 42;
-    c.mmu.write8(1, 42);
-    c.instr_ADD_0xC6();
-    assert_eq!(c.a, 84);
-    assert_eq!(c.mmu.read8(1), 42);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 2);
-
-    c.reset();
-    c.a = 250;
-    c.mmu.write8(1, 5);
-    c.instr_ADD_0xC6();
-    assert_eq!(c.a, 255);
-    assert_eq!(c.mmu.read8(1), 5);
-    assert_eq!(c.f, Flag::None as u8);
-    assert_eq!(c.pc, 2);
-
-    c.reset();
-    c.a = 250;
-    c.mmu.write8(1, 6);
-    c.instr_ADD_0xC6();
-    assert_eq!(c.a, 0);
-    assert_eq!(c.mmu.read8(1), 6);
-    assert_eq!(c.f, Flag::Zero as u8 | Flag::Carry as u8);
-    assert_eq!(c.pc, 2);
-
-    c.reset();
-    c.a = 250;
-    c.mmu.write8(1, 7);
-    c.instr_ADD_0xC6();
-    assert_eq!(c.a, 1);
-    assert_eq!(c.mmu.read8(1), 7);
-    assert_eq!(c.f, Flag::Carry as u8);
-    assert_eq!(c.pc, 2);
-}
-
-#[test]
 fn instr_RST_0xE7() {
     let mut c = Cpu::new();
 
@@ -1336,6 +1057,7 @@ fn instr_SET_0xCBC4() {
     assert_eq!(c.pc, 2);
 }
 
+#[test]
 fn instr_SET_0xCBC5() {
     let mut c = Cpu::new();
 
@@ -1346,6 +1068,7 @@ fn instr_SET_0xCBC5() {
     assert_eq!(c.pc, 2);
 }
 
+#[test]
 fn instr_SET_0xCBC7() {
     let mut c = Cpu::new();
 
@@ -1356,6 +1079,7 @@ fn instr_SET_0xCBC7() {
     assert_eq!(c.pc, 2);
 }
 
+#[test]
 fn instr_SET_0xCBC6() {
     let mut c = Cpu::new();
 
@@ -1366,4 +1090,320 @@ fn instr_SET_0xCBC6() {
     c.instr_SET_0xCBC6();
     assert_eq!(c.mmu.read8(0x0005), 0b00000001);
     assert_eq!(c.pc, 2);
+}
+
+#[test]
+fn instr_SUB_0x95() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 52;
+    c.l = 42;
+    c.instr_SUB_0x95();
+    assert_eq!(c.a, 10);
+    assert_eq!(c.l, 42);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 11;
+    c.l = 10;
+    c.instr_SUB_0x95();
+    assert_eq!(c.a, 1);
+    assert_eq!(c.l, 10);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.l = 10;
+    c.instr_SUB_0x95();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.l, 10);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.l = 11;
+    c.instr_SUB_0x95();
+    assert_eq!(c.a, 255);
+    assert_eq!(c.l, 11);
+    assert_eq!(c.f, Flag::Carry as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+}
+
+#[test]
+fn instr_SUB_0x94() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 52;
+    c.h = 42;
+    c.instr_SUB_0x94();
+    assert_eq!(c.a, 10);
+    assert_eq!(c.h, 42);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 11;
+    c.h = 10;
+    c.instr_SUB_0x94();
+    assert_eq!(c.a, 1);
+    assert_eq!(c.h, 10);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.h = 10;
+    c.instr_SUB_0x94();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.h, 10);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.h = 11;
+    c.instr_SUB_0x94();
+    assert_eq!(c.a, 255);
+    assert_eq!(c.h, 11);
+    assert_eq!(c.f, Flag::Carry as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+}
+
+#[test]
+fn instr_SUB_0x90() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 52;
+    c.b = 42;
+    c.instr_SUB_0x90();
+    assert_eq!(c.a, 10);
+    assert_eq!(c.b, 42);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 11;
+    c.b = 10;
+    c.instr_SUB_0x90();
+    assert_eq!(c.a, 1);
+    assert_eq!(c.b, 10);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.b = 10;
+    c.instr_SUB_0x90();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.b, 10);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.b = 11;
+    c.instr_SUB_0x90();
+    assert_eq!(c.a, 255);
+    assert_eq!(c.b, 11);
+    assert_eq!(c.f, Flag::Carry as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+}
+
+#[test]
+fn instr_SUB_0x91() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 52;
+    c.c = 42;
+    c.instr_SUB_0x91();
+    assert_eq!(c.a, 10);
+    assert_eq!(c.c, 42);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 11;
+    c.c = 10;
+    c.instr_SUB_0x91();
+    assert_eq!(c.a, 1);
+    assert_eq!(c.c, 10);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.c = 10;
+    c.instr_SUB_0x91();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.c, 10);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.c = 11;
+    c.instr_SUB_0x91();
+    assert_eq!(c.a, 255);
+    assert_eq!(c.c, 11);
+    assert_eq!(c.f, Flag::Carry as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+}
+
+#[test]
+fn instr_SUB_0x92() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 52;
+    c.d = 42;
+    c.instr_SUB_0x92();
+    assert_eq!(c.a, 10);
+    assert_eq!(c.d, 42);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 11;
+    c.d = 10;
+    c.instr_SUB_0x92();
+    assert_eq!(c.a, 1);
+    assert_eq!(c.d, 10);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.d = 10;
+    c.instr_SUB_0x92();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.d, 10);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.d = 11;
+    c.instr_SUB_0x92();
+    assert_eq!(c.a, 255);
+    assert_eq!(c.d, 11);
+    assert_eq!(c.f, Flag::Carry as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+}
+
+#[test]
+fn instr_SUB_0x97() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 10;
+    c.l = 10;
+    c.instr_SUB_0x97();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+}
+
+#[test]
+fn instr_SUB_0xD6() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 52;
+    c.mmu.write8(1, 42);
+    c.instr_SUB_0xD6();
+    assert_eq!(c.a, 10);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 2);
+
+    c.reset();
+    c.a = 11;
+    c.mmu.write8(1, 10);
+    c.instr_SUB_0xD6();
+    assert_eq!(c.a, 1);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 2);
+
+    c.reset();
+    c.a = 10;
+    c.mmu.write8(1, 10);
+    c.instr_SUB_0xD6();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 2);
+
+    c.reset();
+    c.a = 10;
+    c.mmu.write8(1, 11);
+    c.instr_SUB_0xD6();
+    assert_eq!(c.a, 255);
+    assert_eq!(c.f, Flag::Carry as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 2);
+}
+
+#[test]
+fn instr_SUB_0x96() {
+    let mut c = Cpu::new();
+
+    c.reset();
+    c.a = 52;
+    c.mmu.write8(0x1337, 42);
+    c.h = 0x13;
+    c.l = 0x37;
+    c.instr_SUB_0x96();
+    assert_eq!(c.a, 10);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 11;
+    c.mmu.write8(0x1337, 10);
+    c.h = 0x13;
+    c.l = 0x37;
+    c.instr_SUB_0x96();
+    assert_eq!(c.a, 1);
+    assert_eq!(c.f, Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.mmu.write8(0x1337, 10);
+    c.h = 0x13;
+    c.l = 0x37;
+    c.instr_SUB_0x96();
+    assert_eq!(c.a, 0);
+    assert_eq!(c.f, Flag::Zero as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+
+    c.reset();
+    c.a = 10;
+    c.mmu.write8(0x1337, 11);
+    c.h = 0x13;
+    c.l = 0x37;
+    c.instr_SUB_0x96();
+    assert_eq!(c.a, 255);
+    assert_eq!(c.f, Flag::Carry as u8 | Flag::Operation as u8);
+    assert_eq!(c.pc, 1);
+}
+
+#[test]
+fn sum_ints() {
+    let mut c = Cpu::new();
+    // Load program in memory
+    c.mmu.write8(0, 0x06);          // 00 LD    B,  5
+    c.mmu.write8(1,   10);          // 01 ^5
+    c.mmu.write8(2, 0xAF);          // 02 XOR   A,  A
+    c.mmu.write8(3, 0x80);          // 03 ADD   A,  B
+    c.mmu.write8(4, 0x05);          // 04 DEC   B
+    c.mmu.write8(5, 0x20);          // 05 JRNZ -2
+    c.mmu.write8(6,   -2 as u8);    // 06 ^-2
+    c.mmu.write8(7, 0x10);          // 07 STOP
+    // Run it
+    c.run();
 }

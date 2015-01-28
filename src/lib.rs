@@ -3,6 +3,9 @@
 //! as `rgbemu`. The `rgb` library itself can be used to create your
 //! own emulator.
 
+#[macro_use]
+extern crate lazy_static;
+
 // ==============================================
 // Inject rgb::*::* names in rgb::*
 // ==============================================

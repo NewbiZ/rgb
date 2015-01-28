@@ -6,6 +6,9 @@
 #![allow(non_snake_case)]
 
 use std::u8;
+use std::u16;
+use std::fmt;
+use std::collections::BTreeMap;
 use super::mmu::Mmu;
 
 #[cfg(test)]
@@ -54,6 +57,8 @@ pub struct Cpu {
     t: u8,
     /// Memory management unit
     mmu: Mmu,
+    /// Boolean indicating whether processor is stopped
+    stop: bool,
 }
 
 // ==============================================
@@ -64,36 +69,56 @@ impl Cpu {
     pub fn new() -> Cpu {
         //! Create a new `Cpu`. All registers and clocks should be set to 0.
         Cpu {
-            a:   0,
-            b:   0,
-            c:   0,
-            d:   0,
-            e:   0,
-            h:   0,
-            l:   0,
-            f:   Flag::None as u8,
-            pc:  0,
-            sp:  0,
-            m:   0,
-            t:   0,
-            mmu: Mmu::new(),
+            a:    0,
+            b:    0,
+            c:    0,
+            d:    0,
+            e:    0,
+            h:    0,
+            l:    0,
+            f:    Flag::None as u8,
+            pc:   0,
+            sp:   0,
+            m:    0,
+            t:    0,
+            mmu:  Mmu::new(),
+            stop: true,
         }
     }
 
     pub fn reset(&mut self) {
         //! Reset the `Cpu` to its pristine state. All registers are set to 0.
-        self.a =  0;
-        self.b =  0;
-        self.c =  0;
-        self.d =  0;
-        self.e =  0;
-        self.h =  0;
-        self.l =  0;
-        self.f =  Flag::None as u8;
-        self.pc = 0;
-        self.sp = 0;
-        self.m =  0;
-        self.t =  0;
+        self.a =    0;
+        self.b =    0;
+        self.c =    0;
+        self.d =    0;
+        self.e =    0;
+        self.h =    0;
+        self.l =    0;
+        self.f =    Flag::None as u8;
+        self.pc =   0;
+        self.sp =   0;
+        self.m =    0;
+        self.t =    0;
+        self.stop = true;
+    }
+
+    pub fn step(&mut self) {
+        let opcode: u16 = self.mmu.read8(self.pc) as u16;
+        match DECODER.get(&opcode) {
+            Some(instr) => instr(self),
+            _ => panic!("error: unknown opcode {0:X}", self.pc),
+        }
+    }
+
+    pub fn run(&mut self) {
+        self.stop = false;
+        println!("### STARTED");
+        while !self.stop {
+            println!("{:?}", self);
+            self.step();
+        }
+        println!("### STOPPED");
     }
 
     pub fn instr_ADD_0x85(&mut self) {
@@ -197,7 +222,7 @@ impl Cpu {
     pub fn instr_JR_0x28(&mut self) {
         //! - Prototype: `JR Z, r8`
         //! - Mnemonic:  `JR`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x28`
         //! - Cycles:    8 cycles (not taken) or 12 cycles (taken)
         //! - Flags
@@ -243,10 +268,18 @@ impl Cpu {
         //! - Description
         //!   The value of hl is added to hl.
 
-        unimplemented!();
+        // Update registers h and l
+        let lhs: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let rhs: u16 = lhs;
+        let res: u16 = rhs + lhs;
+        self.h = (res >> 8) as u8;
+        self.l = res as u8;
 
         // Update flags
         self.f &= !(Flag::Operation as u8);
+        if lhs > (u16::MAX - rhs) {
+            self.f |= Flag::Carry as u8;
+        }
 
         // Update clocks
         self.m += 2;
@@ -311,7 +344,7 @@ impl Cpu {
     pub fn instr_JR_0x20(&mut self) {
         //! - Prototype: `JR NZ, r8`
         //! - Mnemonic:  `JR`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x20`
         //! - Cycles:    8 cycles (not taken) or 12 cycles (taken)
         //! - Flags
@@ -372,7 +405,7 @@ impl Cpu {
     pub fn instr_LD_0x26(&mut self) {
         //! - Prototype: `LD H, d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x26`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -385,14 +418,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_DAA_0x27(&mut self) {
@@ -505,7 +536,7 @@ impl Cpu {
     pub fn instr_ADD_0xE8(&mut self) {
         //! - Prototype: `ADD SP, r8`
         //! - Mnemonic:  `ADD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0xE8`
         //! - Cycles:    16 cycles
         //! - Flags
@@ -514,20 +545,26 @@ impl Cpu {
         //!   - `H`:  Set if appropriate
         //!   - `C`:  Set if appropriate
         //! - Description
-        //!   If condition cc is true, the top stack entry is popped into pc.
+        //!   Add signed offset r8 to sp.
 
-        unimplemented!();
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
 
         // Update flags
         self.f &= !(Flag::Zero as u8);
         self.f &= !(Flag::Operation as u8);
+        if self.sp > (u16::MAX - r8 as u16) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register sp
+        self.sp += r8 as u16;
 
         // Update clocks
         self.m += 4;
         self.t += 16;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RR_0xCB18(&mut self) {
@@ -697,7 +734,7 @@ impl Cpu {
     pub fn instr_LD_0x2E(&mut self) {
         //! - Prototype: `LD L, d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x2E`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -710,14 +747,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RR_0xCB19(&mut self) {
@@ -2019,7 +2054,7 @@ impl Cpu {
     pub fn instr_JP_0xDA(&mut self) {
         //! - Prototype: `JP C, a16`
         //! - Mnemonic:  `JP`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xDA`
         //! - Cycles:    12 cycles (not taken) or 16 cycles (taken)
         //! - Flags
@@ -2032,14 +2067,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_ADD_0x86(&mut self) {
@@ -2056,9 +2089,19 @@ impl Cpu {
         //! - Description
         //!   Adds (hl) to a.
 
-        unimplemented!();
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+
+        // Check if there will be an overflow
+        if self.a > (u8::MAX - hl) {
+            self.f |= Flag::Carry as u8;
+        }
+
+        self.a += hl;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -2072,7 +2115,7 @@ impl Cpu {
     pub fn instr_CALL_0xDC(&mut self) {
         //! - Prototype: `CALL C, a16`
         //! - Mnemonic:  `CALL`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xDC`
         //! - Cycles:    12 cycles (not taken) or 24 cycles (taken)
         //! - Flags
@@ -2086,14 +2129,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_ADD_0x80(&mut self) {
@@ -2511,7 +2552,7 @@ impl Cpu {
     pub fn instr_CALL_0xD4(&mut self) {
         //! - Prototype: `CALL NC, a16`
         //! - Mnemonic:  `CALL`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xD4`
         //! - Cycles:    12 cycles (not taken) or 24 cycles (taken)
         //! - Flags
@@ -2525,14 +2566,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_ADC_0x8A(&mut self) {
@@ -3659,7 +3698,7 @@ impl Cpu {
     pub fn instr_LD_0x3E(&mut self) {
         //! - Prototype: `LD A, d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x3E`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -3672,14 +3711,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_DEC_0x3D(&mut self) {
@@ -3857,7 +3894,7 @@ impl Cpu {
     pub fn instr_SBC_0xDE(&mut self) {
         //! - Prototype: `SBC A, d8`
         //! - Mnemonic:  `SBC`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0xDE`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -3878,7 +3915,7 @@ impl Cpu {
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RST_0xDF(&mut self) {
@@ -3994,7 +4031,7 @@ impl Cpu {
     pub fn instr_LD_0x36(&mut self) {
         //! - Prototype: `LD (HL), d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x36`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -4007,14 +4044,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_LD_0x31(&mut self) {
@@ -4046,7 +4081,7 @@ impl Cpu {
     pub fn instr_JR_0x30(&mut self) {
         //! - Prototype: `JR NC, r8`
         //! - Mnemonic:  `JR`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x30`
         //! - Cycles:    8 cycles (not taken) or 12 cycles (taken)
         //! - Flags
@@ -4142,12 +4177,23 @@ impl Cpu {
         //!   - `H`:  Set if appropriate
         //!   - `C`:  Set if appropriate
         //! - Description
-        //!   The value of hl is added to hl.
+        //!   The value of sp is added to hl.
 
-        unimplemented!();
+        // Update registers h and l
+        let lhs: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let rhs: u16 = lhs;
+        let res: u16 = rhs + lhs;
+        self.h = (res >> 8) as u8;
+        self.l = res as u8;
 
         // Update flags
+        if res==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
+        if lhs > (u16::MAX - rhs) {
+            self.f |= Flag::Carry as u8;
+        }
 
         // Update clocks
         self.m += 2;
@@ -4160,7 +4206,7 @@ impl Cpu {
     pub fn instr_JR_0x38(&mut self) {
         //! - Prototype: `JR C, r8`
         //! - Mnemonic:  `JR`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x38`
         //! - Cycles:    8 cycles (not taken) or 12 cycles (taken)
         //! - Flags
@@ -4462,7 +4508,7 @@ impl Cpu {
     pub fn instr_JP_0xD2(&mut self) {
         //! - Prototype: `JP NC, a16`
         //! - Mnemonic:  `JP`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xD2`
         //! - Cycles:    12 cycles (not taken) or 16 cycles (taken)
         //! - Flags
@@ -4475,14 +4521,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_PUSH_0xD5(&mut self) {
@@ -4529,17 +4573,25 @@ impl Cpu {
         //! - Description
         //!   Subtracts * from a.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
 
         // Update flags
+        if self.a==d8 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<d8 {
+            self.f |= Flag::Carry as u8;
+        }
+
+        self.a -= d8;
 
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RST_0xD7(&mut self) {
@@ -6541,7 +6593,7 @@ impl Cpu {
     pub fn instr_LD_0x08(&mut self) {
         //! - Prototype: `LD (a16), SP`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0x08`
         //! - Cycles:    20 cycles
         //! - Flags
@@ -6554,14 +6606,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 5;
         self.t += 20;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_ADD_0x09(&mut self) {
@@ -6578,10 +6628,21 @@ impl Cpu {
         //! - Description
         //!   The value of bc is added to hl.
 
-        unimplemented!();
+        // Update registers h and l
+        let lhs: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let rhs: u16 = ((self.b as u16) << 8) + self.c as u16;
+        let res: u16 = rhs + lhs;
+        self.h = (res >> 8) as u8;
+        self.l = res as u8;
 
         // Update flags
+        if res==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
+        if lhs > (u16::MAX - rhs) {
+            self.f |= Flag::Carry as u8;
+        }
 
         // Update clocks
         self.m += 2;
@@ -6632,9 +6693,12 @@ impl Cpu {
         //! - Description
         //!   Subtracts one from b.
 
-        unimplemented!();
+        self.b -= 1;
 
         // Update flags
+        if self.b==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -6648,7 +6712,7 @@ impl Cpu {
     pub fn instr_LD_0x06(&mut self) {
         //! - Prototype: `LD B, d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x06`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -6659,16 +6723,15 @@ impl Cpu {
         //! - Description
         //!   Loads * into b.
 
-        unimplemented!();
-
-        // Update flags
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.b = d8;
 
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RLCA_0x07(&mut self) {
@@ -6831,7 +6894,7 @@ impl Cpu {
     pub fn instr_LD_0x0E(&mut self) {
         //! - Prototype: `LD C, d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x0E`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -6844,14 +6907,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RRCA_0x0F(&mut self) {
@@ -6977,9 +7038,10 @@ impl Cpu {
         //! - Description
         //!   Subtracts a from a.
 
-        unimplemented!();
+        self.a = 0;
 
         // Update flags
+        self.f |= Flag::Zero as u8;
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -7004,10 +7066,19 @@ impl Cpu {
         //! - Description
         //!   Subtracts (hl) from a.
 
-        unimplemented!();
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
 
         // Update flags
+        if self.a==hl {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<hl {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register a
+        self.a -= hl;
 
         // Update clocks
         self.m += 2;
@@ -7031,10 +7102,17 @@ impl Cpu {
         //! - Description
         //!   Subtracts l from a.
 
-        unimplemented!();
-
         // Update flags
+        if self.a==self.l {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<self.l {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register a
+        self.a -= self.l;
 
         // Update clocks
         self.m += 1;
@@ -7058,10 +7136,17 @@ impl Cpu {
         //! - Description
         //!   Subtracts h from a.
 
-        unimplemented!();
-
         // Update flags
+        if self.a==self.h {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<self.h {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register a
+        self.a -= self.h;
 
         // Update clocks
         self.m += 1;
@@ -7085,10 +7170,17 @@ impl Cpu {
         //! - Description
         //!   Subtracts e from a.
 
-        unimplemented!();
-
         // Update flags
+        if self.a==self.e {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<self.e {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register a
+        self.a -= self.e;
 
         // Update clocks
         self.m += 1;
@@ -7112,10 +7204,17 @@ impl Cpu {
         //! - Description
         //!   Subtracts d from a.
 
-        unimplemented!();
-
         // Update flags
+        if self.a==self.d {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<self.d {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register a
+        self.a -= self.d;
 
         // Update clocks
         self.m += 1;
@@ -7139,10 +7238,17 @@ impl Cpu {
         //! - Description
         //!   Subtracts c from a.
 
-        unimplemented!();
-
         // Update flags
+        if self.a==self.c {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<self.c {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register a
+        self.a -= self.c;
 
         // Update clocks
         self.m += 1;
@@ -7166,10 +7272,17 @@ impl Cpu {
         //! - Description
         //!   Subtracts b from a.
 
-        unimplemented!();
-
         // Update flags
+        if self.a==self.b {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
+        if self.a<self.b {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Update register a
+        self.a -= self.b;
 
         // Update clocks
         self.m += 1;
@@ -7664,7 +7777,7 @@ impl Cpu {
     pub fn instr_LD_0xEA(&mut self) {
         //! - Prototype: `LD (a16), A`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xEA`
         //! - Cycles:    16 cycles
         //! - Flags
@@ -7677,14 +7790,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 4;
         self.t += 16;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_RST_0xEF(&mut self) {
@@ -9770,7 +9881,7 @@ impl Cpu {
     pub fn instr_LD_0x1E(&mut self) {
         //! - Prototype: `LD E, d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x1E`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -9783,14 +9894,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_DEC_0x1D(&mut self) {
@@ -10246,10 +10355,21 @@ impl Cpu {
         //! - Description
         //!   The value of de is added to hl.
 
-        unimplemented!();
+        // Update registers h and l
+        let lhs: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let rhs: u16 = ((self.d as u16) << 8) + self.e as u16;
+        let res: u16 = rhs + lhs;
+        self.h = (res >> 8) as u8;
+        self.l = res as u8;
 
         // Update flags
+        if res==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
+        if lhs > (u16::MAX - rhs) {
+            self.f |= Flag::Carry as u8;
+        }
 
         // Update clocks
         self.m += 2;
@@ -10262,7 +10382,7 @@ impl Cpu {
     pub fn instr_JR_0x18(&mut self) {
         //! - Prototype: `JR r8`
         //! - Mnemonic:  `JR`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x18`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -10321,7 +10441,7 @@ impl Cpu {
     pub fn instr_LD_0x16(&mut self) {
         //! - Prototype: `LD D, d8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0x16`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -10334,14 +10454,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 2;
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_DEC_0x15(&mut self) {
@@ -10488,13 +10606,10 @@ impl Cpu {
         //!   - `H`:  Preserved
         //!   - `C`:  Preserved
         //! - Description
-        //!   The b register is decremented, and if not zero, the signed value *
-        //!   is added to pc. The jump is measured from the start of the
-        //!   instruction opcode.
+        //!   This is NOT DJNZ as on other Z80. This is equivalent to
+        //!   HALT not waiting for interrupts.
 
-        unimplemented!();
-
-        // Update flags
+        self.stop = true;
 
         // Update clocks
         self.m += 1;
@@ -10870,7 +10985,7 @@ impl Cpu {
     pub fn instr_LD_0xFA(&mut self) {
         //! - Prototype: `LD A, (a16)`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xFA`
         //! - Cycles:    16 cycles
         //! - Flags
@@ -10883,14 +10998,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 4;
         self.t += 16;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_SRL_0xCB38(&mut self) {
@@ -10956,7 +11069,7 @@ impl Cpu {
     pub fn instr_LD_0xF8(&mut self) {
         //! - Prototype: `LD HL, SP+r8`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0xF8`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -10978,7 +11091,7 @@ impl Cpu {
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_LD_0xF9(&mut self) {
@@ -12525,7 +12638,7 @@ impl Cpu {
     pub fn instr_CALL_0xC4(&mut self) {
         //! - Prototype: `CALL NZ, a16`
         //! - Mnemonic:  `CALL`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xC4`
         //! - Cycles:    12 cycles (not taken) or 24 cycles (taken)
         //! - Flags
@@ -12539,14 +12652,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_RST_0xC7(&mut self) {
@@ -12579,7 +12690,7 @@ impl Cpu {
     pub fn instr_ADD_0xC6(&mut self) {
         //! - Prototype: `ADD A, d8`
         //! - Mnemonic:  `ADD`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0xC6`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -12676,7 +12787,7 @@ impl Cpu {
     pub fn instr_JP_0xC3(&mut self) {
         //! - Prototype: `JP a16`
         //! - Mnemonic:  `JP`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xC3`
         //! - Cycles:    16 cycles
         //! - Flags
@@ -12689,20 +12800,18 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 4;
         self.t += 16;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_JP_0xC2(&mut self) {
         //! - Prototype: `JP NZ, a16`
         //! - Mnemonic:  `JP`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xC2`
         //! - Cycles:    12 cycles (not taken) or 16 cycles (taken)
         //! - Flags
@@ -12715,14 +12824,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_RET_0xC9(&mut self) {
@@ -13772,7 +13879,7 @@ impl Cpu {
     pub fn instr_ADC_0xCE(&mut self) {
         //! - Prototype: `ADC A, d8`
         //! - Mnemonic:  `ADC`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0xCE`
         //! - Cycles:    8 cycles
         //! - Flags
@@ -13793,13 +13900,13 @@ impl Cpu {
         self.t += 8;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_CALL_0xCD(&mut self) {
         //! - Prototype: `CALL a16`
         //! - Mnemonic:  `CALL`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xCD`
         //! - Cycles:    24 cycles
         //! - Flags
@@ -13813,14 +13920,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 6;
         self.t += 24;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_RST_0xCF(&mut self) {
@@ -13853,7 +13958,7 @@ impl Cpu {
     pub fn instr_JP_0xCA(&mut self) {
         //! - Prototype: `JP Z, a16`
         //! - Mnemonic:  `JP`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xCA`
         //! - Cycles:    12 cycles (not taken) or 16 cycles (taken)
         //! - Flags
@@ -13866,20 +13971,18 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_CALL_0xCC(&mut self) {
         //! - Prototype: `CALL Z, a16`
         //! - Mnemonic:  `CALL`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0xCC`
         //! - Cycles:    12 cycles (not taken) or 24 cycles (taken)
         //! - Flags
@@ -13893,14 +13996,12 @@ impl Cpu {
 
         unimplemented!();
 
-        // Update flags
-
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_PREFIX_0xCB(&mut self) {
@@ -13928,4 +14029,574 @@ impl Cpu {
         // Update program counter
         self.pc += 1;
     }
+}
+
+// ==============================================
+// Traits
+// ==============================================
+impl fmt::Debug for Cpu {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let af: u16 = ((self.a as u16) << 8) + self.f as u16;
+        let bc: u16 = ((self.b as u16) << 8) + self.c as u16;
+        let de: u16 = ((self.d as u16) << 8) + self.e as u16;
+        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+
+        f.write_fmt(format_args!("|  A   F  \
+                                  |  B   C  \
+                                  |  D   E  \
+                                  |  H   L  \
+                                  |     PC \
+                                  |     SP \
+                                  | ZNHC---- \
+                                  |  M  |  T  |\n"));
+        f.write_fmt(format_args!("| x{:0>2.2X} x{:0>2.2X} \
+                                  | x{:0>2.2X} x{:0>2.2X} \
+                                  | x{:0>2.2X} x{:0>2.2X} \
+                                  | x{:0>2.2X} x{:0>2.2X} \
+                                  | @x{:0>4.4X} \
+                                  | @x{:0>4.4X} \
+                                  | {:0>8.8b} \
+                                  | {: >3.3} | {: >3.3} |\n",
+                                self.a, self.f,
+                                self.b, self.c,
+                                self.d, self.e,
+                                self.h, self.l,
+                                self.pc,
+                                self.sp,
+                                self.f,
+                                self.m, self.t));
+        f.write_fmt(format_args!("| {: >3.3} {: >3.3} \
+                                  | {: >3.3} {: >3.3} \
+                                  | {: >3.3} {: >3.3} \
+                                  | {: >3.3} {: >3.3} \
+                                  |      - |      - |\n",
+                                self.a, self.f,
+                                self.b, self.c,
+                                self.d, self.e,
+                                self.h, self.l));
+        f.write_fmt(format_args!("|   {: >5.5} \
+                                  |   {: >5.5} \
+                                  |   {: >5.5} \
+                                  |   {: >5.5} \
+                                  | @{: >5.5} \
+                                  | @{: >5.5} |\n",
+                                af,
+                                bc,
+                                de,
+                                hl,
+                                self.pc,
+                                self.sp))
+    }
+}
+
+// ==============================================
+// Statics
+// ==============================================
+
+lazy_static! {
+    static ref DECODER: BTreeMap<u16, fn(&mut Cpu)> = {
+        let mut decoder: BTreeMap<u16, fn(&mut Cpu)> = BTreeMap::new();
+        decoder.insert(0x00 as u16, Cpu::instr_NOP_0x00);
+        decoder.insert(0x01 as u16, Cpu::instr_LD_0x01);
+        decoder.insert(0x02 as u16, Cpu::instr_LD_0x02);
+        decoder.insert(0x03 as u16, Cpu::instr_INC_0x03);
+        decoder.insert(0x04 as u16, Cpu::instr_INC_0x04);
+        decoder.insert(0x05 as u16, Cpu::instr_DEC_0x05);
+        decoder.insert(0x06 as u16, Cpu::instr_LD_0x06);
+        decoder.insert(0x07 as u16, Cpu::instr_RLCA_0x07);
+        decoder.insert(0x08 as u16, Cpu::instr_LD_0x08);
+        decoder.insert(0x09 as u16, Cpu::instr_ADD_0x09);
+        decoder.insert(0x0A as u16, Cpu::instr_LD_0x0A);
+        decoder.insert(0x0B as u16, Cpu::instr_DEC_0x0B);
+        decoder.insert(0x0C as u16, Cpu::instr_INC_0x0C);
+        decoder.insert(0x0D as u16, Cpu::instr_DEC_0x0D);
+        decoder.insert(0x0E as u16, Cpu::instr_LD_0x0E);
+        decoder.insert(0x0F as u16, Cpu::instr_RRCA_0x0F);
+        decoder.insert(0x10 as u16, Cpu::instr_STOP_0x10);
+        decoder.insert(0x11 as u16, Cpu::instr_LD_0x11);
+        decoder.insert(0x12 as u16, Cpu::instr_LD_0x12);
+        decoder.insert(0x13 as u16, Cpu::instr_INC_0x13);
+        decoder.insert(0x14 as u16, Cpu::instr_INC_0x14);
+        decoder.insert(0x15 as u16, Cpu::instr_DEC_0x15);
+        decoder.insert(0x16 as u16, Cpu::instr_LD_0x16);
+        decoder.insert(0x17 as u16, Cpu::instr_RLA_0x17);
+        decoder.insert(0x18 as u16, Cpu::instr_JR_0x18);
+        decoder.insert(0x19 as u16, Cpu::instr_ADD_0x19);
+        decoder.insert(0x1A as u16, Cpu::instr_LD_0x1A);
+        decoder.insert(0x1B as u16, Cpu::instr_DEC_0x1B);
+        decoder.insert(0x1C as u16, Cpu::instr_INC_0x1C);
+        decoder.insert(0x1D as u16, Cpu::instr_DEC_0x1D);
+        decoder.insert(0x1E as u16, Cpu::instr_LD_0x1E);
+        decoder.insert(0x1F as u16, Cpu::instr_RRA_0x1F);
+        decoder.insert(0x20 as u16, Cpu::instr_JR_0x20);
+        decoder.insert(0x21 as u16, Cpu::instr_LD_0x21);
+        decoder.insert(0x22 as u16, Cpu::instr_LD_0x22);
+        decoder.insert(0x23 as u16, Cpu::instr_INC_0x23);
+        decoder.insert(0x24 as u16, Cpu::instr_INC_0x24);
+        decoder.insert(0x25 as u16, Cpu::instr_DEC_0x25);
+        decoder.insert(0x26 as u16, Cpu::instr_LD_0x26);
+        decoder.insert(0x27 as u16, Cpu::instr_DAA_0x27);
+        decoder.insert(0x28 as u16, Cpu::instr_JR_0x28);
+        decoder.insert(0x29 as u16, Cpu::instr_ADD_0x29);
+        decoder.insert(0x2A as u16, Cpu::instr_LD_0x2A);
+        decoder.insert(0x2B as u16, Cpu::instr_DEC_0x2B);
+        decoder.insert(0x2C as u16, Cpu::instr_INC_0x2C);
+        decoder.insert(0x2D as u16, Cpu::instr_DEC_0x2D);
+        decoder.insert(0x2E as u16, Cpu::instr_LD_0x2E);
+        decoder.insert(0x2F as u16, Cpu::instr_CPL_0x2F);
+        decoder.insert(0x30 as u16, Cpu::instr_JR_0x30);
+        decoder.insert(0x31 as u16, Cpu::instr_LD_0x31);
+        decoder.insert(0x32 as u16, Cpu::instr_LD_0x32);
+        decoder.insert(0x33 as u16, Cpu::instr_INC_0x33);
+        decoder.insert(0x34 as u16, Cpu::instr_INC_0x34);
+        decoder.insert(0x35 as u16, Cpu::instr_DEC_0x35);
+        decoder.insert(0x36 as u16, Cpu::instr_LD_0x36);
+        decoder.insert(0x37 as u16, Cpu::instr_SCF_0x37);
+        decoder.insert(0x38 as u16, Cpu::instr_JR_0x38);
+        decoder.insert(0x39 as u16, Cpu::instr_ADD_0x39);
+        decoder.insert(0x3A as u16, Cpu::instr_LD_0x3A);
+        decoder.insert(0x3B as u16, Cpu::instr_DEC_0x3B);
+        decoder.insert(0x3C as u16, Cpu::instr_INC_0x3C);
+        decoder.insert(0x3D as u16, Cpu::instr_DEC_0x3D);
+        decoder.insert(0x3E as u16, Cpu::instr_LD_0x3E);
+        decoder.insert(0x3F as u16, Cpu::instr_CCF_0x3F);
+        decoder.insert(0x40 as u16, Cpu::instr_LD_0x40);
+        decoder.insert(0x41 as u16, Cpu::instr_LD_0x41);
+        decoder.insert(0x42 as u16, Cpu::instr_LD_0x42);
+        decoder.insert(0x43 as u16, Cpu::instr_LD_0x43);
+        decoder.insert(0x44 as u16, Cpu::instr_LD_0x44);
+        decoder.insert(0x45 as u16, Cpu::instr_LD_0x45);
+        decoder.insert(0x46 as u16, Cpu::instr_LD_0x46);
+        decoder.insert(0x47 as u16, Cpu::instr_LD_0x47);
+        decoder.insert(0x48 as u16, Cpu::instr_LD_0x48);
+        decoder.insert(0x49 as u16, Cpu::instr_LD_0x49);
+        decoder.insert(0x4A as u16, Cpu::instr_LD_0x4A);
+        decoder.insert(0x4B as u16, Cpu::instr_LD_0x4B);
+        decoder.insert(0x4C as u16, Cpu::instr_LD_0x4C);
+        decoder.insert(0x4D as u16, Cpu::instr_LD_0x4D);
+        decoder.insert(0x4E as u16, Cpu::instr_LD_0x4E);
+        decoder.insert(0x4F as u16, Cpu::instr_LD_0x4F);
+        decoder.insert(0x50 as u16, Cpu::instr_LD_0x50);
+        decoder.insert(0x51 as u16, Cpu::instr_LD_0x51);
+        decoder.insert(0x52 as u16, Cpu::instr_LD_0x52);
+        decoder.insert(0x53 as u16, Cpu::instr_LD_0x53);
+        decoder.insert(0x54 as u16, Cpu::instr_LD_0x54);
+        decoder.insert(0x55 as u16, Cpu::instr_LD_0x55);
+        decoder.insert(0x56 as u16, Cpu::instr_LD_0x56);
+        decoder.insert(0x57 as u16, Cpu::instr_LD_0x57);
+        decoder.insert(0x58 as u16, Cpu::instr_LD_0x58);
+        decoder.insert(0x59 as u16, Cpu::instr_LD_0x59);
+        decoder.insert(0x5A as u16, Cpu::instr_LD_0x5A);
+        decoder.insert(0x5B as u16, Cpu::instr_LD_0x5B);
+        decoder.insert(0x5C as u16, Cpu::instr_LD_0x5C);
+        decoder.insert(0x5D as u16, Cpu::instr_LD_0x5D);
+        decoder.insert(0x5E as u16, Cpu::instr_LD_0x5E);
+        decoder.insert(0x5F as u16, Cpu::instr_LD_0x5F);
+        decoder.insert(0x60 as u16, Cpu::instr_LD_0x60);
+        decoder.insert(0x61 as u16, Cpu::instr_LD_0x61);
+        decoder.insert(0x62 as u16, Cpu::instr_LD_0x62);
+        decoder.insert(0x63 as u16, Cpu::instr_LD_0x63);
+        decoder.insert(0x64 as u16, Cpu::instr_LD_0x64);
+        decoder.insert(0x65 as u16, Cpu::instr_LD_0x65);
+        decoder.insert(0x66 as u16, Cpu::instr_LD_0x66);
+        decoder.insert(0x67 as u16, Cpu::instr_LD_0x67);
+        decoder.insert(0x68 as u16, Cpu::instr_LD_0x68);
+        decoder.insert(0x69 as u16, Cpu::instr_LD_0x69);
+        decoder.insert(0x6A as u16, Cpu::instr_LD_0x6A);
+        decoder.insert(0x6B as u16, Cpu::instr_LD_0x6B);
+        decoder.insert(0x6C as u16, Cpu::instr_LD_0x6C);
+        decoder.insert(0x6D as u16, Cpu::instr_LD_0x6D);
+        decoder.insert(0x6E as u16, Cpu::instr_LD_0x6E);
+        decoder.insert(0x6F as u16, Cpu::instr_LD_0x6F);
+        decoder.insert(0x70 as u16, Cpu::instr_LD_0x70);
+        decoder.insert(0x71 as u16, Cpu::instr_LD_0x71);
+        decoder.insert(0x72 as u16, Cpu::instr_LD_0x72);
+        decoder.insert(0x73 as u16, Cpu::instr_LD_0x73);
+        decoder.insert(0x74 as u16, Cpu::instr_LD_0x74);
+        decoder.insert(0x75 as u16, Cpu::instr_LD_0x75);
+        decoder.insert(0x76 as u16, Cpu::instr_HALT_0x76);
+        decoder.insert(0x77 as u16, Cpu::instr_LD_0x77);
+        decoder.insert(0x78 as u16, Cpu::instr_LD_0x78);
+        decoder.insert(0x79 as u16, Cpu::instr_LD_0x79);
+        decoder.insert(0x7A as u16, Cpu::instr_LD_0x7A);
+        decoder.insert(0x7B as u16, Cpu::instr_LD_0x7B);
+        decoder.insert(0x7C as u16, Cpu::instr_LD_0x7C);
+        decoder.insert(0x7D as u16, Cpu::instr_LD_0x7D);
+        decoder.insert(0x7E as u16, Cpu::instr_LD_0x7E);
+        decoder.insert(0x7F as u16, Cpu::instr_LD_0x7F);
+        decoder.insert(0x80 as u16, Cpu::instr_ADD_0x80);
+        decoder.insert(0x81 as u16, Cpu::instr_ADD_0x81);
+        decoder.insert(0x82 as u16, Cpu::instr_ADD_0x82);
+        decoder.insert(0x83 as u16, Cpu::instr_ADD_0x83);
+        decoder.insert(0x84 as u16, Cpu::instr_ADD_0x84);
+        decoder.insert(0x85 as u16, Cpu::instr_ADD_0x85);
+        decoder.insert(0x86 as u16, Cpu::instr_ADD_0x86);
+        decoder.insert(0x87 as u16, Cpu::instr_ADD_0x87);
+        decoder.insert(0x88 as u16, Cpu::instr_ADC_0x88);
+        decoder.insert(0x89 as u16, Cpu::instr_ADC_0x89);
+        decoder.insert(0x8A as u16, Cpu::instr_ADC_0x8A);
+        decoder.insert(0x8B as u16, Cpu::instr_ADC_0x8B);
+        decoder.insert(0x8C as u16, Cpu::instr_ADC_0x8C);
+        decoder.insert(0x8D as u16, Cpu::instr_ADC_0x8D);
+        decoder.insert(0x8E as u16, Cpu::instr_ADC_0x8E);
+        decoder.insert(0x8F as u16, Cpu::instr_ADC_0x8F);
+        decoder.insert(0x90 as u16, Cpu::instr_SUB_0x90);
+        decoder.insert(0x91 as u16, Cpu::instr_SUB_0x91);
+        decoder.insert(0x92 as u16, Cpu::instr_SUB_0x92);
+        decoder.insert(0x93 as u16, Cpu::instr_SUB_0x93);
+        decoder.insert(0x94 as u16, Cpu::instr_SUB_0x94);
+        decoder.insert(0x95 as u16, Cpu::instr_SUB_0x95);
+        decoder.insert(0x96 as u16, Cpu::instr_SUB_0x96);
+        decoder.insert(0x97 as u16, Cpu::instr_SUB_0x97);
+        decoder.insert(0x98 as u16, Cpu::instr_SBC_0x98);
+        decoder.insert(0x99 as u16, Cpu::instr_SBC_0x99);
+        decoder.insert(0x9A as u16, Cpu::instr_SBC_0x9A);
+        decoder.insert(0x9B as u16, Cpu::instr_SBC_0x9B);
+        decoder.insert(0x9C as u16, Cpu::instr_SBC_0x9C);
+        decoder.insert(0x9D as u16, Cpu::instr_SBC_0x9D);
+        decoder.insert(0x9E as u16, Cpu::instr_SBC_0x9E);
+        decoder.insert(0x9F as u16, Cpu::instr_SBC_0x9F);
+        decoder.insert(0xA0 as u16, Cpu::instr_AND_0xA0);
+        decoder.insert(0xA1 as u16, Cpu::instr_AND_0xA1);
+        decoder.insert(0xA2 as u16, Cpu::instr_AND_0xA2);
+        decoder.insert(0xA3 as u16, Cpu::instr_AND_0xA3);
+        decoder.insert(0xA4 as u16, Cpu::instr_AND_0xA4);
+        decoder.insert(0xA5 as u16, Cpu::instr_AND_0xA5);
+        decoder.insert(0xA6 as u16, Cpu::instr_AND_0xA6);
+        decoder.insert(0xA7 as u16, Cpu::instr_AND_0xA7);
+        decoder.insert(0xA8 as u16, Cpu::instr_XOR_0xA8);
+        decoder.insert(0xA9 as u16, Cpu::instr_XOR_0xA9);
+        decoder.insert(0xAA as u16, Cpu::instr_XOR_0xAA);
+        decoder.insert(0xAB as u16, Cpu::instr_XOR_0xAB);
+        decoder.insert(0xAC as u16, Cpu::instr_XOR_0xAC);
+        decoder.insert(0xAD as u16, Cpu::instr_XOR_0xAD);
+        decoder.insert(0xAE as u16, Cpu::instr_XOR_0xAE);
+        decoder.insert(0xAF as u16, Cpu::instr_XOR_0xAF);
+        decoder.insert(0xB0 as u16, Cpu::instr_OR_0xB0);
+        decoder.insert(0xB1 as u16, Cpu::instr_OR_0xB1);
+        decoder.insert(0xB2 as u16, Cpu::instr_OR_0xB2);
+        decoder.insert(0xB3 as u16, Cpu::instr_OR_0xB3);
+        decoder.insert(0xB4 as u16, Cpu::instr_OR_0xB4);
+        decoder.insert(0xB5 as u16, Cpu::instr_OR_0xB5);
+        decoder.insert(0xB6 as u16, Cpu::instr_OR_0xB6);
+        decoder.insert(0xB7 as u16, Cpu::instr_OR_0xB7);
+        decoder.insert(0xB8 as u16, Cpu::instr_CP_0xB8);
+        decoder.insert(0xB9 as u16, Cpu::instr_CP_0xB9);
+        decoder.insert(0xBA as u16, Cpu::instr_CP_0xBA);
+        decoder.insert(0xBB as u16, Cpu::instr_CP_0xBB);
+        decoder.insert(0xBC as u16, Cpu::instr_CP_0xBC);
+        decoder.insert(0xBD as u16, Cpu::instr_CP_0xBD);
+        decoder.insert(0xBE as u16, Cpu::instr_CP_0xBE);
+        decoder.insert(0xBF as u16, Cpu::instr_CP_0xBF);
+        decoder.insert(0xC0 as u16, Cpu::instr_RET_0xC0);
+        decoder.insert(0xC1 as u16, Cpu::instr_POP_0xC1);
+        decoder.insert(0xC2 as u16, Cpu::instr_JP_0xC2);
+        decoder.insert(0xC3 as u16, Cpu::instr_JP_0xC3);
+        decoder.insert(0xC4 as u16, Cpu::instr_CALL_0xC4);
+        decoder.insert(0xC5 as u16, Cpu::instr_PUSH_0xC5);
+        decoder.insert(0xC6 as u16, Cpu::instr_ADD_0xC6);
+        decoder.insert(0xC7 as u16, Cpu::instr_RST_0xC7);
+        decoder.insert(0xC8 as u16, Cpu::instr_RET_0xC8);
+        decoder.insert(0xC9 as u16, Cpu::instr_RET_0xC9);
+        decoder.insert(0xCA as u16, Cpu::instr_JP_0xCA);
+        decoder.insert(0xCB as u16, Cpu::instr_PREFIX_0xCB);
+        decoder.insert(0xCC as u16, Cpu::instr_CALL_0xCC);
+        decoder.insert(0xCD as u16, Cpu::instr_CALL_0xCD);
+        decoder.insert(0xCE as u16, Cpu::instr_ADC_0xCE);
+        decoder.insert(0xCF as u16, Cpu::instr_RST_0xCF);
+        decoder.insert(0xD0 as u16, Cpu::instr_RET_0xD0);
+        decoder.insert(0xD1 as u16, Cpu::instr_POP_0xD1);
+        decoder.insert(0xD2 as u16, Cpu::instr_JP_0xD2);
+        decoder.insert(0xD4 as u16, Cpu::instr_CALL_0xD4);
+        decoder.insert(0xD5 as u16, Cpu::instr_PUSH_0xD5);
+        decoder.insert(0xD6 as u16, Cpu::instr_SUB_0xD6);
+        decoder.insert(0xD7 as u16, Cpu::instr_RST_0xD7);
+        decoder.insert(0xD8 as u16, Cpu::instr_RET_0xD8);
+        decoder.insert(0xD9 as u16, Cpu::instr_RETI_0xD9);
+        decoder.insert(0xDA as u16, Cpu::instr_JP_0xDA);
+        decoder.insert(0xDC as u16, Cpu::instr_CALL_0xDC);
+        decoder.insert(0xDE as u16, Cpu::instr_SBC_0xDE);
+        decoder.insert(0xDF as u16, Cpu::instr_RST_0xDF);
+        decoder.insert(0xE0 as u16, Cpu::instr_LDH_0xE0);
+        decoder.insert(0xE1 as u16, Cpu::instr_POP_0xE1);
+        decoder.insert(0xE2 as u16, Cpu::instr_LD_0xE2);
+        decoder.insert(0xE5 as u16, Cpu::instr_PUSH_0xE5);
+        decoder.insert(0xE6 as u16, Cpu::instr_AND_0xE6);
+        decoder.insert(0xE7 as u16, Cpu::instr_RST_0xE7);
+        decoder.insert(0xE8 as u16, Cpu::instr_ADD_0xE8);
+        decoder.insert(0xE9 as u16, Cpu::instr_JP_0xE9);
+        decoder.insert(0xEA as u16, Cpu::instr_LD_0xEA);
+        decoder.insert(0xEE as u16, Cpu::instr_XOR_0xEE);
+        decoder.insert(0xEF as u16, Cpu::instr_RST_0xEF);
+        decoder.insert(0xF0 as u16, Cpu::instr_LDH_0xF0);
+        decoder.insert(0xF1 as u16, Cpu::instr_POP_0xF1);
+        decoder.insert(0xF2 as u16, Cpu::instr_LD_0xF2);
+        decoder.insert(0xF3 as u16, Cpu::instr_DI_0xF3);
+        decoder.insert(0xF5 as u16, Cpu::instr_PUSH_0xF5);
+        decoder.insert(0xF6 as u16, Cpu::instr_OR_0xF6);
+        decoder.insert(0xF7 as u16, Cpu::instr_RST_0xF7);
+        decoder.insert(0xF8 as u16, Cpu::instr_LD_0xF8);
+        decoder.insert(0xF9 as u16, Cpu::instr_LD_0xF9);
+        decoder.insert(0xFA as u16, Cpu::instr_LD_0xFA);
+        decoder.insert(0xFB as u16, Cpu::instr_EI_0xFB);
+        decoder.insert(0xFE as u16, Cpu::instr_CP_0xFE);
+        decoder.insert(0xFF as u16, Cpu::instr_RST_0xFF);
+        decoder.insert(0xCB00 as u16, Cpu::instr_RLC_0xCB00);
+        decoder.insert(0xCB01 as u16, Cpu::instr_RLC_0xCB01);
+        decoder.insert(0xCB02 as u16, Cpu::instr_RLC_0xCB02);
+        decoder.insert(0xCB03 as u16, Cpu::instr_RLC_0xCB03);
+        decoder.insert(0xCB04 as u16, Cpu::instr_RLC_0xCB04);
+        decoder.insert(0xCB05 as u16, Cpu::instr_RLC_0xCB05);
+        decoder.insert(0xCB06 as u16, Cpu::instr_RLC_0xCB06);
+        decoder.insert(0xCB07 as u16, Cpu::instr_RLC_0xCB07);
+        decoder.insert(0xCB08 as u16, Cpu::instr_RRC_0xCB08);
+        decoder.insert(0xCB09 as u16, Cpu::instr_RRC_0xCB09);
+        decoder.insert(0xCB0A as u16, Cpu::instr_RRC_0xCB0A);
+        decoder.insert(0xCB0B as u16, Cpu::instr_RRC_0xCB0B);
+        decoder.insert(0xCB0C as u16, Cpu::instr_RRC_0xCB0C);
+        decoder.insert(0xCB0D as u16, Cpu::instr_RRC_0xCB0D);
+        decoder.insert(0xCB0E as u16, Cpu::instr_RRC_0xCB0E);
+        decoder.insert(0xCB0F as u16, Cpu::instr_RRC_0xCB0F);
+        decoder.insert(0xCB10 as u16, Cpu::instr_RL_0xCB10);
+        decoder.insert(0xCB11 as u16, Cpu::instr_RL_0xCB11);
+        decoder.insert(0xCB12 as u16, Cpu::instr_RL_0xCB12);
+        decoder.insert(0xCB13 as u16, Cpu::instr_RL_0xCB13);
+        decoder.insert(0xCB14 as u16, Cpu::instr_RL_0xCB14);
+        decoder.insert(0xCB15 as u16, Cpu::instr_RL_0xCB15);
+        decoder.insert(0xCB16 as u16, Cpu::instr_RL_0xCB16);
+        decoder.insert(0xCB17 as u16, Cpu::instr_RL_0xCB17);
+        decoder.insert(0xCB18 as u16, Cpu::instr_RR_0xCB18);
+        decoder.insert(0xCB19 as u16, Cpu::instr_RR_0xCB19);
+        decoder.insert(0xCB1A as u16, Cpu::instr_RR_0xCB1A);
+        decoder.insert(0xCB1B as u16, Cpu::instr_RR_0xCB1B);
+        decoder.insert(0xCB1C as u16, Cpu::instr_RR_0xCB1C);
+        decoder.insert(0xCB1D as u16, Cpu::instr_RR_0xCB1D);
+        decoder.insert(0xCB1E as u16, Cpu::instr_RR_0xCB1E);
+        decoder.insert(0xCB1F as u16, Cpu::instr_RR_0xCB1F);
+        decoder.insert(0xCB20 as u16, Cpu::instr_SLA_0xCB20);
+        decoder.insert(0xCB21 as u16, Cpu::instr_SLA_0xCB21);
+        decoder.insert(0xCB22 as u16, Cpu::instr_SLA_0xCB22);
+        decoder.insert(0xCB23 as u16, Cpu::instr_SLA_0xCB23);
+        decoder.insert(0xCB24 as u16, Cpu::instr_SLA_0xCB24);
+        decoder.insert(0xCB25 as u16, Cpu::instr_SLA_0xCB25);
+        decoder.insert(0xCB26 as u16, Cpu::instr_SLA_0xCB26);
+        decoder.insert(0xCB27 as u16, Cpu::instr_SLA_0xCB27);
+        decoder.insert(0xCB28 as u16, Cpu::instr_SRA_0xCB28);
+        decoder.insert(0xCB29 as u16, Cpu::instr_SRA_0xCB29);
+        decoder.insert(0xCB2A as u16, Cpu::instr_SRA_0xCB2A);
+        decoder.insert(0xCB2B as u16, Cpu::instr_SRA_0xCB2B);
+        decoder.insert(0xCB2C as u16, Cpu::instr_SRA_0xCB2C);
+        decoder.insert(0xCB2D as u16, Cpu::instr_SRA_0xCB2D);
+        decoder.insert(0xCB2E as u16, Cpu::instr_SRA_0xCB2E);
+        decoder.insert(0xCB2F as u16, Cpu::instr_SRA_0xCB2F);
+        decoder.insert(0xCB30 as u16, Cpu::instr_SWAP_0xCB30);
+        decoder.insert(0xCB31 as u16, Cpu::instr_SWAP_0xCB31);
+        decoder.insert(0xCB32 as u16, Cpu::instr_SWAP_0xCB32);
+        decoder.insert(0xCB33 as u16, Cpu::instr_SWAP_0xCB33);
+        decoder.insert(0xCB34 as u16, Cpu::instr_SWAP_0xCB34);
+        decoder.insert(0xCB35 as u16, Cpu::instr_SWAP_0xCB35);
+        decoder.insert(0xCB36 as u16, Cpu::instr_SWAP_0xCB36);
+        decoder.insert(0xCB37 as u16, Cpu::instr_SWAP_0xCB37);
+        decoder.insert(0xCB38 as u16, Cpu::instr_SRL_0xCB38);
+        decoder.insert(0xCB39 as u16, Cpu::instr_SRL_0xCB39);
+        decoder.insert(0xCB3A as u16, Cpu::instr_SRL_0xCB3A);
+        decoder.insert(0xCB3B as u16, Cpu::instr_SRL_0xCB3B);
+        decoder.insert(0xCB3C as u16, Cpu::instr_SRL_0xCB3C);
+        decoder.insert(0xCB3D as u16, Cpu::instr_SRL_0xCB3D);
+        decoder.insert(0xCB3E as u16, Cpu::instr_SRL_0xCB3E);
+        decoder.insert(0xCB3F as u16, Cpu::instr_SRL_0xCB3F);
+        decoder.insert(0xCB40 as u16, Cpu::instr_BIT_0xCB40);
+        decoder.insert(0xCB41 as u16, Cpu::instr_BIT_0xCB41);
+        decoder.insert(0xCB42 as u16, Cpu::instr_BIT_0xCB42);
+        decoder.insert(0xCB43 as u16, Cpu::instr_BIT_0xCB43);
+        decoder.insert(0xCB44 as u16, Cpu::instr_BIT_0xCB44);
+        decoder.insert(0xCB45 as u16, Cpu::instr_BIT_0xCB45);
+        decoder.insert(0xCB46 as u16, Cpu::instr_BIT_0xCB46);
+        decoder.insert(0xCB47 as u16, Cpu::instr_BIT_0xCB47);
+        decoder.insert(0xCB48 as u16, Cpu::instr_BIT_0xCB48);
+        decoder.insert(0xCB49 as u16, Cpu::instr_BIT_0xCB49);
+        decoder.insert(0xCB4A as u16, Cpu::instr_BIT_0xCB4A);
+        decoder.insert(0xCB4B as u16, Cpu::instr_BIT_0xCB4B);
+        decoder.insert(0xCB4C as u16, Cpu::instr_BIT_0xCB4C);
+        decoder.insert(0xCB4D as u16, Cpu::instr_BIT_0xCB4D);
+        decoder.insert(0xCB4E as u16, Cpu::instr_BIT_0xCB4E);
+        decoder.insert(0xCB4F as u16, Cpu::instr_BIT_0xCB4F);
+        decoder.insert(0xCB50 as u16, Cpu::instr_BIT_0xCB50);
+        decoder.insert(0xCB51 as u16, Cpu::instr_BIT_0xCB51);
+        decoder.insert(0xCB52 as u16, Cpu::instr_BIT_0xCB52);
+        decoder.insert(0xCB53 as u16, Cpu::instr_BIT_0xCB53);
+        decoder.insert(0xCB54 as u16, Cpu::instr_BIT_0xCB54);
+        decoder.insert(0xCB55 as u16, Cpu::instr_BIT_0xCB55);
+        decoder.insert(0xCB56 as u16, Cpu::instr_BIT_0xCB56);
+        decoder.insert(0xCB57 as u16, Cpu::instr_BIT_0xCB57);
+        decoder.insert(0xCB58 as u16, Cpu::instr_BIT_0xCB58);
+        decoder.insert(0xCB59 as u16, Cpu::instr_BIT_0xCB59);
+        decoder.insert(0xCB5A as u16, Cpu::instr_BIT_0xCB5A);
+        decoder.insert(0xCB5B as u16, Cpu::instr_BIT_0xCB5B);
+        decoder.insert(0xCB5C as u16, Cpu::instr_BIT_0xCB5C);
+        decoder.insert(0xCB5D as u16, Cpu::instr_BIT_0xCB5D);
+        decoder.insert(0xCB5E as u16, Cpu::instr_BIT_0xCB5E);
+        decoder.insert(0xCB5F as u16, Cpu::instr_BIT_0xCB5F);
+        decoder.insert(0xCB60 as u16, Cpu::instr_BIT_0xCB60);
+        decoder.insert(0xCB61 as u16, Cpu::instr_BIT_0xCB61);
+        decoder.insert(0xCB62 as u16, Cpu::instr_BIT_0xCB62);
+        decoder.insert(0xCB63 as u16, Cpu::instr_BIT_0xCB63);
+        decoder.insert(0xCB64 as u16, Cpu::instr_BIT_0xCB64);
+        decoder.insert(0xCB65 as u16, Cpu::instr_BIT_0xCB65);
+        decoder.insert(0xCB66 as u16, Cpu::instr_BIT_0xCB66);
+        decoder.insert(0xCB67 as u16, Cpu::instr_BIT_0xCB67);
+        decoder.insert(0xCB68 as u16, Cpu::instr_BIT_0xCB68);
+        decoder.insert(0xCB69 as u16, Cpu::instr_BIT_0xCB69);
+        decoder.insert(0xCB6A as u16, Cpu::instr_BIT_0xCB6A);
+        decoder.insert(0xCB6B as u16, Cpu::instr_BIT_0xCB6B);
+        decoder.insert(0xCB6C as u16, Cpu::instr_BIT_0xCB6C);
+        decoder.insert(0xCB6D as u16, Cpu::instr_BIT_0xCB6D);
+        decoder.insert(0xCB6E as u16, Cpu::instr_BIT_0xCB6E);
+        decoder.insert(0xCB6F as u16, Cpu::instr_BIT_0xCB6F);
+        decoder.insert(0xCB70 as u16, Cpu::instr_BIT_0xCB70);
+        decoder.insert(0xCB71 as u16, Cpu::instr_BIT_0xCB71);
+        decoder.insert(0xCB72 as u16, Cpu::instr_BIT_0xCB72);
+        decoder.insert(0xCB73 as u16, Cpu::instr_BIT_0xCB73);
+        decoder.insert(0xCB74 as u16, Cpu::instr_BIT_0xCB74);
+        decoder.insert(0xCB75 as u16, Cpu::instr_BIT_0xCB75);
+        decoder.insert(0xCB76 as u16, Cpu::instr_BIT_0xCB76);
+        decoder.insert(0xCB77 as u16, Cpu::instr_BIT_0xCB77);
+        decoder.insert(0xCB78 as u16, Cpu::instr_BIT_0xCB78);
+        decoder.insert(0xCB79 as u16, Cpu::instr_BIT_0xCB79);
+        decoder.insert(0xCB7A as u16, Cpu::instr_BIT_0xCB7A);
+        decoder.insert(0xCB7B as u16, Cpu::instr_BIT_0xCB7B);
+        decoder.insert(0xCB7C as u16, Cpu::instr_BIT_0xCB7C);
+        decoder.insert(0xCB7D as u16, Cpu::instr_BIT_0xCB7D);
+        decoder.insert(0xCB7E as u16, Cpu::instr_BIT_0xCB7E);
+        decoder.insert(0xCB7F as u16, Cpu::instr_BIT_0xCB7F);
+        decoder.insert(0xCB80 as u16, Cpu::instr_RES_0xCB80);
+        decoder.insert(0xCB81 as u16, Cpu::instr_RES_0xCB81);
+        decoder.insert(0xCB82 as u16, Cpu::instr_RES_0xCB82);
+        decoder.insert(0xCB83 as u16, Cpu::instr_RES_0xCB83);
+        decoder.insert(0xCB84 as u16, Cpu::instr_RES_0xCB84);
+        decoder.insert(0xCB85 as u16, Cpu::instr_RES_0xCB85);
+        decoder.insert(0xCB86 as u16, Cpu::instr_RES_0xCB86);
+        decoder.insert(0xCB87 as u16, Cpu::instr_RES_0xCB87);
+        decoder.insert(0xCB88 as u16, Cpu::instr_RES_0xCB88);
+        decoder.insert(0xCB89 as u16, Cpu::instr_RES_0xCB89);
+        decoder.insert(0xCB8A as u16, Cpu::instr_RES_0xCB8A);
+        decoder.insert(0xCB8B as u16, Cpu::instr_RES_0xCB8B);
+        decoder.insert(0xCB8C as u16, Cpu::instr_RES_0xCB8C);
+        decoder.insert(0xCB8D as u16, Cpu::instr_RES_0xCB8D);
+        decoder.insert(0xCB8E as u16, Cpu::instr_RES_0xCB8E);
+        decoder.insert(0xCB8F as u16, Cpu::instr_RES_0xCB8F);
+        decoder.insert(0xCB90 as u16, Cpu::instr_RES_0xCB90);
+        decoder.insert(0xCB91 as u16, Cpu::instr_RES_0xCB91);
+        decoder.insert(0xCB92 as u16, Cpu::instr_RES_0xCB92);
+        decoder.insert(0xCB93 as u16, Cpu::instr_RES_0xCB93);
+        decoder.insert(0xCB94 as u16, Cpu::instr_RES_0xCB94);
+        decoder.insert(0xCB95 as u16, Cpu::instr_RES_0xCB95);
+        decoder.insert(0xCB96 as u16, Cpu::instr_RES_0xCB96);
+        decoder.insert(0xCB97 as u16, Cpu::instr_RES_0xCB97);
+        decoder.insert(0xCB98 as u16, Cpu::instr_RES_0xCB98);
+        decoder.insert(0xCB99 as u16, Cpu::instr_RES_0xCB99);
+        decoder.insert(0xCB9A as u16, Cpu::instr_RES_0xCB9A);
+        decoder.insert(0xCB9B as u16, Cpu::instr_RES_0xCB9B);
+        decoder.insert(0xCB9C as u16, Cpu::instr_RES_0xCB9C);
+        decoder.insert(0xCB9D as u16, Cpu::instr_RES_0xCB9D);
+        decoder.insert(0xCB9E as u16, Cpu::instr_RES_0xCB9E);
+        decoder.insert(0xCB9F as u16, Cpu::instr_RES_0xCB9F);
+        decoder.insert(0xCBA0 as u16, Cpu::instr_RES_0xCBA0);
+        decoder.insert(0xCBA1 as u16, Cpu::instr_RES_0xCBA1);
+        decoder.insert(0xCBA2 as u16, Cpu::instr_RES_0xCBA2);
+        decoder.insert(0xCBA3 as u16, Cpu::instr_RES_0xCBA3);
+        decoder.insert(0xCBA4 as u16, Cpu::instr_RES_0xCBA4);
+        decoder.insert(0xCBA5 as u16, Cpu::instr_RES_0xCBA5);
+        decoder.insert(0xCBA6 as u16, Cpu::instr_RES_0xCBA6);
+        decoder.insert(0xCBA7 as u16, Cpu::instr_RES_0xCBA7);
+        decoder.insert(0xCBA8 as u16, Cpu::instr_RES_0xCBA8);
+        decoder.insert(0xCBA9 as u16, Cpu::instr_RES_0xCBA9);
+        decoder.insert(0xCBAA as u16, Cpu::instr_RES_0xCBAA);
+        decoder.insert(0xCBAB as u16, Cpu::instr_RES_0xCBAB);
+        decoder.insert(0xCBAC as u16, Cpu::instr_RES_0xCBAC);
+        decoder.insert(0xCBAD as u16, Cpu::instr_RES_0xCBAD);
+        decoder.insert(0xCBAE as u16, Cpu::instr_RES_0xCBAE);
+        decoder.insert(0xCBAF as u16, Cpu::instr_RES_0xCBAF);
+        decoder.insert(0xCBB0 as u16, Cpu::instr_RES_0xCBB0);
+        decoder.insert(0xCBB1 as u16, Cpu::instr_RES_0xCBB1);
+        decoder.insert(0xCBB2 as u16, Cpu::instr_RES_0xCBB2);
+        decoder.insert(0xCBB3 as u16, Cpu::instr_RES_0xCBB3);
+        decoder.insert(0xCBB4 as u16, Cpu::instr_RES_0xCBB4);
+        decoder.insert(0xCBB5 as u16, Cpu::instr_RES_0xCBB5);
+        decoder.insert(0xCBB6 as u16, Cpu::instr_RES_0xCBB6);
+        decoder.insert(0xCBB7 as u16, Cpu::instr_RES_0xCBB7);
+        decoder.insert(0xCBB8 as u16, Cpu::instr_RES_0xCBB8);
+        decoder.insert(0xCBB9 as u16, Cpu::instr_RES_0xCBB9);
+        decoder.insert(0xCBBA as u16, Cpu::instr_RES_0xCBBA);
+        decoder.insert(0xCBBB as u16, Cpu::instr_RES_0xCBBB);
+        decoder.insert(0xCBBC as u16, Cpu::instr_RES_0xCBBC);
+        decoder.insert(0xCBBD as u16, Cpu::instr_RES_0xCBBD);
+        decoder.insert(0xCBBE as u16, Cpu::instr_RES_0xCBBE);
+        decoder.insert(0xCBBF as u16, Cpu::instr_RES_0xCBBF);
+        decoder.insert(0xCBC0 as u16, Cpu::instr_SET_0xCBC0);
+        decoder.insert(0xCBC1 as u16, Cpu::instr_SET_0xCBC1);
+        decoder.insert(0xCBC2 as u16, Cpu::instr_SET_0xCBC2);
+        decoder.insert(0xCBC3 as u16, Cpu::instr_SET_0xCBC3);
+        decoder.insert(0xCBC4 as u16, Cpu::instr_SET_0xCBC4);
+        decoder.insert(0xCBC5 as u16, Cpu::instr_SET_0xCBC5);
+        decoder.insert(0xCBC6 as u16, Cpu::instr_SET_0xCBC6);
+        decoder.insert(0xCBC7 as u16, Cpu::instr_SET_0xCBC7);
+        decoder.insert(0xCBC8 as u16, Cpu::instr_SET_0xCBC8);
+        decoder.insert(0xCBC9 as u16, Cpu::instr_SET_0xCBC9);
+        decoder.insert(0xCBCA as u16, Cpu::instr_SET_0xCBCA);
+        decoder.insert(0xCBCB as u16, Cpu::instr_SET_0xCBCB);
+        decoder.insert(0xCBCC as u16, Cpu::instr_SET_0xCBCC);
+        decoder.insert(0xCBCD as u16, Cpu::instr_SET_0xCBCD);
+        decoder.insert(0xCBCE as u16, Cpu::instr_SET_0xCBCE);
+        decoder.insert(0xCBCF as u16, Cpu::instr_SET_0xCBCF);
+        decoder.insert(0xCBD0 as u16, Cpu::instr_SET_0xCBD0);
+        decoder.insert(0xCBD1 as u16, Cpu::instr_SET_0xCBD1);
+        decoder.insert(0xCBD2 as u16, Cpu::instr_SET_0xCBD2);
+        decoder.insert(0xCBD3 as u16, Cpu::instr_SET_0xCBD3);
+        decoder.insert(0xCBD4 as u16, Cpu::instr_SET_0xCBD4);
+        decoder.insert(0xCBD5 as u16, Cpu::instr_SET_0xCBD5);
+        decoder.insert(0xCBD6 as u16, Cpu::instr_SET_0xCBD6);
+        decoder.insert(0xCBD7 as u16, Cpu::instr_SET_0xCBD7);
+        decoder.insert(0xCBD8 as u16, Cpu::instr_SET_0xCBD8);
+        decoder.insert(0xCBD9 as u16, Cpu::instr_SET_0xCBD9);
+        decoder.insert(0xCBDA as u16, Cpu::instr_SET_0xCBDA);
+        decoder.insert(0xCBDB as u16, Cpu::instr_SET_0xCBDB);
+        decoder.insert(0xCBDC as u16, Cpu::instr_SET_0xCBDC);
+        decoder.insert(0xCBDD as u16, Cpu::instr_SET_0xCBDD);
+        decoder.insert(0xCBDE as u16, Cpu::instr_SET_0xCBDE);
+        decoder.insert(0xCBDF as u16, Cpu::instr_SET_0xCBDF);
+        decoder.insert(0xCBE0 as u16, Cpu::instr_SET_0xCBE0);
+        decoder.insert(0xCBE1 as u16, Cpu::instr_SET_0xCBE1);
+        decoder.insert(0xCBE2 as u16, Cpu::instr_SET_0xCBE2);
+        decoder.insert(0xCBE3 as u16, Cpu::instr_SET_0xCBE3);
+        decoder.insert(0xCBE4 as u16, Cpu::instr_SET_0xCBE4);
+        decoder.insert(0xCBE5 as u16, Cpu::instr_SET_0xCBE5);
+        decoder.insert(0xCBE6 as u16, Cpu::instr_SET_0xCBE6);
+        decoder.insert(0xCBE7 as u16, Cpu::instr_SET_0xCBE7);
+        decoder.insert(0xCBE8 as u16, Cpu::instr_SET_0xCBE8);
+        decoder.insert(0xCBE9 as u16, Cpu::instr_SET_0xCBE9);
+        decoder.insert(0xCBEA as u16, Cpu::instr_SET_0xCBEA);
+        decoder.insert(0xCBEB as u16, Cpu::instr_SET_0xCBEB);
+        decoder.insert(0xCBEC as u16, Cpu::instr_SET_0xCBEC);
+        decoder.insert(0xCBED as u16, Cpu::instr_SET_0xCBED);
+        decoder.insert(0xCBEE as u16, Cpu::instr_SET_0xCBEE);
+        decoder.insert(0xCBEF as u16, Cpu::instr_SET_0xCBEF);
+        decoder.insert(0xCBF0 as u16, Cpu::instr_SET_0xCBF0);
+        decoder.insert(0xCBF1 as u16, Cpu::instr_SET_0xCBF1);
+        decoder.insert(0xCBF2 as u16, Cpu::instr_SET_0xCBF2);
+        decoder.insert(0xCBF3 as u16, Cpu::instr_SET_0xCBF3);
+        decoder.insert(0xCBF4 as u16, Cpu::instr_SET_0xCBF4);
+        decoder.insert(0xCBF5 as u16, Cpu::instr_SET_0xCBF5);
+        decoder.insert(0xCBF6 as u16, Cpu::instr_SET_0xCBF6);
+        decoder.insert(0xCBF7 as u16, Cpu::instr_SET_0xCBF7);
+        decoder.insert(0xCBF8 as u16, Cpu::instr_SET_0xCBF8);
+        decoder.insert(0xCBF9 as u16, Cpu::instr_SET_0xCBF9);
+        decoder.insert(0xCBFA as u16, Cpu::instr_SET_0xCBFA);
+        decoder.insert(0xCBFB as u16, Cpu::instr_SET_0xCBFB);
+        decoder.insert(0xCBFC as u16, Cpu::instr_SET_0xCBFC);
+        decoder.insert(0xCBFD as u16, Cpu::instr_SET_0xCBFD);
+        decoder.insert(0xCBFE as u16, Cpu::instr_SET_0xCBFE);
+        decoder.insert(0xCBFF as u16, Cpu::instr_SET_0xCBFF);
+        decoder
+    };
 }
