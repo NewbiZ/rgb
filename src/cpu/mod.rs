@@ -6788,12 +6788,16 @@ impl Cpu {
         //!   The contents of a are rotated left one bit position. The contents
         //!   of bit 7 are copied to the carry flag and bit 0.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
 
-        // Update flags
-        self.f &= !(Flag::Zero as u8);
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
+        if self.a & 0b10000000 > 0 {
+            self.a <<= 1;
+            self.a |= 1;
+            self.f |= Flag::Carry as u8;
+        } else {
+            self.a <<= 1;
+        }
 
         // Update clocks
         self.m += 1;
