@@ -348,9 +348,10 @@ impl Cpu {
         //! - Description
         //!   Adds one to hl.
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        hl += 1;
+        self.h = (hl >> 8) as u8;
+        self.l = hl as u8;
 
         // Update clocks
         self.m += 2;
@@ -487,9 +488,12 @@ impl Cpu {
         //! - Description
         //!   Adds one to h.
 
-        unimplemented!();
+        self.h += 1;
 
         // Update flags
+        if self.h==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -657,9 +661,12 @@ impl Cpu {
         //! - Description
         //!   Adds one to l.
 
-        unimplemented!();
+        self.l += 1;
 
         // Update flags
+        if self.l==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -3782,9 +3789,12 @@ impl Cpu {
         //! - Description
         //!   Adds one to a.
 
-        unimplemented!();
+        self.a += 1;
 
         // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -3954,7 +3964,9 @@ impl Cpu {
         //! - Description
         //!   Adds one to (hl).
 
-        unimplemented!();
+        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let phl: u8 = self.mmu.read8(hl);
+        self.mmu.write8(hl, phl+1);
 
         // Update flags
         self.f &= !(Flag::Operation as u8);
@@ -4095,9 +4107,7 @@ impl Cpu {
         //! - Description
         //!   Adds one to sp.
 
-        unimplemented!();
-
-        // Update flags
+        self.sp += 1;
 
         // Update clocks
         self.m += 2;
@@ -6592,9 +6602,12 @@ impl Cpu {
         //! - Description
         //!   Adds one to b.
 
-        unimplemented!();
+        self.b += 1;
 
         // Update flags
+        if self.b==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -6777,9 +6790,10 @@ impl Cpu {
         //! - Description
         //!   Adds one to bc.
 
-        unimplemented!();
-
-        // Update flags
+        let mut bc: u16 = ((self.b as u16) << 8) + self.c as u16;
+        bc += 1;
+        self.b = (bc >> 8) as u8;
+        self.c = bc as u8;
 
         // Update clocks
         self.m += 2;
@@ -6936,9 +6950,12 @@ impl Cpu {
         //! - Description
         //!   Adds one to c.
 
-        unimplemented!();
+        self.c += 1;
 
         // Update flags
+        if self.c==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -9831,9 +9848,12 @@ impl Cpu {
         //! - Description
         //!   Adds one to e.
 
-        unimplemented!();
+        self.e += 1;
 
         // Update flags
+        if self.e==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -10382,9 +10402,12 @@ impl Cpu {
         //! - Description
         //!   Adds one to d.
 
-        unimplemented!();
+        self.d += 1;
 
         // Update flags
+        if self.d==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -10409,9 +10432,10 @@ impl Cpu {
         //! - Description
         //!   Adds one to de.
 
-        unimplemented!();
-
-        // Update flags
+        let mut de: u16 = ((self.d as u16) << 8) + self.e as u16;
+        de += 1;
+        self.d = (de >> 8) as u8;
+        self.e = de as u8;
 
         // Update clocks
         self.m += 2;
