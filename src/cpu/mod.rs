@@ -425,7 +425,8 @@ impl Cpu {
         //! - Description
         //!   Loads * into h.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.h = d8;
 
         // Update clocks
         self.m += 2;
@@ -754,7 +755,8 @@ impl Cpu {
         //! - Description
         //!   Loads * into l.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.l = d8;
 
         // Update clocks
         self.m += 2;
@@ -3690,7 +3692,8 @@ impl Cpu {
         //! - Description
         //!   Loads * into a.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.a = d8;
 
         // Update clocks
         self.m += 2;
@@ -6870,7 +6873,8 @@ impl Cpu {
         //! - Description
         //!   Loads * into c.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.c = d8;
 
         // Update clocks
         self.m += 2;
@@ -9855,7 +9859,8 @@ impl Cpu {
         //! - Description
         //!   Loads * into e.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.e = d8;
 
         // Update clocks
         self.m += 2;
@@ -10407,7 +10412,8 @@ impl Cpu {
         //! - Description
         //!   Loads * into d.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.d = d8;
 
         // Update clocks
         self.m += 2;
