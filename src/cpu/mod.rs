@@ -725,7 +725,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are inverted (one's complement).
 
-        unimplemented!();
+        self.a = !self.a;
 
         // Update flags
         self.f |= Flag::Operation as u8;
