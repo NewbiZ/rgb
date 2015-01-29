@@ -1880,9 +1880,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d |= 0b00001000;
 
         // Update clocks
         self.m += 2;
@@ -1906,9 +1904,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h |= 0b00001000;
 
         // Update clocks
         self.m += 2;
@@ -1932,9 +1928,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e |= 0b00001000;
 
         // Update clocks
         self.m += 2;
@@ -1958,9 +1952,9 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of (hl).
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        hl |= 0b00001000;
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, hl);
 
         // Update clocks
         self.m += 4;
@@ -1984,9 +1978,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l |= 0b00001000;
 
         // Update clocks
         self.m += 2;
@@ -2010,9 +2002,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a |= 0b00001000;
 
         // Update clocks
         self.m += 2;
@@ -2918,9 +2908,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c |= 0b00000100;
 
         // Update clocks
         self.m += 2;
@@ -2944,9 +2932,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b |= 0b00000100;
 
         // Update clocks
         self.m += 2;
@@ -2970,9 +2956,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e |= 0b00000100;
 
         // Update clocks
         self.m += 2;
@@ -2996,9 +2980,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d |= 0b00000100;
 
         // Update clocks
         self.m += 2;
@@ -3022,9 +3004,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l |= 0b00000100;
 
         // Update clocks
         self.m += 2;
@@ -3048,9 +3028,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h |= 0b00000100;
 
         // Update clocks
         self.m += 2;
@@ -3074,9 +3052,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a |= 0b00000100;
 
         // Update clocks
         self.m += 2;
@@ -3100,9 +3076,9 @@ impl Cpu {
         //! - Description
         //!   Sets bit 2 of (hl).
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        hl |= 0b00000100;
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, hl);
 
         // Update clocks
         self.m += 4;
@@ -3126,9 +3102,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c |= 0b00001000;
 
         // Update clocks
         self.m += 2;
@@ -3152,9 +3126,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 3 of b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b |= 0b00001000;
 
         // Update clocks
         self.m += 2;
@@ -5016,9 +4988,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b |= 0b00000010;
 
         // Update clocks
         self.m += 2;
@@ -5042,9 +5012,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c |= 0b00000010;
 
         // Update clocks
         self.m += 2;
@@ -5550,8 +5518,6 @@ impl Cpu {
 
         self.h |= 0b00000001;
 
-        // Update flags
-
         // Update clocks
         self.m += 2;
         self.t += 8;
@@ -5816,9 +5782,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d |= 0b00000010;
 
         // Update clocks
         self.m += 2;
@@ -5842,9 +5806,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e |= 0b00000010;
 
         // Update clocks
         self.m += 2;
@@ -5868,9 +5830,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h |= 0b00000010;
 
         // Update clocks
         self.m += 2;
@@ -5894,9 +5854,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l |= 0b00000010;
 
         // Update clocks
         self.m += 2;
@@ -5920,9 +5878,9 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of (hl).
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        hl |= 0b00000010;
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, hl);
 
         // Update clocks
         self.m += 4;
@@ -5946,9 +5904,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 1 of a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a |= 0b00000010;
 
         // Update clocks
         self.m += 2;
@@ -7771,9 +7727,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l |= 0b00010000;
 
         // Update clocks
         self.m += 2;
@@ -10091,9 +10045,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d |= 0b00010000;
 
         // Update clocks
         self.m += 2;
@@ -10177,9 +10129,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b |= 0b00010000;
 
         // Update clocks
         self.m += 2;
@@ -10230,9 +10180,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c |= 0b00010000;
 
         // Update clocks
         self.m += 2;
@@ -10282,9 +10230,9 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of (hl).
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        hl |= 0b00010000;
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, hl);
 
         // Update clocks
         self.m += 4;
@@ -10338,9 +10286,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a |= 0b00010000;
 
         // Update clocks
         self.m += 2;
@@ -10642,9 +10588,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h |= 0b10000000;
 
         // Update clocks
         self.m += 2;
@@ -10668,9 +10612,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e |= 0b10000000;
 
         // Update clocks
         self.m += 2;
@@ -10694,9 +10636,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d |= 0b10000000;
 
         // Update clocks
         self.m += 2;
@@ -10720,9 +10660,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a |= 0b10000000;
 
         // Update clocks
         self.m += 2;
@@ -10746,9 +10684,9 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of (hl).
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        hl |= 0b10000000;
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, hl);
 
         // Update clocks
         self.m += 4;
@@ -10772,9 +10710,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l |= 0b10000000;
 
         // Update clocks
         self.m += 2;
@@ -11380,9 +11316,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c |= 0b10000000;
 
         // Update clocks
         self.m += 2;
@@ -11406,9 +11340,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 7 of b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b |= 0b10000000;
 
         // Update clocks
         self.m += 2;
@@ -11432,9 +11364,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e |= 0b01000000;
 
         // Update clocks
         self.m += 2;
@@ -11458,9 +11388,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d |= 0b01000000;
 
         // Update clocks
         self.m += 2;
@@ -11484,9 +11412,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c |= 0b01000000;
 
         // Update clocks
         self.m += 2;
@@ -11510,9 +11436,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b |= 0b01000000;
 
         // Update clocks
         self.m += 2;
@@ -11536,9 +11460,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a |= 0b01000000;
 
         // Update clocks
         self.m += 2;
@@ -11562,9 +11484,9 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of (hl).
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        hl |= 0b01000000;
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, hl);
 
         // Update clocks
         self.m += 4;
@@ -11588,9 +11510,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l |= 0b01000000;
 
         // Update clocks
         self.m += 2;
@@ -11614,9 +11534,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 6 of h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h |= 0b01000000;
 
         // Update clocks
         self.m += 2;
@@ -12472,9 +12390,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e |= 0b00100000;
 
         // Update clocks
         self.m += 2;
@@ -12498,9 +12414,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h |= 0b00100000;
 
         // Update clocks
         self.m += 2;
@@ -12524,9 +12438,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d |= 0b00100000;
 
         // Update clocks
         self.m += 2;
@@ -12550,9 +12462,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a |= 0b00100000;
 
         // Update clocks
         self.m += 2;
@@ -12576,9 +12486,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l |= 0b00100000;
 
         // Update clocks
         self.m += 2;
@@ -12602,9 +12510,9 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of (hl).
 
-        unimplemented!();
-
-        // Update flags
+        let mut hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        hl |= 0b00100000;
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, hl);
 
         // Update clocks
         self.m += 4;
@@ -12933,9 +12841,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e |= 0b00010000;
 
         // Update clocks
         self.m += 2;
@@ -13063,9 +12969,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 4 of h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h |= 0b00010000;
 
         // Update clocks
         self.m += 2;
@@ -13115,9 +13019,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b |= 0b00100000;
 
         // Update clocks
         self.m += 2;
@@ -13141,9 +13043,7 @@ impl Cpu {
         //! - Description
         //!   Sets bit 5 of c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c |= 0b00100000;
 
         // Update clocks
         self.m += 2;
