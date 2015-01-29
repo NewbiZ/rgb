@@ -4035,9 +4035,8 @@ impl Cpu {
         //! - Description
         //!   Loads ** into sp.
 
-        unimplemented!();
-
-        // Update flags
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        self.sp = d16;
 
         // Update clocks
         self.m += 3;
@@ -6530,7 +6529,8 @@ impl Cpu {
         //! - Description
         //!   Exchanges the 16-bit contents of af and af'.
 
-        unimplemented!();
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        self.mmu.write16(a16, self.sp);
 
         // Update clocks
         self.m += 5;
@@ -6726,9 +6726,9 @@ impl Cpu {
         //! - Description
         //!   Loads ** into bc.
 
-        unimplemented!();
-
-        // Update flags
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        self.b = (d16 >> 8) as u8;
+        self.c = d16 as u8;
 
         // Update clocks
         self.m += 3;
@@ -6752,9 +6752,8 @@ impl Cpu {
         //! - Description
         //!   Stores a into the memory location pointed to by bc.
 
-        unimplemented!();
-
-        // Update flags
+        let bc: u16 = ((self.b as u16) << 8) + self.c as u16;
+        self.mmu.write8(bc, self.a);
 
         // Update clocks
         self.m += 2;
@@ -6886,9 +6885,8 @@ impl Cpu {
         //! - Description
         //!   Loads the value pointed to by bc into a.
 
-        unimplemented!();
-
-        // Update flags
+        let bc: u16 = ((self.b as u16) << 8) + self.c as u16;
+        self.a = self.mmu.read8(bc);
 
         // Update clocks
         self.m += 2;
@@ -7287,9 +7285,7 @@ impl Cpu {
         //! - Description
         //!   If condition cc is true, ** is copied to pc.
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(self.c as u16 + 0xFF00u16, self.a);
 
         // Update clocks
         self.m += 2;
@@ -7332,7 +7328,7 @@ impl Cpu {
     pub fn instr_LDH_0xE0(&mut self) {
         //! - Prototype: `LDH (a8), A`
         //! - Mnemonic:  `LDH`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0xE0`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -7343,16 +7339,15 @@ impl Cpu {
         //! - Description
         //!   If condition cc is true, the top stack entry is popped into pc.
 
-        unimplemented!();
-
-        // Update flags
+        let a8: u16 = self.mmu.read8(self.pc + 1) as u16 + 0xFF00u16;
+        self.mmu.write8(a8, self.a);
 
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_RRC_0xCB09(&mut self) {
@@ -7713,7 +7708,8 @@ impl Cpu {
         //! - Description
         //!   If condition cc is true, ** is copied to pc.
 
-        unimplemented!();
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        self.mmu.write8(a16, self.a);
 
         // Update clocks
         self.m += 4;
@@ -9888,9 +9884,8 @@ impl Cpu {
         //! - Description
         //!   Loads the value pointed to by de into a.
 
-        unimplemented!();
-
-        // Update flags
+        let de: u16 = ((self.d as u16) << 8) + self.e as u16;
+        self.a = self.mmu.read8(de);
 
         // Update clocks
         self.m += 2;
@@ -10122,7 +10117,7 @@ impl Cpu {
     pub fn instr_LDH_0xF0(&mut self) {
         //! - Prototype: `LDH A, (a8)`
         //! - Mnemonic:  `LDH`
-        //! - Size:      1 byte
+        //! - Size:      2 bytes
         //! - Binary:    `0xF0`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -10133,16 +10128,15 @@ impl Cpu {
         //! - Description
         //!   If condition cc is true, the top stack entry is popped into pc.
 
-        unimplemented!();
-
-        // Update flags
+        let a8: u16 = self.mmu.read8(self.pc + 1) as u16 + 0xFF00u16;
+        self.a = self.mmu.read8(a8);
 
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 2;
     }
 
     pub fn instr_SET_0xCBE6(&mut self) {
@@ -10441,9 +10435,8 @@ impl Cpu {
         //! - Description
         //!   Stores a into the memory location pointed to by de.
 
-        unimplemented!();
-
-        // Update flags
+        let de: u16 = ((self.d as u16) << 8) + self.e as u16;
+        self.mmu.write8(de, self.a);
 
         // Update clocks
         self.m += 2;
@@ -10467,9 +10460,9 @@ impl Cpu {
         //! - Description
         //!   Loads ** into de.
 
-        unimplemented!();
-
-        // Update flags
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        self.d = (d16 >> 8) as u8;
+        self.e = d16 as u8;
 
         // Update clocks
         self.m += 3;
@@ -10871,7 +10864,8 @@ impl Cpu {
         //! - Description
         //!   If condition cc is true, ** is copied to pc.
 
-        unimplemented!();
+        let a16: u16 = self.mmu.read16(self.pc + 1);
+        self.a = self.mmu.read8(a16);
 
         // Update clocks
         self.m += 4;
@@ -10955,7 +10949,15 @@ impl Cpu {
         //! - Description
         //!   If condition cc is true, the top stack entry is popped into pc.
 
-        unimplemented!();
+        let r8: i8 = self.mmu.read8(self.pc + 1) as i8;
+        let mut spr8: u16 = self.sp;
+        if r8 < 0 {
+            spr8 -= -r8 as u16;
+        } else {
+            spr8 += r8 as u16;
+        }
+        self.h = (spr8 >> 8) as u8;
+        self.l = spr8 as u8;
 
         // Update flags
         self.f &= !(Flag::Zero as u8);
@@ -10983,9 +10985,7 @@ impl Cpu {
         //! - Description
         //!   Loads the value of hl into sp.
 
-        unimplemented!();
-
-        // Update flags
+        self.sp = ((self.h as u16) << 8) + self.l as u16;
 
         // Update clocks
         self.m += 2;
@@ -11129,9 +11129,7 @@ impl Cpu {
         //! - Description
         //!   If condition cc is true, ** is copied to pc.
 
-        unimplemented!();
-
-        // Update flags
+        self.a = self.mmu.read8(self.c as u16 + 0xFF00u16);
 
         // Update clocks
         self.m += 2;
@@ -13407,9 +13405,12 @@ impl Cpu {
         //! - Description
         //!   Tests bit 7 of h.
 
-        unimplemented!();
-
         // Update flags
+        if (self.h & 0b10000000u8)==0 {
+            self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
+        }
         self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
 
