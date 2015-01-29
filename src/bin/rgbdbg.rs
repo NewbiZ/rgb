@@ -7,6 +7,12 @@ extern crate libc;
 
 use std::io;
 use std::io::File;
+use libc::consts::os::posix88::SIGINT;
+use libc::funcs::posix01::signal;
+use std::sync::atomic::{AtomicBool, ATOMIC_BOOL_INIT, Ordering};
+use std::mem;
+
+static mut GOT_SIGINT: AtomicBool = ATOMIC_BOOL_INIT;
 
 fn disclaimer() {
     //! Print author, version, license... at the start of
@@ -118,8 +124,20 @@ fn command_run<'a>(cpu: &'a mut rgb::Cpu) {
     cpu.reset();
     cpu.stop = false;
     while !cpu.stopped() {
+        // Start uninterrupted
+        unsafe { GOT_SIGINT.store(false, Ordering::Release); };
+        // Check interrupt state
+        if unsafe { GOT_SIGINT.load(Ordering::Acquire) } {
+            // Reset uninterrupted
+            unsafe { GOT_SIGINT.store(false, Ordering::Release); };
+            // Break out of run()
+            println!("<Interrupted>");
+            break;
+        }
+        // Retrieve current instruction and print it
         let (instruction, _) = cpu.state();
         println!("{}", instruction);
+        // Execute current instruction
         cpu.step();
     }
 }
@@ -162,6 +180,19 @@ fn command_dump<'a>(cpu: &'a mut rgb::Cpu) {
 fn main() {
     //! Entry point of the debugger, print the disclaimer then
     //! start the REPL
+    unsafe {
+        // Start uninterrupted
+        GOT_SIGINT.store(false, Ordering::Release);
+        // Interrupt handler that handles the SIGINT signal
+        unsafe fn handle_sigint() {
+            // It is dangerous to perform any system calls in interrupts,
+            // so just set the atomic "SIGINT received" global to true when it arrives.
+            GOT_SIGINT.store(true, Ordering::Release);
+        }
+        // Make handle_sigint the signal handler for SIGINT.
+        signal::signal(SIGINT, mem::transmute(handle_sigint));
+    }
+
     disclaimer();
     repl();
 }

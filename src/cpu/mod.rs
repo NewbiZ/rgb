@@ -8851,9 +8851,19 @@ impl Cpu {
         //!   Subtracts * from a and affects flags according to the result. a is
         //!   not modified.
 
-        unimplemented!();
+        // Reset flags
+        self.f = Flag::None as u8;
+
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        let a: u8 = self.a - d8;
 
         // Update flags
+        if a==0 {
+            self.f |= Flag::Zero as u8;
+        }
+        if self.a<d8 {
+            self.f |= Flag::Carry as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
