@@ -108,7 +108,10 @@ impl Cpu {
     }
 
     pub fn step(&mut self) {
-        let opcode: u16 = self.mmu.read8(self.pc) as u16;
+        let mut opcode: u16 = self.mmu.read8(self.pc) as u16;
+        if opcode==0xCB {
+            opcode = (opcode << 8) + self.mmu.read8(self.pc+1) as u16;
+        }
         match DECODER.get(&opcode) {
             Some(&(instr, _)) => instr(self),
             _ => panic!("error: unknown opcode {0:X}", self.pc),
@@ -116,7 +119,10 @@ impl Cpu {
     }
 
     pub fn state(&self) -> (String, u8) {
-        let opcode: u16 = self.mmu.read8(self.pc) as u16;
+        let mut opcode: u16 = self.mmu.read8(self.pc) as u16;
+        if opcode==0xCB {
+            opcode = (opcode << 8) + self.mmu.read8(self.pc+1) as u16;
+        }
         match DECODER.get(&opcode) {
             Some(&(_, disp)) => disp(self),
             _ => panic!("error: unknown opcode {0:X}", self.pc),
@@ -313,7 +319,7 @@ impl Cpu {
         //!   Store a in (hl), then increment hl
 
         // Store a in (hl)
-        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let mut hl: u16 = ((self.h as u16) << 8) + self.l as u16;
         self.mmu.write8(hl, self.a);
         // Increment hl
         hl += 1;
@@ -679,7 +685,7 @@ impl Cpu {
         //!   Loads the value pointed to by hl into a, then increment hl.
 
         // Load (hl) in a
-        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let mut hl: u16 = ((self.h as u16) << 8) + self.l as u16;
         self.a = self.mmu.read8(hl);
         // Increment hl
         hl += 1;
@@ -3747,7 +3753,7 @@ impl Cpu {
         //!   Loads the value pointed to by (hl) into a. Then decrement hl.
 
         // Load (hl) in a
-        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let mut hl: u16 = ((self.h as u16) << 8) + self.l as u16;
         self.a = self.mmu.read8(hl);
         // Decrement hl
         hl -= 1;
@@ -4117,7 +4123,7 @@ impl Cpu {
         //!   Stores a into (hl), then decrement hl.
 
         // Store a in (hl)
-        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        let mut hl: u16 = ((self.h as u16) << 8) + self.l as u16;
         self.mmu.write8(hl, self.a);
         // Decrement hl
         hl += 1;
