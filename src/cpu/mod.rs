@@ -3891,9 +3891,21 @@ impl Cpu {
         //! - Description
         //!   Subtracts * and the carry flag from a.
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        let carry: u8 = (self.f & (Flag::Carry as u8)) >> 7;
 
         // Update flags
+        if self.a<d8+carry {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the sub
+        self.a -= d8 + carry;
+
+        // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -6387,7 +6399,13 @@ impl Cpu {
         //! - Description
         //!   Subtracts a and the carry flag from a.
 
-        unimplemented!();
+        if self.f & (Flag::Carry as u8)>0 {
+            self.a = 0xFFu8;
+            self.f |= Flag::Carry as u8;
+        } else {
+            self.a = 0;
+            self.f |= Flag::Zero as u8;
+        }
 
         // Update flags
         self.f |= Flag::Operation as u8;
@@ -6441,9 +6459,20 @@ impl Cpu {
         //! - Description
         //!   Subtracts l and the carry flag from a.
 
-        unimplemented!();
+        let carry: u8 = (self.f & (Flag::Carry as u8)) >> 7;
 
         // Update flags
+        if self.a<self.l+carry {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the sub
+        self.a -= self.l + carry;
+
+        // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -6468,9 +6497,20 @@ impl Cpu {
         //! - Description
         //!   Subtracts h and the carry flag from a.
 
-        unimplemented!();
+        let carry: u8 = (self.h & (Flag::Carry as u8)) >> 7;
 
         // Update flags
+        if self.a<self.h+carry {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the sub
+        self.a -= self.h + carry;
+
+        // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -6495,9 +6535,20 @@ impl Cpu {
         //! - Description
         //!   Subtracts e and the carry flag from a.
 
-        unimplemented!();
+        let carry: u8 = (self.e & (Flag::Carry as u8)) >> 7;
 
         // Update flags
+        if self.a<self.e+carry {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the sub
+        self.a -= self.e + carry;
+
+        // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -6522,9 +6573,20 @@ impl Cpu {
         //! - Description
         //!   Subtracts d and the carry flag from a.
 
-        unimplemented!();
+        let carry: u8 = (self.d & (Flag::Carry as u8)) >> 7;
 
         // Update flags
+        if self.a<self.d+carry {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the sub
+        self.a -= self.d + carry;
+
+        // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -7262,9 +7324,20 @@ impl Cpu {
         //! - Description
         //!   Subtracts c and the carry flag from a.
 
-        unimplemented!();
+        let carry: u8 = (self.c & (Flag::Carry as u8)) >> 7;
 
         // Update flags
+        if self.a<self.c+carry {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the sub
+        self.a -= self.c + carry;
+
+        // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
@@ -7289,9 +7362,20 @@ impl Cpu {
         //! - Description
         //!   Subtracts b and the carry flag from a.
 
-        unimplemented!();
+        let carry: u8 = (self.b & (Flag::Carry as u8)) >> 7;
 
         // Update flags
+        if self.a<self.b+carry {
+            self.f |= Flag::Carry as u8;
+        }
+
+        // Perform the sub
+        self.a -= self.b + carry;
+
+        // Update flags
+        if self.a==0 {
+            self.f |= Flag::Zero as u8;
+        }
         self.f |= Flag::Operation as u8;
 
         // Update clocks
