@@ -221,6 +221,8 @@ impl Cpu {
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
@@ -493,6 +495,8 @@ impl Cpu {
         // Update flags
         if self.h==0 {
             self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
 
@@ -523,6 +527,8 @@ impl Cpu {
         // Update flags
         if self.h==0 {
             self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f |= Flag::Operation as u8;
 
@@ -581,6 +587,8 @@ impl Cpu {
         self.f &= !(Flag::Operation as u8);
         if self.sp > (u16::MAX - r8 as u16) {
             self.f |= Flag::Carry as u8;
+        } else  {
+            self.f &= !(Flag::Carry as u8);
         }
 
         // Update register sp
@@ -670,6 +678,8 @@ impl Cpu {
         // Update flags
         if self.l==0 {
             self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
 
@@ -758,6 +768,8 @@ impl Cpu {
         // Update flags
         if self.l==0 {
             self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f |= Flag::Operation as u8;
 
@@ -2083,6 +2095,9 @@ impl Cpu {
         //!   - `C`:  Set if appropriate
         //! - Description
         //!   Adds (hl) to a.
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
 
@@ -3716,6 +3731,8 @@ impl Cpu {
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f |= Flag::Operation as u8;
 
@@ -3804,6 +3821,8 @@ impl Cpu {
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
 
@@ -3891,6 +3910,9 @@ impl Cpu {
         //! - Description
         //!   Subtracts * and the carry flag from a.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         let d8: u8 = self.mmu.read8(self.pc + 1);
         let carry: u8 = (self.f & (Flag::Carry as u8)) >> 7;
 
@@ -3963,6 +3985,11 @@ impl Cpu {
 
         // Update flags
         self.f |= Flag::Operation as u8;
+        if phl-1==0 {
+            self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
+        }
 
         // Update clocks
         self.m += 3;
@@ -3991,6 +4018,11 @@ impl Cpu {
         self.mmu.write8(hl, phl+1);
 
         // Update flags
+        if phl+1==0 {
+            self.f |= Flag::Zero as u8;
+        } else  {
+            self.f &= !(Flag::Zero as u8);
+        }
         self.f &= !(Flag::Operation as u8);
 
         // Update clocks
@@ -4191,12 +4223,11 @@ impl Cpu {
         self.l = res as u8;
 
         // Update flags
-        if res==0 {
-            self.f |= Flag::Zero as u8;
-        }
         self.f &= !(Flag::Operation as u8);
         if lhs > (u16::MAX - rhs) {
             self.f |= Flag::Carry as u8;
+        } else  {
+            self.f &= !(Flag::Carry as u8);
         }
 
         // Update clocks
@@ -4577,6 +4608,9 @@ impl Cpu {
         //! - Description
         //!   Subtracts * from a.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         let d8: u8 = self.mmu.read8(self.pc + 1);
 
         // Update flags
@@ -4692,15 +4726,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise XOR on a with c.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a ^= self.c;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4724,15 +4758,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise XOR on a with b.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a ^= self.b;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4757,12 +4791,11 @@ impl Cpu {
         //!   Bitwise AND on a with a.
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4790,12 +4823,11 @@ impl Cpu {
         self.a &= hl;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 2;
@@ -4822,12 +4854,11 @@ impl Cpu {
         self.a &= self.l;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4854,12 +4885,11 @@ impl Cpu {
         self.a &= self.h;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4886,12 +4916,11 @@ impl Cpu {
         self.a &= self.e;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4918,12 +4947,11 @@ impl Cpu {
         self.a &= self.d;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4950,12 +4978,11 @@ impl Cpu {
         self.a &= self.c;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -4982,12 +5009,11 @@ impl Cpu {
         self.a &= self.b;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
         self.f |= Flag::HalfCarry as u8;
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -6211,10 +6237,7 @@ impl Cpu {
         self.a = 0;
 
         // Update flags
-        self.f |= Flag::Zero as u8;
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
+        self.f = Flag::Zero as u8;
 
         // Update clocks
         self.m += 1;
@@ -6242,12 +6265,10 @@ impl Cpu {
         self.a ^= hl;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 2;
@@ -6274,12 +6295,10 @@ impl Cpu {
         self.a ^= self.l;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -6306,12 +6325,10 @@ impl Cpu {
         self.a ^= self.h;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -6338,12 +6355,10 @@ impl Cpu {
         self.a ^= self.e;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -6370,12 +6385,10 @@ impl Cpu {
         self.a ^= self.d;
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -6401,10 +6414,10 @@ impl Cpu {
 
         if self.f & (Flag::Carry as u8)>0 {
             self.a = 0xFFu8;
-            self.f |= Flag::Carry as u8;
+            self.f = Flag::Carry as u8;
         } else {
             self.a = 0;
-            self.f |= Flag::Zero as u8;
+            self.f = Flag::Zero as u8;
         }
 
         // Update flags
@@ -6461,6 +6474,9 @@ impl Cpu {
 
         let carry: u8 = (self.f & (Flag::Carry as u8)) >> 7;
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         // Update flags
         if self.a<self.l+carry {
             self.f |= Flag::Carry as u8;
@@ -6498,6 +6514,9 @@ impl Cpu {
         //!   Subtracts h and the carry flag from a.
 
         let carry: u8 = (self.h & (Flag::Carry as u8)) >> 7;
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         // Update flags
         if self.a<self.h+carry {
@@ -6537,6 +6556,9 @@ impl Cpu {
 
         let carry: u8 = (self.e & (Flag::Carry as u8)) >> 7;
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         // Update flags
         if self.a<self.e+carry {
             self.f |= Flag::Carry as u8;
@@ -6574,6 +6596,9 @@ impl Cpu {
         //!   Subtracts d and the carry flag from a.
 
         let carry: u8 = (self.d & (Flag::Carry as u8)) >> 7;
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         // Update flags
         if self.a<self.d+carry {
@@ -6644,12 +6669,11 @@ impl Cpu {
         self.l = res as u8;
 
         // Update flags
-        if res==0 {
-            self.f |= Flag::Zero as u8;
-        }
         self.f &= !(Flag::Operation as u8);
         if lhs > (u16::MAX - rhs) {
             self.f |= Flag::Carry as u8;
+        } else {
+            self.f &= !(Flag::Carry as u8);
         }
 
         // Update clocks
@@ -6679,6 +6703,8 @@ impl Cpu {
         // Update flags
         if self.b==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
 
@@ -6709,6 +6735,8 @@ impl Cpu {
         // Update flags
         if self.b==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f |= Flag::Operation as u8;
 
@@ -6894,6 +6922,8 @@ impl Cpu {
         // Update flags
         if self.c==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f |= Flag::Operation as u8;
 
@@ -7031,6 +7061,8 @@ impl Cpu {
         // Update flags
         if self.c==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
 
@@ -7059,8 +7091,7 @@ impl Cpu {
         self.a = 0;
 
         // Update flags
-        self.f |= Flag::Zero as u8;
-        self.f |= Flag::Operation as u8;
+        self.f = Flag::Zero as u8 | Flag::Operation as u8;
 
         // Update clocks
         self.m += 1;
@@ -7083,6 +7114,9 @@ impl Cpu {
         //!   - `C`:  Set if appropriate
         //! - Description
         //!   Subtracts (hl) from a.
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
 
@@ -7120,6 +7154,9 @@ impl Cpu {
         //! - Description
         //!   Subtracts l from a.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         // Update flags
         if self.a==self.l {
             self.f |= Flag::Zero as u8;
@@ -7153,6 +7190,9 @@ impl Cpu {
         //!   - `C`:  Set if appropriate
         //! - Description
         //!   Subtracts h from a.
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         // Update flags
         if self.a==self.h {
@@ -7188,6 +7228,9 @@ impl Cpu {
         //! - Description
         //!   Subtracts e from a.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         // Update flags
         if self.a==self.e {
             self.f |= Flag::Zero as u8;
@@ -7221,6 +7264,9 @@ impl Cpu {
         //!   - `C`:  Set if appropriate
         //! - Description
         //!   Subtracts d from a.
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         // Update flags
         if self.a==self.d {
@@ -7256,6 +7302,9 @@ impl Cpu {
         //! - Description
         //!   Subtracts c from a.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         // Update flags
         if self.a==self.c {
             self.f |= Flag::Zero as u8;
@@ -7289,6 +7338,9 @@ impl Cpu {
         //!   - `C`:  Set if appropriate
         //! - Description
         //!   Subtracts b from a.
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         // Update flags
         if self.a==self.b {
@@ -7325,6 +7377,9 @@ impl Cpu {
         //!   Subtracts c and the carry flag from a.
 
         let carry: u8 = (self.c & (Flag::Carry as u8)) >> 7;
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         // Update flags
         if self.a<self.c+carry {
@@ -7363,6 +7418,9 @@ impl Cpu {
         //!   Subtracts b and the carry flag from a.
 
         let carry: u8 = (self.b & (Flag::Carry as u8)) >> 7;
+
+        // Reset flags
+        self.f = Flag::None as u8;
 
         // Update flags
         if self.a<self.b+carry {
@@ -7875,6 +7933,9 @@ impl Cpu {
         //! - Description
         //!   Bitwise XOR on a with *.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         let d8: u8 = self.mmu.read8(self.pc + 1);
         self.a ^= d8;
 
@@ -7882,9 +7943,6 @@ impl Cpu {
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 2;
@@ -9040,15 +9098,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with d.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a |= self.d;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -9072,15 +9130,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with e.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a |= self.e;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -9104,15 +9162,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with b.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a |= self.b;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -9136,15 +9194,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with c.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a |= self.c;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -9168,6 +9226,9 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with (hl).
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
         self.a |= hl;
 
@@ -9175,9 +9236,6 @@ impl Cpu {
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 2;
@@ -9202,12 +9260,10 @@ impl Cpu {
         //!   Bitwise OR on a with a.
 
         // Update flags
+        self.f = Flag::None as u8;
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -9231,15 +9287,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with h.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a |= self.h;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -9263,15 +9319,15 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with l.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         self.a |= self.l;
 
         // Update flags
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 1;
@@ -9924,6 +9980,8 @@ impl Cpu {
         // Update flags
         if self.e==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f |= Flag::Operation as u8;
 
@@ -9954,6 +10012,8 @@ impl Cpu {
         // Update flags
         if self.e==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
 
@@ -10031,6 +10091,9 @@ impl Cpu {
         //! - Description
         //!   Bitwise OR on a with *.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         let d8: u8 = self.mmu.read8(self.pc + 1);
         self.a |= d8;
 
@@ -10038,9 +10101,6 @@ impl Cpu {
         if self.a==0 {
             self.f |= Flag::Zero as u8;
         }
-        self.f &= !(Flag::Operation as u8);
-        self.f &= !(Flag::HalfCarry as u8);
-        self.f &= !(Flag::Carry as u8);
 
         // Update clocks
         self.m += 2;
@@ -10303,11 +10363,19 @@ impl Cpu {
         //!   incremented. The memory location pointed to by sp is stored into a
         //!   and sp is incremented again.
 
+        // Reset flags
+        self.f = Flag::None as u8;
+
         // Pop AF from stack
         self.f = self.mmu.read8(self.sp);
         self.sp += 1;
         self.a = self.mmu.read8(self.sp);
         self.sp += 1;
+
+        // Update flags
+        if self.sp==0 {
+            self.f = Flag::Carry as u8 | Flag::Zero as u8;
+        }
 
         // Update clocks
         self.m += 3;
@@ -10363,12 +10431,11 @@ impl Cpu {
         self.l = res as u8;
 
         // Update flags
-        if res==0 {
-            self.f |= Flag::Zero as u8;
-        }
         self.f &= !(Flag::Operation as u8);
         if lhs > (u16::MAX - rhs) {
             self.f |= Flag::Carry as u8;
+        } else {
+            self.f &= !(Flag::Carry as u8);
         }
 
         // Update clocks
@@ -10482,6 +10549,8 @@ impl Cpu {
         // Update flags
         if self.d==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f |= Flag::Operation as u8;
 
@@ -10512,6 +10581,8 @@ impl Cpu {
         // Update flags
         if self.d==0 {
             self.f |= Flag::Zero as u8;
+        } else {
+            self.f &= !(Flag::Zero as u8);
         }
         self.f &= !(Flag::Operation as u8);
 
