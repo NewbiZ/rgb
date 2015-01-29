@@ -310,11 +310,15 @@ impl Cpu {
         //!   - `H`:  Preserved
         //!   - `C`:  Preserved
         //! - Description
-        //!   Stores hl into the memory location pointed to by **.
+        //!   Store a in (hl), then increment hl
 
-        unimplemented!();
-
-        // Update flags
+        // Store a in (hl)
+        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        self.mmu.write8(hl, self.a);
+        // Increment hl
+        hl += 1;
+        self.h = (hl >> 8) as u8;
+        self.l = hl as u8;
 
         // Update clocks
         self.m += 2;
@@ -388,7 +392,7 @@ impl Cpu {
     pub fn instr_LD_0x21(&mut self) {
         //! - Prototype: `LD HL, d16`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0x21`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -399,16 +403,16 @@ impl Cpu {
         //! - Description
         //!   Loads ** into hl.
 
-        unimplemented!();
-
-        // Update flags
+        let d16: u16 = self.mmu.read16(self.pc + 1);
+        self.h = (d16 >> 8) as u8;
+        self.l = d16 as u8;
 
         // Update clocks
         self.m += 3;
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_LD_0x26(&mut self) {
@@ -672,11 +676,15 @@ impl Cpu {
         //!   - `H`:  Preserved
         //!   - `C`:  Preserved
         //! - Description
-        //!   Loads the value pointed to by ** into hl.
+        //!   Loads the value pointed to by hl into a, then increment hl.
 
-        unimplemented!();
-
-        // Update flags
+        // Load (hl) in a
+        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        self.a = self.mmu.read8(hl);
+        // Increment hl
+        hl += 1;
+        self.h = (hl >> 8) as u8;
+        self.l = hl as u8;
 
         // Update clocks
         self.m += 2;
@@ -1298,9 +1306,7 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l = self.b;
 
         // Update clocks
         self.m += 1;
@@ -1324,9 +1330,7 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l = self.c;
 
         // Update clocks
         self.m += 1;
@@ -1350,9 +1354,8 @@ impl Cpu {
         //! - Description
         //!   The contents of (hl) are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.h = hl;
 
         // Update clocks
         self.m += 2;
@@ -1376,9 +1379,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h = self.a;
 
         // Update clocks
         self.m += 1;
@@ -1402,10 +1403,6 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
-
         // Update clocks
         self.m += 1;
         self.t += 4;
@@ -1428,9 +1425,7 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h = self.l;
 
         // Update clocks
         self.m += 1;
@@ -1454,9 +1449,7 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h = self.d;
 
         // Update clocks
         self.m += 1;
@@ -1480,9 +1473,7 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h = self.e;
 
         // Update clocks
         self.m += 1;
@@ -1506,9 +1497,7 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h = self.b;
 
         // Update clocks
         self.m += 1;
@@ -1532,9 +1521,7 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into h.
 
-        unimplemented!();
-
-        // Update flags
+        self.h = self.c;
 
         // Update clocks
         self.m += 1;
@@ -1558,9 +1545,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l = self.a;
 
         // Update clocks
         self.m += 1;
@@ -1584,10 +1569,6 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
-
         // Update clocks
         self.m += 1;
         self.t += 4;
@@ -1610,9 +1591,8 @@ impl Cpu {
         //! - Description
         //!   The contents of (hl) are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.l = hl;
 
         // Update clocks
         self.m += 2;
@@ -1636,9 +1616,7 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l = self.e;
 
         // Update clocks
         self.m += 1;
@@ -1662,9 +1640,7 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l = self.h;
 
         // Update clocks
         self.m += 1;
@@ -1688,9 +1664,7 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into l.
 
-        unimplemented!();
-
-        // Update flags
+        self.l = self.d;
 
         // Update clocks
         self.m += 1;
@@ -3770,11 +3744,15 @@ impl Cpu {
         //!   - `H`:  Preserved
         //!   - `C`:  Preserved
         //! - Description
-        //!   Loads the value pointed to by ** into a.
+        //!   Loads the value pointed to by (hl) into a. Then decrement hl.
 
-        unimplemented!();
-
-        // Update flags
+        // Load (hl) in a
+        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        self.a = self.mmu.read8(hl);
+        // Decrement hl
+        hl -= 1;
+        self.h = (hl >> 8) as u8;
+        self.l = hl as u8;
 
         // Update clocks
         self.m += 2;
@@ -4026,7 +4004,8 @@ impl Cpu {
         //! - Description
         //!   Loads * into (hl).
 
-        unimplemented!();
+        let d8: u8 = self.mmu.read8(self.pc + 1);
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, d8);
 
         // Update clocks
         self.m += 3;
@@ -4039,7 +4018,7 @@ impl Cpu {
     pub fn instr_LD_0x31(&mut self) {
         //! - Prototype: `LD SP, d16`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0x31`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -4059,7 +4038,7 @@ impl Cpu {
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_JR_0x30(&mut self) {
@@ -4135,11 +4114,15 @@ impl Cpu {
         //!   - `H`:  Preserved
         //!   - `C`:  Preserved
         //! - Description
-        //!   Stores a into the memory location pointed to by **.
+        //!   Stores a into (hl), then decrement hl.
 
-        unimplemented!();
-
-        // Update flags
+        // Store a in (hl)
+        let hl: u16 = ((self.h as u16) << 8) + self.l as u16;
+        self.mmu.write8(hl, self.a);
+        // Decrement hl
+        hl += 1;
+        self.h = (hl >> 8) as u8;
+        self.l = hl as u8;
 
         // Update clocks
         self.m += 2;
@@ -5039,9 +5022,7 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a = self.d;
 
         // Update clocks
         self.m += 1;
@@ -5065,9 +5046,7 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a = self.h;
 
         // Update clocks
         self.m += 1;
@@ -5091,9 +5070,7 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a = self.e;
 
         // Update clocks
         self.m += 1;
@@ -5117,9 +5094,8 @@ impl Cpu {
         //! - Description
         //!   The contents of (hl) are loaded into a.
 
-        unimplemented!();
-
-        // Update flags
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.a = hl;
 
         // Update clocks
         self.m += 2;
@@ -5143,9 +5119,7 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a = self.l;
 
         // Update clocks
         self.m += 1;
@@ -5168,10 +5142,6 @@ impl Cpu {
         //!   - `C`:  Preserved
         //! - Description
         //!   The contents of a are loaded into a.
-
-        unimplemented!();
-
-        // Update flags
 
         // Update clocks
         self.m += 1;
@@ -5931,9 +5901,7 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a = self.c;
 
         // Update clocks
         self.m += 1;
@@ -5957,9 +5925,7 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into a.
 
-        unimplemented!();
-
-        // Update flags
+        self.a = self.b;
 
         // Update clocks
         self.m += 1;
@@ -5983,9 +5949,7 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into (hl).
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, self.c);
 
         // Update clocks
         self.m += 2;
@@ -6009,9 +5973,7 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into (hl).
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, self.b);
 
         // Update clocks
         self.m += 2;
@@ -6035,9 +5997,7 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into (hl).
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, self.e);
 
         // Update clocks
         self.m += 2;
@@ -6061,9 +6021,7 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into (hl).
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, self.d);
 
         // Update clocks
         self.m += 2;
@@ -6087,9 +6045,7 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into (hl).
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, self.l);
 
         // Update clocks
         self.m += 2;
@@ -6113,9 +6069,7 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into (hl).
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, self.h);
 
         // Update clocks
         self.m += 2;
@@ -6139,9 +6093,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are loaded into (hl).
 
-        unimplemented!();
-
-        // Update flags
+        self.mmu.write8(((self.h as u16) << 8) + self.l as u16, self.a);
 
         // Update clocks
         self.m += 2;
@@ -6757,7 +6709,7 @@ impl Cpu {
     pub fn instr_LD_0x01(&mut self) {
         //! - Prototype: `LD BC, d16`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0x01`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -6777,7 +6729,7 @@ impl Cpu {
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_LD_0x02(&mut self) {
@@ -8013,10 +7965,6 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
-
         // Update clocks
         self.m += 1;
         self.t += 4;
@@ -8039,9 +7987,7 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b = self.c;
 
         // Update clocks
         self.m += 1;
@@ -8065,9 +8011,7 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b = self.d;
 
         // Update clocks
         self.m += 1;
@@ -8091,9 +8035,7 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b = self.e;
 
         // Update clocks
         self.m += 1;
@@ -8117,9 +8059,7 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b = self.h;
 
         // Update clocks
         self.m += 1;
@@ -8143,9 +8083,7 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b = self.l;
 
         // Update clocks
         self.m += 1;
@@ -8169,9 +8107,8 @@ impl Cpu {
         //! - Description
         //!   The contents of (hl) are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.b = hl;
 
         // Update clocks
         self.m += 2;
@@ -8195,9 +8132,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are loaded into b.
 
-        unimplemented!();
-
-        // Update flags
+        self.b = self.a;
 
         // Update clocks
         self.m += 1;
@@ -8221,9 +8156,7 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c = self.b;
 
         // Update clocks
         self.m += 1;
@@ -8247,10 +8180,6 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
-
         // Update clocks
         self.m += 1;
         self.t += 4;
@@ -8273,9 +8202,7 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c = self.d;
 
         // Update clocks
         self.m += 1;
@@ -8299,9 +8226,7 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c = self.e;
 
         // Update clocks
         self.m += 1;
@@ -8325,9 +8250,7 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c = self.h;
 
         // Update clocks
         self.m += 1;
@@ -8351,9 +8274,7 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c = self.l;
 
         // Update clocks
         self.m += 1;
@@ -8377,9 +8298,8 @@ impl Cpu {
         //! - Description
         //!   The contents of (hl) are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.c = hl;
 
         // Update clocks
         self.m += 2;
@@ -8403,9 +8323,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are loaded into c.
 
-        unimplemented!();
-
-        // Update flags
+        self.c = self.a;
 
         // Update clocks
         self.m += 1;
@@ -10532,7 +10450,7 @@ impl Cpu {
     pub fn instr_LD_0x11(&mut self) {
         //! - Prototype: `LD DE, d16`
         //! - Mnemonic:  `LD`
-        //! - Size:      1 byte
+        //! - Size:      3 bytes
         //! - Binary:    `0x11`
         //! - Cycles:    12 cycles
         //! - Flags
@@ -10552,7 +10470,7 @@ impl Cpu {
         self.t += 12;
 
         // Update program counter
-        self.pc += 1;
+        self.pc += 3;
     }
 
     pub fn instr_STOP_0x10(&mut self) {
@@ -11564,9 +11482,7 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e = self.h;
 
         // Update clocks
         self.m += 1;
@@ -11590,10 +11506,6 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
-
         // Update clocks
         self.m += 1;
         self.t += 4;
@@ -11616,9 +11528,7 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e = self.d;
 
         // Update clocks
         self.m += 1;
@@ -11642,9 +11552,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e = self.a;
 
         // Update clocks
         self.m += 1;
@@ -11668,9 +11576,8 @@ impl Cpu {
         //! - Description
         //!   The contents of (hl) are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.e = hl;
 
         // Update clocks
         self.m += 2;
@@ -11694,9 +11601,7 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e = self.l;
 
         // Update clocks
         self.m += 1;
@@ -12136,9 +12041,7 @@ impl Cpu {
         //! - Description
         //!   The contents of e are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d = self.e;
 
         // Update clocks
         self.m += 1;
@@ -12162,10 +12065,6 @@ impl Cpu {
         //! - Description
         //!   The contents of d are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
-
         // Update clocks
         self.m += 1;
         self.t += 4;
@@ -12188,9 +12087,7 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d = self.c;
 
         // Update clocks
         self.m += 1;
@@ -12214,9 +12111,7 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d = self.b;
 
         // Update clocks
         self.m += 1;
@@ -12240,9 +12135,7 @@ impl Cpu {
         //! - Description
         //!   The contents of a are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d = self.a;
 
         // Update clocks
         self.m += 1;
@@ -12266,9 +12159,8 @@ impl Cpu {
         //! - Description
         //!   The contents of (hl) are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
+        let hl: u8 = self.mmu.read8(((self.h as u16) << 8) + self.l as u16);
+        self.d = hl;
 
         // Update clocks
         self.m += 2;
@@ -12292,9 +12184,7 @@ impl Cpu {
         //! - Description
         //!   The contents of l are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d = self.l;
 
         // Update clocks
         self.m += 1;
@@ -12318,9 +12208,7 @@ impl Cpu {
         //! - Description
         //!   The contents of h are loaded into d.
 
-        unimplemented!();
-
-        // Update flags
+        self.d = self.h;
 
         // Update clocks
         self.m += 1;
@@ -12344,9 +12232,7 @@ impl Cpu {
         //! - Description
         //!   The contents of c are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e = self.c;
 
         // Update clocks
         self.m += 1;
@@ -12370,9 +12256,7 @@ impl Cpu {
         //! - Description
         //!   The contents of b are loaded into e.
 
-        unimplemented!();
-
-        // Update flags
+        self.e = self.b;
 
         // Update clocks
         self.m += 1;
