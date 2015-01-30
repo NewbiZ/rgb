@@ -1,11 +1,10 @@
 #![allow(dead_code)]
-#![allow(unstable)]
 #![allow(unused_must_use)]
 #![allow(missing_copy_implementations)]
 #![allow(unreachable_code)]
 #![allow(non_snake_case)]
 
-use std::io::File;
+use std::old_io::File;
 use std::path::Path;
 
 #[cfg(test)]

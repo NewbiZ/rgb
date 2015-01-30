@@ -1,11 +1,14 @@
-#![allow(unstable)]
 #![allow(unused_variables)]
 #![allow(unused_must_use)]
+#![feature(collections)]
+#![feature(io)]
+#![feature(path)]
+#![feature(os)]
 
 //extern crate toml;
 
 use std::os;
-use std::io::File;
+use std::old_io::File;
 
 fn find_info(path: Path) -> (String, Vec<String>) {
     //! Return a tuple (version, authors) from the Cargo.toml file

@@ -1,5 +1,4 @@
 #![allow(dead_code)]
-#![allow(unstable)]
 #![allow(unused_must_use)]
 #![allow(missing_copy_implementations)]
 

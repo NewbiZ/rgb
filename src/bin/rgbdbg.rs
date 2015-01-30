@@ -1,18 +1,17 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
-#![allow(unstable)]
+#![feature(io)]
+#![feature(path)]
+#![feature(libc)]
+#![feature(core)]
+#![feature(collections)]
 
 extern crate rgb;
+extern crate linenoise;
 extern crate libc;
 
-use std::io;
-use std::io::File;
-use libc::consts::os::posix88::SIGINT;
-use libc::funcs::posix01::signal;
-use std::sync::atomic::{AtomicBool, ATOMIC_BOOL_INIT, Ordering};
-use std::mem;
-
-static mut GOT_SIGINT: AtomicBool = ATOMIC_BOOL_INIT;
+use std::old_io::File;
+use std::old_io::fs;
 
 fn disclaimer() {
     //! Print author, version, license... at the start of
@@ -25,15 +24,21 @@ fn disclaimer() {
 fn repl_read(prompt: &'static str) -> (String, String) {
     //! Print the prompt, then read user input and split
     //! it between command and arguments
-    print!("{} ", prompt);
-    match io::stdin().read_line() {
-        Ok(line) => {
-            let mut split = line.trim().splitn(1, ' ');
+    let val = linenoise::prompt(prompt);
+    match val {
+        // SIGINT, SIGQUIT
+        None => {
+            command_quit();
+            unreachable!();
+        },
+        // Input provided
+        Some(input) => {
+            let mut split = input.splitn(1, ' ');
             let command: String = String::from_str(split.next().unwrap());
             let arguments = split.collect();
+            linenoise::history_add(input.as_slice());
             (command, arguments)
-        },
-        Err(e) => panic!("error: cannot read input ({}).", e.desc),
+        }
     }
 }
 
@@ -52,11 +57,66 @@ fn repl_eval<'a>(command: String, arguments: String, cpu: &'a mut rgb::Cpu) {
     }
 }
 
+fn complete_path(input: String) -> Vec<String> {
+    //! This is a helper method that will try to complete a
+    //! partially written path to something existing.
+    let mut path: String = input;
+    if !path.starts_with("/") && !path.starts_with("./") {
+        path = String::from_str("./") + path.as_slice();
+    }
+    let mut split = path.rsplitn(1, '/');
+    let child_path = split.next().unwrap();
+    let mut parent_path: String = split.collect();
+    if parent_path.is_empty() {
+        parent_path = String::from_str("/");
+    }
+
+    let mut ret: Vec<String> = Vec::new();
+    for p in fs::readdir(&Path::new(parent_path.clone())).unwrap().iter() {
+        if p.filename_str().unwrap().starts_with(child_path) {
+            let mut result: String = parent_path.clone();
+            if !result.ends_with("/") {
+                result = result + "/";
+            }
+            result = result + p.filename_str().unwrap();
+            ret.push(String::from_str("file ") + result.as_slice());
+        }
+    }
+    ret
+}
+
+fn completion_callback(input: &str) -> Vec<String> {
+    //! From an incomplete input stream, return a vector of
+    //! possible completions
+    if input.starts_with("file ") {
+        // Autocomplete filenames
+        let mut split = input.splitn(1, ' ');
+        split.next();
+        let path_str: String = split.collect();
+        complete_path(path_str)
+    } else {
+        match input {
+            // Autocomplete simple commands
+            "h" | "he" | "hel" | "help" | "?"     => vec![String::from_str("help" )],
+            "q" | "qu" | "qui" | "quit"           => vec![String::from_str("quit" )],
+            "n" | "ne" | "nex" | "next"           => vec![String::from_str("next" )],
+            "r" | "ru" | "run"                    => vec![String::from_str("run"  )],
+            "l" | "li" | "lis" | "list"           => vec![String::from_str("list" )],
+            "d" | "du" | "dum" | "dump"           => vec![String::from_str("dump" )],
+            "p" | "pr" | "pri" | "prin" | "print" => vec![String::from_str("print")],
+            "f" | "fi" | "fil" | "file"           => vec![String::from_str("file ")],
+            // Unknown command
+            unknown => vec![String::from_str(unknown)],
+        }
+    }
+}
+
 fn repl() {
-    //! REPL
+    //! Main REPL of the debugger
+    linenoise::set_callback(completion_callback);
     let mut cpu: rgb::Cpu = rgb::Cpu::new();
     loop {
-        let (command, arguments) = repl_read("(rgbdbg)");
+        let (command, arguments) = repl_read("(rgbdbg) ");
         let e = repl_eval(command, arguments, &mut cpu);
     }
 }
@@ -124,16 +184,6 @@ fn command_run<'a>(cpu: &'a mut rgb::Cpu) {
     cpu.reset();
     cpu.stop = false;
     while !cpu.stopped() {
-        // Start uninterrupted
-        unsafe { GOT_SIGINT.store(false, Ordering::Release); };
-        // Check interrupt state
-        if unsafe { GOT_SIGINT.load(Ordering::Acquire) } {
-            // Reset uninterrupted
-            unsafe { GOT_SIGINT.store(false, Ordering::Release); };
-            // Break out of run()
-            println!("<Interrupted>");
-            break;
-        }
         // Retrieve current instruction and print it
         let (instruction, _) = cpu.state();
         println!("{}", instruction);
@@ -180,19 +230,6 @@ fn command_dump<'a>(cpu: &'a mut rgb::Cpu) {
 fn main() {
     //! Entry point of the debugger, print the disclaimer then
     //! start the REPL
-    unsafe {
-        // Start uninterrupted
-        GOT_SIGINT.store(false, Ordering::Release);
-        // Interrupt handler that handles the SIGINT signal
-        unsafe fn handle_sigint() {
-            // It is dangerous to perform any system calls in interrupts,
-            // so just set the atomic "SIGINT received" global to true when it arrives.
-            GOT_SIGINT.store(true, Ordering::Release);
-        }
-        // Make handle_sigint the signal handler for SIGINT.
-        signal::signal(SIGINT, mem::transmute(handle_sigint));
-    }
-
     disclaimer();
     repl();
 }

@@ -2,6 +2,9 @@
 //! Linked is built as `rgbld`, assembler as `rgbas` and emulator
 //! as `rgbemu`. The `rgb` library itself can be used to create your
 //! own emulator.
+#![feature(core)]
+#![feature(path)]
+#![feature(io)]
 
 #[macro_use]
 extern crate lazy_static;
