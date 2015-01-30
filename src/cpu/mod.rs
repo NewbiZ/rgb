@@ -12822,7 +12822,7 @@ impl Cpu {
         //! - Description
         //!   ** is copied to pc.
 
-        unimplemented!();
+        self.pc = self.mmu.read16(self.pc + 1);
 
         // Update clocks
         self.m += 4;
