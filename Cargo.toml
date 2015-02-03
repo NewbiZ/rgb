@@ -6,6 +6,7 @@ build = "build.rs"
 
 [dependencies]
 lazy_static = "0.1.*"
+getopts = "0.2.*"
 
 [dependencies.linenoise]
 git = "https://github.com/cmr/linenoise-rs.git"

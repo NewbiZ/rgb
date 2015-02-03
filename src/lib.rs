@@ -3,7 +3,6 @@
 //! as `rgbemu`. The `rgb` library itself can be used to create your
 //! own emulator.
 #![feature(core)]
-#![feature(path)]
 #![feature(io)]
 
 #[macro_use]
@@ -17,6 +16,8 @@ pub use self::cpu::Cpu;
 pub use self::cpu::Flag;
 // mmu
 pub use self::mmu::Mmu;
+// cartridge
+pub use self::cartridge::Cartridge;
 // gameboy
 pub use self::gameboy::GameBoy;
 
@@ -34,5 +35,5 @@ include!(concat!(env!("OUT_DIR"), "/config.rs"));
 mod util;
 mod cpu;
 mod mmu;
-mod gameboy;
 mod cartridge;
+mod gameboy;
