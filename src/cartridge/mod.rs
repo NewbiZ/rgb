@@ -5,14 +5,15 @@
 #![allow(non_snake_case)]
 
 use std::old_io::File;
-use std::path::Path;
 
 #[cfg(test)]
 mod tests;
 
 /// This struct represents a cartridge.
-struct Cartridge {
+pub struct Cartridge {
     rom0: [u8; 0x4000],
+    romN: [u8; 0x4000],
+    ram:  [u8; 0x2000],
 }
 
 // ==============================================
@@ -23,11 +24,13 @@ impl Cartridge {
     pub fn new() -> Cartridge {
         Cartridge {
             rom0: [0; 0x4000],
+            romN: [0; 0x4000],
+            ram:  [0; 0x2000],
         }
     }
 
-    pub fn from_file(path: String) -> Cartridge {
-        let mut file = match File::open(&Path::new(path)) {
+    pub fn from_file<'a>(path: &'a Path) -> Cartridge {
+        let mut file = match File::open(path) {
             Ok(f) => f,
             Err(e) => panic!("error: {}", e.desc),
         };

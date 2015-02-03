@@ -33,10 +33,25 @@ Features & Status
 
 Usage
 -----
-Example `rgbdbg` session with a simple Z80 program computing the
+Example `rgg` session with a simple Z80 program computing the
 sum of integers from 1 to 10 in register `a`.
 
-    $ ./target/rgbdbg
+    $ rgbas -d -i samples/sum_integers.z80
+
+    RGB assembler 0.0.1
+    Copyright (C) 2015 Aurelien Vallee
+    License MIT: http://opensource.org/licenses/MIT
+
+    Disassembling samples/sum_integers.z80.
+
+    LD B, 0x0A
+    XOR A
+    ADD A, B
+    DEC B
+    JR NZ, 0xFE
+    STOP 0
+
+    $ rgbdbg
 
     RGB debugger 0.0.1
     Copyright (C) 2015 Aurelien Vallee
