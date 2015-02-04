@@ -27,6 +27,8 @@ fn usage(opts: Options) {
 fn run<'a>(filename: &'a String) {
     println!("Running {}", filename);
     let c = rgb::Cartridge::from_file(&Path::new(filename));
+
+    println!("Title: {}", c.title());
 }
 
 fn main() {
